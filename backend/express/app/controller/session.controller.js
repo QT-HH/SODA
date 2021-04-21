@@ -93,7 +93,7 @@ exports.deleteonesession = (req, res) => {
 exports.deleteallsession = (req, res) => {
   const id = req.params.id;
   var condition = { sessionid: id }
-
+  
   Session.deleteMany(condition)
   .then(data => {
     res.send({
@@ -107,3 +107,4 @@ exports.deleteallsession = (req, res) => {
     });
   });
 };
+

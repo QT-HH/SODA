@@ -17,4 +17,5 @@ router.delete("/:id", session.deleteonesession)
 // delete all session for spefic session
 router.delete("/all/:id", session.deleteallsession);
 
+
 module.exports = router

@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 // use cors options
 app.use(cors())
-app.use(require('serve-static')(__dirname + '/../../public'));
+app.use(require('serve-static')(__dirname + '/../../frontend/soda/public'));
 // socket io
 const httpServer = require("http").createServer(app);
 const io = require("socket.io")(httpServer, {
@@ -23,46 +23,33 @@ const io = require("socket.io")(httpServer, {
   }
 });
 
-const Meet = Meet.db
-io.on("connection", (socket) => {
-
-  // join a new meeting
-  socket.on('joined', async (data) => {
-    let meetingid = JSON.parse(data).meetingid
-    //let username = JSON.parse(data).username
-    //console.log("joined", meetingid)
-    //const new_meet = {
-       //name: username,
-       //meetingid: meetingid,
-       //sessionid: socket.id
-    //}
-    //await Meet.createonemeet(meet)
-    if(meetingid !== null){
-      socket.join(meetingid);
+io.on("connect", (socket) => {
+  // create or join a new meeting
+  console.log(socket)
+  socket.on('joined', (meeting) => {
+    if(meeting !== null){
+      socket.join(meeting);
       // notify everyone of a new user
-      socket.to(`${meetingid}`).emit("joined", `${socket.id}`)
+      io.in(`${meeting}`).emit("joined", `${socket.id}`)
     }
   });
 
   socket.on('offer_message', (data) => {
-    let sessionid = JSON.parse(data).offerto
-    console.log("[OFFER] Send to session id", sessionid)
+    let meetingid = JSON.parse(data).meetingid
     if(data !== null){
       // notify everyone of a new user
-      io.to(`${sessionid}`).emit("offer_message", `${data}`)
+      socket.to(`${meetingid}`).emit("offer_message", `${data}`)
     }
   });
 
 
   socket.on('answer_message', (data) => {
-    let sessionid = JSON.parse(data).offerto
-    console.log("[ANSWER] Send to session id", sessionid)
+    let meetingid = JSON.parse(data).meetingid
     if(data !== null){
       // notify everyone of a new user
-      io.to(`${sessionid}`).emit("answer_message", `${data}`)
+      socket.to(`${meetingid}`).emit("answer_message", `${data}`)
     }
   });
-
 
   // send a message
   socket.on('send', (data) => {
@@ -81,9 +68,11 @@ io.on("connection", (socket) => {
       // notify everyone of a user has exited
       socket.to(`${data}`).emit("exitmeeting",  'someone has exited')
     }
-  });
 });
-
+});
+httpServer.listen(5000, function() {
+  console.log('Socket IO server listening on port 5000');
+});
 
 
 // mongo db database connection
@@ -112,7 +101,6 @@ app.use('/session', session)
 
 // listening port
 const PORT = process.env.PORT || 3000;
-httpServer.listen(PORT);
-// app.listen(PORT, () => {
-//     console.log(`Server is running on port ${PORT}.`);
-// });
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}.`);
+});
