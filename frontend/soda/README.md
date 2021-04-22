@@ -1,33 +1,28 @@
-# web-node-webrtc-express-tutorial
+# soda
 
 ## Project setup
 ```
-yarn install
+npm install
 ```
 
 ### Compiles and hot-reloads for development
 ```
-yarn serve
+npm run serve
 ```
 
 ### Compiles and minifies for production
 ```
-yarn build
+npm run build
 ```
 
 ### Run your unit tests
 ```
-yarn test:unit
-```
-
-### Run your end-to-end tests
-```
-yarn test:e2e
+npm run test:unit
 ```
 
 ### Lints and fixes files
 ```
-yarn lint
+npm run lint
 ```
 
 ### Customize configuration
