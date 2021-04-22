@@ -541,7 +541,8 @@ export default {
 
       this.user.signalingClient = io(
         //"http://localhost:5000/"
-        "https://webrtc-app-backend-vue.herokuapp.com/"
+        "https://k4d103.p.ssafy.io/media/"
+        //"https://webrtc-app-backend-vue.herokuapp.com/"
       );
       // * join a meeting
       this.user.signalingClient.on("connect", async () => {
