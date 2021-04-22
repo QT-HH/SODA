@@ -41,12 +41,12 @@ pipeline {
                 sh 'docker images -f dangling=true && \
                 docker rmi $(docker images -f dangling=true -q)'
 
-                sh 'docker run -d --name soda_frontend \
+                sh 'docker run -d \
+                --name soda_frontend \
                 -p 80:80 \
                 -p 443:443 \
                 -v /home/ubuntu/sslkey/:/var/jenkins_home/workspace/SODA/sslkey/ \
-                --network soda_network \
-                soda_frontend:latest'
+                --network soda_network soda_frontend:latest'
                 sh 'docker run -d \
                 --name server_spring \
                 --network soda_network server_spring:latest'
