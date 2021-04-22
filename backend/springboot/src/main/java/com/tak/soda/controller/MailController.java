@@ -22,7 +22,8 @@ import io.swagger.annotations.ApiOperation;
 @RequestMapping("/api")
 public class MailController {
 	final int TokenLength = 15;
-	RandomAccessToken randomAccessToken = new RandomAccessToken();
+	@Autowired
+	RandomAccessToken randomAccessToken;
 	@Autowired
 	CompanyService companyService;
 	
@@ -31,7 +32,12 @@ public class MailController {
 	public ResponseEntity newCompany(@RequestBody Company company) {
 		String Token = randomAccessToken.makeToken(TokenLength);
 		company.setCidentify(Token);
-		companyService.newCompany(company);
+		try {
+			companyService.newCompany(company);
+		}catch(Exception e) {
+			return new ResponseEntity("중복된 이메일 주소",HttpStatus.OK);
+		}
+		
 		try {
 			if(randomAccessToken.sendMail(Token, company.getCemail())) {
 				return new ResponseEntity("이메일 실패",HttpStatus.OK);

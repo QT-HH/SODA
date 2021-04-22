@@ -35,9 +35,8 @@
 		</dependency>
 		<!-- 이메일 인증: https://mvnrepository.com/artifact/javax.mail/mail -->
 		<dependency>
-			<groupId>javax.mail</groupId>
-			<artifactId>mail</artifactId>
-			<version>1.4.7</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 		<!-- jpa -->
 		<dependency>
@@ -74,11 +73,8 @@
 
 
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>5.2.0.RELEASE</version>
-		</dependency>
+		<!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-support</artifactId> 
+			<version>5.2.0.RELEASE</version> </dependency> -->
 	</dependencies>
 
 	<build>

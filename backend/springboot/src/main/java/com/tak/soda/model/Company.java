@@ -20,7 +20,7 @@ public class Company {
 	String cname;
 	@Column(nullable=false, length = 20)
 	String uname;
-	@Column(nullable=false, length = 30)
+	@Column(nullable=false, length = 30, unique = true)
 	String cemail;
 	@Column(nullable=false, length = 100)
 	String cjob;
