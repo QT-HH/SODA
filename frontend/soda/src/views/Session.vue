@@ -380,7 +380,7 @@ import { required, regex } from "vee-validate/dist/rules";
 extend("regex", regex);
 extend("required", {
   ...required,
-  message: "This field is required",
+  message: "This field is required"
 });
 var io = require("socket.io-client");
 import Loader from "../components/parts/Loading";
@@ -404,7 +404,7 @@ import {
   fetchonesession,
   deleteonemeeting,
   deleteallsession,
-  deleteonesession,
+  deleteonesession
 } from "../components/script";
 export default {
   name: "Session",
@@ -418,7 +418,7 @@ export default {
     Dialog,
     Loader,
     ValidationProvider,
-    ValidationObserver,
+    ValidationObserver
   },
   data() {
     return {
@@ -428,13 +428,13 @@ export default {
         video: {
           width: {
             min: 640,
-            max: 1024,
+            max: 1024
           },
           height: {
             min: 480,
-            max: 768,
-          },
-        },
+            max: 768
+          }
+        }
       },
       //streams: [], Incase increasing the number to more than 2
       // end
@@ -456,7 +456,7 @@ export default {
         remoteStream: null, // local meeting streams
         localStream: null, // local stream
         sessionid: null, // local session id
-        peerConnection: null, // local peer connection
+        peerConnection: null // local peer connection
       },
       // loading || meeting
       loading: false,
@@ -465,14 +465,14 @@ export default {
       // end
       item: {
         user_name: null,
-        meeting_url: null,
+        meeting_url: null
       },
       // sessions
       sessions: [],
       // message content
       messageContent: {
         message: null,
-        attachment: null,
+        attachment: null
       },
       // messages
       messages: [],
@@ -482,7 +482,7 @@ export default {
       //end
       user_user: null,
       error: null,
-      saving: false,
+      saving: false
     };
   },
   // * computed
@@ -493,8 +493,8 @@ export default {
       },
       set(value) {
         this.$store.commit("savemeetingurl", value);
-      },
-    },
+      }
+    }
   },
   // * before destroy
   beforeDestroy() {
@@ -540,15 +540,15 @@ export default {
       let meeting_name = split_meeting_url.pop();
 
       this.user.signalingClient = io(
-        "http://localhost:5000/"
-        //"https://webrtc-app-backend-vue.herokuapp.com/"
+        //"http://localhost:5000/"
+        "https://webrtc-app-backend-vue.herokuapp.com/"
       );
       // * join a meeting
       this.user.signalingClient.on("connect", async () => {
         let value = {
           user_name: encryptinformation(this.item.user_name), // session user name (to be encrypted)
           meeting_url: meeting_name, // meeting id
-          socket_id: this.user.signalingClient.id, // socket id
+          socket_id: this.user.signalingClient.id // socket id
         };
         console.log(value);
         if (value.user_name !== null) {
@@ -566,7 +566,7 @@ export default {
         this.sessions = [...sessions_response];
         // * Fetch all messages and attachments
         const contents_response = await fetchallsessions(`${meeting_name}`);
-        contents_response.forEach(async (e) => {
+        contents_response.forEach(async e => {
           const user_name = await fetchonemeeting(e.sessionid);
           e.sessionid = decryptinformation(user_name.name);
           this.messages.push(e);
@@ -582,7 +582,7 @@ export default {
           "joined",
           JSON.stringify({
             meetingid: `${meeting_name}`,
-            sessionid: `${this.user.signalingClient.id}`,
+            sessionid: `${this.user.signalingClient.id}`
           })
         );
 
@@ -617,7 +617,7 @@ export default {
       // !end
 
       // * listen to users joining create an offer and send
-      this.user.signalingClient.on("joined", async (data) => {
+      this.user.signalingClient.on("joined", async data => {
         if (data !== this.user.signalingClient.id) {
           // * fetch user details
           const joined_user = await fetchonemeeting(data);
@@ -625,18 +625,18 @@ export default {
 
           // * create rtc session
           const configuration = {
-            iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+            iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
           };
           this.user.peerConnection = new RTCPeerConnection(configuration);
           let localView = document.getElementById("local_view");
           //console.log("[user]", localView, localView.srcObject);
           localView.srcObject
             .getTracks()
-            .forEach((track) =>
+            .forEach(track =>
               this.user.peerConnection.addTrack(track, localView.srcObject)
             );
           // ! remote tracks
-          this.user.peerConnection.ontrack = (event) => {
+          this.user.peerConnection.ontrack = event => {
             this.initializemeeting(data, event.streams[0]);
           };
           //!end
@@ -664,7 +664,7 @@ export default {
           await this.user.peerConnection.setLocalDescription(
             await this.user.peerConnection.createOffer({
               offerToReceiveAudio: true,
-              offerToReceiveVideo: true,
+              offerToReceiveVideo: true
             })
           );
 
@@ -674,10 +674,10 @@ export default {
               JSON.stringify({
                 desc: {
                   offer: this.user.peerConnection.localDescription,
-                  icecandidate: { candidate },
+                  icecandidate: { candidate }
                 },
                 offerfrom: `${this.user.signalingClient.id}`,
-                offerto: `${data}`, // ? send offer to
+                offerto: `${data}` // ? send offer to
               })
             );
         }
@@ -686,7 +686,7 @@ export default {
       //!end
 
       // * listen to users offers and create an answer
-      this.user.signalingClient.on("offer_message", async (data) => {
+      this.user.signalingClient.on("offer_message", async data => {
         const response = JSON.parse(data);
         this.$nextTick(async () => {
           // * Get the video and audio tracks streams
@@ -708,11 +708,11 @@ export default {
 
           // * create rtc connection
           const configuration = {
-            iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+            iceServers: [{ urls: "stun:stun.l.google.com:19302" }]
           };
           this.user.peerConnection = new RTCPeerConnection(configuration);
           // ! remote tracks
-          this.user.peerConnection.ontrack = (event) => {
+          this.user.peerConnection.ontrack = event => {
             this.initializemeeting(response.offerfrom, event.streams[0]);
           };
           //!end
@@ -724,19 +724,19 @@ export default {
             if (response.desc.offer) {
               await this.user.peerConnection
                 .setRemoteDescription(response.desc.offer)
-                .catch((error) => {
+                .catch(error => {
                   if (error) return;
                 });
             }
 
-            peerTracks.forEach((track) =>
+            peerTracks.forEach(track =>
               this.user.peerConnection.addTrack(track, localView.srcObject)
             );
             // * create an answer set to local description and send
             await this.user.peerConnection.setLocalDescription(
               await this.user.peerConnection.createAnswer({
                 offerToReceiveAudio: true,
-                offerToReceiveVideo: true,
+                offerToReceiveVideo: true
               })
             );
 
@@ -747,10 +747,10 @@ export default {
                 JSON.stringify({
                   desc: {
                     answer: this.user.peerConnection.localDescription,
-                    icecandidate: { candidate },
+                    icecandidate: { candidate }
                   },
                   offerfrom: `${this.user.signalingClient.id}`,
-                  offerto: `${response.offerfrom}`, // ? send answer to
+                  offerto: `${response.offerfrom}` // ? send answer to
                 })
               );
 
@@ -759,7 +759,7 @@ export default {
               //console.log("[user] Candidate", response.desc.icecandidate);
               await this.user.peerConnection
                 .addIceCandidate(response.desc.icecandidate)
-                .catch((error) => {
+                .catch(error => {
                   if (error) return;
                 });
             }
@@ -787,7 +787,7 @@ export default {
       });
 
       // * listen to answers and set to remote description
-      this.user.signalingClient.on("answer_message", async (data) => {
+      this.user.signalingClient.on("answer_message", async data => {
         const response = JSON.parse(data);
 
         if (response.desc) {
@@ -796,7 +796,7 @@ export default {
           if (response.desc.answer) {
             await this.user.peerConnection
               .setRemoteDescription(response.desc.answer)
-              .catch((error) => {
+              .catch(error => {
                 if (error) return;
               });
           }
@@ -805,7 +805,7 @@ export default {
             //console.log("[user] Candidate", response.desc.icecandidate);
             await this.user.peerConnection
               .addIceCandidate(response.desc.icecandidate)
-              .catch((error) => {
+              .catch(error => {
                 if (error) return;
               });
           }
@@ -815,7 +815,7 @@ export default {
       });
 
       // * await for new messages
-      this.user.signalingClient.on("sendmessage", async (data) => {
+      this.user.signalingClient.on("sendmessage", async data => {
         if (data) {
           let new_message = await fetchonesession(data);
           let user_name = await fetchonemeeting(new_message.sessionid);
@@ -833,7 +833,7 @@ export default {
       let value = {
         message: encryptinformation(this.messageContent.message),
         sessionid: this.user.signalingClient.id, // user session id
-        meetingid: split_meeting_url.pop(), // meeting id
+        meetingid: split_meeting_url.pop() // meeting id
       };
       const session_response = await saveonesession(value);
       let user_name = await fetchonemeeting(session_response.sessionid);
@@ -841,14 +841,14 @@ export default {
       this.messages.push(session_response);
       this.messageContent = {
         message: null,
-        attachment: null,
+        attachment: null
       };
       // * send a message
       this.user.signalingClient.emit(
         "send",
         JSON.stringify({
           sessionid: session_response._id,
-          meetingid: value.meetingid, // meeting id
+          meetingid: value.meetingid // meeting id
         })
       );
 
@@ -873,7 +873,7 @@ export default {
           remoteStream: null, // local meeting streams
           localStream: null, // local stream
           sessionid: null, // local session id
-          peerConnection: null, // local peer connection
+          peerConnection: null // local peer connection
         };
       }
       let path = "/";
@@ -884,13 +884,13 @@ export default {
       let localView = document.getElementById("local_view");
       if (localView !== null) {
         if (localView.srcObject) {
-          localView.srcObject.getTracks().forEach((track) => track.stop());
+          localView.srcObject.getTracks().forEach(track => track.stop());
         }
       }
       let meeting_views = document.querySelectorAll(".meeting-streams");
-      meeting_views.forEach((e) => {
+      meeting_views.forEach(e => {
         if (e.srcObject) {
-          e.srcObject.getTracks().forEach((track) => track.stop());
+          e.srcObject.getTracks().forEach(track => track.stop());
         }
       });
       this.sessions = [];
@@ -912,7 +912,7 @@ export default {
       let localView = document.getElementById("local_view");
       localView.srcObject
         .getAudioTracks()
-        .forEach((track) => (track.enabled = !track.enabled));
+        .forEach(track => (track.enabled = !track.enabled));
       this.audio_track = !this.audio_track;
       // end
     },
@@ -922,11 +922,11 @@ export default {
       // getTracks()
       localView.srcObject
         .getVideoTracks()
-        .forEach((track) => (track.enabled = !track.enabled));
+        .forEach(track => (track.enabled = !track.enabled));
       this.video_stream = !this.video_stream;
       // end
-    },
+    }
     // ! end
-  },
+  }
 };
 </script>
