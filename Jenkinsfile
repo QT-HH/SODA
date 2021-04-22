@@ -44,13 +44,14 @@ pipeline {
                 sh 'docker run -d --name frontend \
                 -p 80:80 \
                 -p 443:443 \
-                -v
-                /home/ubuntu/sslkey/:/var/jenkins_home/workspace/SODA/sslkey/ \
+                -v /home/ubuntu/sslkey/:/var/jenkins_home/workspace/SODA/sslkey/ \
                 --network soda_network \
                 frontend:latest'
-                sh 'docker run -d --name server_spring \
+                sh 'docker run -d \
+                --name server_spring \
                 --network soda_network server_spring:latest'
-                sh 'docker run -d --name server_express \
+                sh 'docker run -d \
+                --name server_express \
                 --network soda_network server_express:latest'
             }
         }
