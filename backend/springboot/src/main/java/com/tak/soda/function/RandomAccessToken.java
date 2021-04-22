@@ -1,5 +1,6 @@
 package com.tak.soda.function;
 
+import java.io.InputStream;
 import java.util.Random;
 
 import javax.mail.Message;
@@ -7,20 +8,25 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
 
 
 
-@Service("mss")
+
+@Service
 public class RandomAccessToken {
 	@Autowired
-	private JavaMailSenderImpl mailSender;
+	private JavaMailSender mailSender;
 //	토큰발급
 	public String makeToken(int size) {
-		System.out.println("들어옴");
 		Random random = new Random();
+		
 		StringBuffer buffer = new StringBuffer();
 		while(buffer.length()<size) {
 			int num = random.nextInt(3);
@@ -46,19 +52,24 @@ public class RandomAccessToken {
 		return buffer.toString();
 	}
 	public boolean sendMail(String token,String email) throws javax.mail.MessagingException {
+		
 		MimeMessage mail = mailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(mail);
 		String mailContent = "<h1>[인증번호]</h1>"+
-				"<p>인증번호는 </p>"+token;
+				"<p>인증번호는 "+token+ " 입니다.</p>";
+	
 		try {
-			mail.setSubject("관리자 미팅룸 생성 인증번호");
-			mail.setText(mailContent,"utf-8","html");
-			mail.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+			helper.setSubject("관리자 미팅룸 생성 인증번호");
+			helper.setText(mailContent, true);
+			helper.setTo(email);
 			mailSender.send(mail);
 			
 		}catch(MessagingException e) {
+			System.out.println("dfsdfsdfsd");
 			e.printStackTrace();
-			return false;
+			System.out.println(e);
+			return true;
 		}
-		return true;
+		return false;
 	}
 }
