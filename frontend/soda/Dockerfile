@@ -1,5 +1,5 @@
 FROM node:lts-alpine as build-stage
-WORKDIR /homepage
+WORKDIR /soda
 COPY . .
 RUN npm install
 RUN npm run build
@@ -7,7 +7,7 @@ RUN npm run build
 
 FROM nginx:stable-alpine as production-stage
 RUN rm /etc/nginx/conf.d/default.conf
-COPY ./nginx/homepage.conf /etc/nginx/conf.d/homepage.conf
-COPY --from=build-stage ./homepage/dist /usr/share/nginx/html/homepage
+COPY ./nginx/soda.conf /etc/nginx/conf.d/soda.conf
+COPY --from=build-stage ./soda/dist /usr/share/nginx/html/soda
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
