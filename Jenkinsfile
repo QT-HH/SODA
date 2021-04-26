@@ -18,7 +18,7 @@ pipeline {
         stage('Docker build') {
             agent any
             steps {
-                sh 'docker build -t soda_frontend:latest /var/jenkins_home/workspace/SODA/frontend/Meeting'
+                sh 'docker build -t soda_frontend:latest /var/jenkins_home/workspace/SODA/frontend/soda'
                 sh 'docker build -t server_spring:latest /var/jenkins_home/workspace/SODA/backend/springboot'
                 sh 'docker build -t server_express:latest /var/jenkins_home/workspace/SODA/backend/express'
             }
