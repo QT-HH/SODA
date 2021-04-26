@@ -16,9 +16,6 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
 
-
-
-
 @Service
 public class RandomAccessToken {
 	@Autowired
