@@ -540,8 +540,8 @@ export default {
       let meeting_name = split_meeting_url.pop();
 
       this.user.signalingClient = io(
-        //"http://localhost:5000/"
-        "https://k4d103.p.ssafy.io/media/"
+        "http://localhost:5000/"
+        //"https://k4d103.p.ssafy.io/media/"
         //"https://webrtc-app-backend-vue.herokuapp.com/"
       );
       // * join a meeting

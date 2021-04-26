@@ -3,6 +3,7 @@ const Session = db.session;
 
 // create a session
 exports.createonesession = (req, res) => {
+  console.log('session createonemeet')
   // check for message or attachments
   if(!req.body.message && !req.body.attachment){
     return res.status(404).send({ message: "No message or attachment!" });
