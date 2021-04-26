@@ -3,6 +3,7 @@ const Meet = db.meet;
 
 // create a meet
 exports.createonemeet = (req, res) => {
+  console.log('meet createonemeet')
   const meet = new Meet({
     name: req.body.name ? req.body.name : "User",
     meetingid: req.body.meetingid,
