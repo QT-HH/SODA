@@ -22,15 +22,15 @@ public class SwaggerConfig implements WebMvcConfigurer {
 	
 	@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/swagger-ui.html**").addResourceLocations("classpath:/META-INF/resources/swagger-ui.html");
+        registry.addResourceHandler("swagger-ui.html**").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 	
 	@Bean
-	public Docket api() {
+	public Docket apiDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)
-				.consumes(getConsumeContentTypes())
-				.produces(getProduceContentTypes())
+				//.consumes(getConsumeContentTypes())
+				//.produces(getProduceContentTypes())
 				.apiInfo(apiInfo())
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.tak.soda.controller"))
