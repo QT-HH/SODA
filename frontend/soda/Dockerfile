@@ -1,5 +1,5 @@
 FROM node:lts-alpine as build-stage
-WORKDIR /hoempage
+WORKDIR /homepage
 COPY . .
 RUN npm install
 RUN npm run build
@@ -7,7 +7,7 @@ RUN npm run build
 
 FROM nginx:stable-alpine as production-stage
 RUN rm /etc/nginx/conf.d/default.conf
-COPY ./nginx/hoempage.conf /etc/nginx/conf.d/default.conf
-COPY --from=build-stage ./hoempage/dist /usr/share/nginx/html/hoempage
+COPY ./nginx/homepage.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-stage ./homepage/dist /usr/share/nginx/html/homepage
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
