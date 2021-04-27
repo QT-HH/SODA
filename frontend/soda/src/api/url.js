@@ -1,6 +1,6 @@
 export default {
 	URL: 'http://localhost:8888/restapi',
-	OPENVIDU_URL: 'https://k4d103.p.ssafy.io',
+	OPENVIDU_URL: 'https://k4d103.p.ssafy.io:4443',
 	ROUTES: {
 		user: '/user',
 		room: '/meeting',

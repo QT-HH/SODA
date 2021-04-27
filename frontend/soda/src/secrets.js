@@ -1,5 +1,5 @@
 export default {
 	OPENVIDU: {
-		SECRET_KEY: 'soda_secret',
+		SECRET_KEY: 'MY_SECRET',
 	},
 };
