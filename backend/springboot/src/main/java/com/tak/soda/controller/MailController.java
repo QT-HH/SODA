@@ -15,8 +15,10 @@ import com.tak.soda.function.RandomAccessToken;
 import com.tak.soda.model.Company;
 import com.tak.soda.service.CompanyService;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
+@Api(tags = {"Email 컨트롤러"})
 @RestController
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/api")
