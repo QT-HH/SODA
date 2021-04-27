@@ -2,20 +2,14 @@
 	<div id="app">
 		<div id="nav">
 			<router-link to="/">Home</router-link>
-			<router-link to="/about">About</router-link>
 		</div>
 		<router-view />
-		<HelloWorld></HelloWorld>
 	</div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue';
 export default {
 	name: 'app',
-	components: {
-		HelloWorld,
-	},
 	created() {
 		console.log('hi');
 	},
@@ -23,6 +17,17 @@ export default {
 </script>
 
 <style>
+@font-face {
+	font-family: 'Cafe24Simplehae';
+	src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.1/Cafe24Simplehae.woff')
+		format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+#font1 {
+	font-family: Cafe24Simplehae;
+}
+
 #app {
 	font-family: Avenir, Helvetica, Arial, sans-serif;
 	-webkit-font-smoothing: antialiased;
