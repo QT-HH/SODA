@@ -12,9 +12,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
-@RequestMapping("meeting")
+@CrossOrigin(origins = "*")
 @Api(tags = {"미팅 컨트롤러"})
+@RequestMapping("meeting")
 public class MeetingController {
 	@Autowired
 	MeetingService meetingService;
@@ -22,7 +22,9 @@ public class MeetingController {
 
 	@GetMapping("inviteCode")
 	@ApiOperation(value = "미팅 코드", notes = "미팅 코드 유효성", response = String.class)
-	private String getValidInviteCode() {
-		return meetingService.getValidInviteCode();
+	private boolean getValidInviteCode(String cidentify) {
+		return meetingService.getValidInviteCode(cidentify);
 	}
+	
+	
 }

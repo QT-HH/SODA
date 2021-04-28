@@ -56,7 +56,7 @@ public class RandomAccessToken {
 				"<p>인증번호는 "+token+ " 입니다.</p>";
 	
 		try {
-			helper.setSubject("관리자 미팅룸 생성 인증번호");
+			helper.setSubject("[SODA 관리자] 미팅룸 생성 인증번호");
 			helper.setText(mailContent, true);
 			helper.setTo(email);
 			mailSender.send(mail);
