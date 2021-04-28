@@ -2,8 +2,12 @@
 	<div>
 		<div class="videos-container"></div>
 		<input v-model="roomid" placeholder="Unique room ID" />
-		<v-btn depressed color="primary" @click="openRoom">open or join</v-btn>
-		<v-btn depressed color="warning" @click="outRoom">퇴장</v-btn>
+		<div v-if="streaming">
+			<v-btn depressed color="primary" @click="openRoom">open or join</v-btn>
+		</div>
+		<div v-if="!streaming">
+			<v-btn depressed color="warning" @click="outRoom">퇴장</v-btn>
+		</div>
 	</div>
 </template>
 
@@ -16,7 +20,11 @@ export default {
 		return {
 			roomid: '',
 			connection: null,
+			streaming: true,
 		};
+	},
+	beforeDestroy() {
+		console.log('destroy');
 	},
 	methods: {
 		openRoom() {
@@ -39,17 +47,21 @@ export default {
 			this.connection.videosContainer = document.querySelector(
 				'.videos-container',
 			);
+			this.streaming = !this.streaming;
+			console.log('participants : ', this.connection.userid);
 		},
 		outRoom() {
 			this.connection.getAllParticipants().forEach(participantId => {
 				this.connection.disconnectWith(participantId);
 			});
+			// this.connection.disconnectWith(this.connection.userid);
 
 			this.connection.attachStreams.forEach(function (localStream) {
 				localStream.stop();
 			});
 
 			this.connection.closeSocket();
+			this.streaming = !this.streaming;
 		},
 	},
 };
