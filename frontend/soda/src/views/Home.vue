@@ -66,18 +66,7 @@ export default {
 };
 </script>
 <style scoped>
-#bg {
-	position: fixed;
-	top: 0;
-	left: 0;
-
-	/* Preserve aspet ratio */
-	width: 100%;
-	height: 100%;
-	object-fit: cover;
-}
 .wrapper {
-	position: fixed;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
