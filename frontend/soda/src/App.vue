@@ -1,8 +1,8 @@
 <template>
 	<div id="app">
+		<TopBar></TopBar>
 		<div id="nav">
 			<router-link to="/">Home</router-link>
-			<router-link to="/about">About</router-link>
 			<router-link to="/meeting">Meeting</router-link>
 		</div>
 		<router-view />
@@ -10,8 +10,14 @@
 </template>
 
 <script>
+import TopBar from './components/common/TopBar.vue';
 export default {
 	name: 'app',
+
+	components: {
+		TopBar,
+	},
+
 	created() {
 		console.log('hi');
 	},
