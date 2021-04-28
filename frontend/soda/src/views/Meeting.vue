@@ -28,6 +28,21 @@ export default {
 	},
 	methods: {
 		openRoom() {
+			if (!this.roomid) {
+				alert('코드를 입력해주세요!');
+				return;
+			}
+			if (this.connection) {
+				// console.log('sessionid : ', this.connection.sessionid);
+				// console.log('roomid : ', this.roomid);
+				if (this.connection.sessionid !== this.roomid) {
+					this.outRoom();
+				} else {
+					console.log('already');
+					return;
+				}
+			}
+
 			this.connection = new RTCMultiConnection();
 
 			this.connection.session = {
@@ -61,7 +76,9 @@ export default {
 			});
 
 			this.connection.closeSocket();
+			this.connection.sessionid = '';
 			this.streaming = !this.streaming;
+			this.roomid = '';
 		},
 	},
 };
