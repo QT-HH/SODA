@@ -12,7 +12,7 @@ pipeline {
             options { skipDefaultCheckout(false) }
             steps {
                 sh 'mvn -B -DskipTests -f /var/jenkins_home/workspace/SODA/backend/springboot clean package'
-                sh 'mvn -Dopenvidu.url=https://k4d103.p.ssafy.io:4443/ -f /var/jenkins_home/workspace/SODA/backend/openvidu/openvidu-server package exec:java'
+                //sh 'mvn -Dopenvidu.url=https://k4d103.p.ssafy.io:4443/ -f /var/jenkins_home/workspace/SODA/backend/openvidu/openvidu-server package exec:java'
             }
         }
 
