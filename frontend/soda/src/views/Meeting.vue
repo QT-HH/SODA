@@ -1,24 +1,42 @@
 <template>
-	<div>
+	<div class="text-center">
+		<h2>면접에 초대받으신 이메일을 입력해주세요.</h2>
+
+		<v-form>
+			<v-container>
+				<v-row>
+					<v-col cols="12" md="4"> </v-col>
+					<v-col cols="12" md="4">
+						<v-text-field
+							v-model="inputSessionId"
+							v-on:keyup.enter="guestbtn"
+							label="Email"
+						></v-text-field>
+					</v-col>
+				</v-row>
+			</v-container>
+		</v-form>
+
+		<v-btn
+			rounded
+			color="primary"
+			dark
+			v-show="inputSessionId"
+			@click="guestbtn"
+		>
+			입장하기
+		</v-btn>
+
 		<div class="row no-gutters">
 			<div id="wrapper" class="d-flex justify-content-center">
 				<!-- 주최하기 버튼 -->
-				<div class="p-1 bd-highlight" id="host">
-					<button @click="hostbtn">주최하기</button>
-				</div>
-				<!-- 입장 코드 입력란 -->
-				<div class="p-1 bd-highlight" id="guest">
-					<input
-						placeholder="입장 코드를 입력하세요"
-						v-model="inputSessionId"
-						@keyup.enter="guestbtn"
-					/>
-					<button v-show="inputSessionId" @click="guestbtn">입장하기</button>
-				</div>
+				<!-- <div class="p-1 bd-highlight" id="host">
+          <button @click="hostbtn">주최하기</button>
+        </div> -->
 				<!-- 공개방 보기 버튼 -->
-				<div class="p-1 bd-highlight" id="entrance">
-					<button @click="openbtn">공개방 보기</button>
-				</div>
+				<!-- <div class="p-1 bd-highlight" id="entrance">
+          <button @click="openbtn">공개방 보기</button>
+        </div> -->
 			</div>
 		</div>
 	</div>
@@ -74,4 +92,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped></style>
