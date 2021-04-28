@@ -1,11 +1,8 @@
 <template>
-	<div id="app">
-		<div id="nav">
-			<router-link to="/">Home</router-link>
-			<router-link to="/meeting">Meeting</router-link>
-		</div>
+	<v-app>
+		<TopBar></TopBar>
 		<router-view />
-	</div>
+	</v-app>
 </template>
 
 <script>
