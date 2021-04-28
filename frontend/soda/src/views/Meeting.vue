@@ -24,7 +24,7 @@ export default {
 		};
 	},
 	beforeDestroy() {
-		console.log('destroy');
+		this.outRoom();
 	},
 	methods: {
 		openRoom() {
