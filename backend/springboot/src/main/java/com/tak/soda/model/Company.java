@@ -8,9 +8,11 @@ import javax.persistence.Table;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Entity
+@NoArgsConstructor
 @Table(name = "companys")
 public class Company {
 	@Id
