@@ -6,8 +6,14 @@
 </template>
 
 <script>
+import TopBar from './components/common/TopBar.vue';
 export default {
 	name: 'app',
+
+	components: {
+		TopBar,
+	},
+
 	created() {
 		console.log('hi');
 	},

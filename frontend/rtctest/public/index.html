@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+
+    <script src="../menu.js"></script>
+    <script src="../dist/RTCMultiConnection.min.js"></script>
+    <script src="../node_modules/webrtc-adapter/out/adapter.js"></script>
     <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+    <script src="https://www.webrtc-experiment.com/common.js"></script>
   </head>
   <body>
     <noscript>
