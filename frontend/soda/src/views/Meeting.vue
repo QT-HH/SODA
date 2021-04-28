@@ -7,6 +7,9 @@
 	</div>
 </template>
 
+<script src="https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js"></script>
+<script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
+
 <script>
 export default {
 	data() {
