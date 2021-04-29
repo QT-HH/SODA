@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,11 +37,12 @@ public class MailController {
 	@PostMapping("/approve")
 	public ResponseEntity<String> newCompany(@RequestBody Company company) {
 		String Token = randomAccessToken.makeToken(TokenLength);
-		company.setCidentify(Token);
+		//company.setCidentify(Token);
 		try {
-			companyService.newCompany(company);
-		}catch(Exception e) {
-			return new ResponseEntity<String>("중복된 이메일 주소",HttpStatus.OK);
+			companyService.modifyCompany(company.getCid(), Token);
+		} catch (Exception e1) {
+			
+			e1.printStackTrace();
 		}
 		
 		try {
@@ -55,7 +57,7 @@ public class MailController {
 	}
 	
 	@ApiOperation(value="거부", notes="거부 이메일 전송")
-	@PostMapping("/reject")
+	@GetMapping("/reject")
 	public ResponseEntity<String> reject(String email) {
 		try {
 			if(rejectMail.sendMail(email)) {
