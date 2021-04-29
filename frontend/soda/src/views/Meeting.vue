@@ -15,23 +15,33 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
+import { getConfirmMeetingCode } from '@/api/meeting.js';
+
 export default {
 	data() {
 		return {
 			roomid: '',
 			connection: null,
 			streaming: true,
+			identify: 'GhE8fg0hdfjIj69',
 		};
 	},
 	beforeDestroy() {
 		this.outRoom();
 	},
 	methods: {
-		openRoom() {
-			if (!this.roomid) {
-				alert('코드를 입력해주세요!');
-				return;
-			}
+		async openRoom() {
+			await getConfirmMeetingCode(this.identify)
+				.then(res => {
+					console.log('성공');
+				})
+				.catch(err => {
+					console.log('에러');
+				});
+			// if (!this.roomid) {
+			// 	alert('코드를 입력해주세요!');
+			// 	return;
+			// }
 			if (this.connection) {
 				// console.log('sessionid : ', this.connection.sessionid);
 				// console.log('roomid : ', this.roomid);
