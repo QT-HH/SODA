@@ -18,8 +18,8 @@ public class CompanyService {
 		return true;
 	}
 	
-	public boolean modifyCompany(Company company) {
-		return true;
+	public void modifyCompany(int cid, String token) throws Exception {
+		companyRepository.modifyCidentify(cid, token);
 	}
 	
 	public List<Company> showCompany() {

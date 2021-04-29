@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Register from '../views/Register.vue';
 import Certify from '../views/Certify.vue';
+import Admin from '../views/Admin.vue';
 
 Vue.use(VueRouter);
 
@@ -23,9 +24,24 @@ const routes = [
 		component: Certify,
 	},
 	{
+		path: '/admin',
+		name: 'Admin',
+		component: Admin,
+	},
+	{
 		path: '/meeting',
 		name: 'Meeting',
 		component: () => import('../views/Meeting.vue'),
+	},
+	{
+		path: '/attend',
+		name: 'Attend',
+		component: () => import('../views/Attend.vue'),
+	},
+	{
+		path: '/invite',
+		name: 'Invite',
+		component: () => import('../views/Invite.vue'),
 	},
 ];
 

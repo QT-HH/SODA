@@ -13,6 +13,7 @@
 			</v-toolbar-title>
 			<v-toolbar-items>
 				<v-btn text plain @click="createMeeting"> 면접 개설 </v-btn>
+				<v-btn text plain @click="attendMeeting"> 면접 참가 </v-btn>
 				<v-btn text plain @click="goSimulatedMeeting"> 모의 면접 </v-btn>
 				<v-btn text plain @click="goRegister"> 기업 등록 </v-btn>
 			</v-toolbar-items>
@@ -26,6 +27,9 @@ export default {
 	methods: {
 		createMeeting() {
 			this.$router.push({ name: 'Certify' });
+		},
+		attendMeeting() {
+			this.$router.push({ name: 'Attend' });
 		},
 		goSimulatedMeeting() {
 			this.$router.push({ name: 'Meeting' });

@@ -33,7 +33,7 @@ export default {
 				alert('인증코드를 입력해주세요.');
 			} else {
 				console.log(this.code);
-				// this.$router.push('/invite');  -> 초대페이지로 넘어감
+				this.$router.push('/invite');
 			}
 		},
 	},

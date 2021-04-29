@@ -2,11 +2,11 @@
 	<v-row justify="center">
 		<v-col cols="12" sm="10" md="8" lg="6" style="margin: auto">
 			<div>
-				<v-text-field v-model="company" label="기업명" required></v-text-field>
-				<v-text-field v-model="name" label="담당자명" required></v-text-field>
-				<v-text-field v-model="roll" label="직책" required></v-text-field>
-				<v-text-field v-model="phone" label="연락처" required></v-text-field>
-				<v-text-field v-model="email" label="이메일" required></v-text-field>
+				<v-text-field v-model="cname" label="기업명" required></v-text-field>
+				<v-text-field v-model="uname" label="담당자명" required></v-text-field>
+				<v-text-field v-model="cjob" label="직책" required></v-text-field>
+				<v-text-field v-model="cphone" label="연락처" required></v-text-field>
+				<v-text-field v-model="cemail" label="이메일" required></v-text-field>
 			</div>
 			<v-btn dark @click="submit"> 등록하기 </v-btn>
 			<v-dialog v-model="dialog" max-width="290">
@@ -26,38 +26,42 @@
 </template>
 
 <script>
+import { postCompanyInfo } from '@/api/company';
 export default {
 	name: 'Register',
 	components: {},
 	data() {
 		return {
 			dialog: false,
-			company: null,
-			name: null,
-			roll: null,
-			phone: null,
-			email: null,
+			cname: null,
+			uname: null,
+			cjob: null,
+			cphone: null,
+			cemail: null,
 		};
 	},
 	methods: {
 		submit() {
-			if (this.company === null) {
+			if (this.cname === null) {
 				alert('기업명을 입력해주세요.');
-			} else if (this.name === null) {
+			} else if (this.uname === null) {
 				alert('담당자명을 입력해주세요.');
-			} else if (this.roll === null) {
+			} else if (this.cjob === null) {
 				alert('직책을 입력해주세요.');
-			} else if (this.phone === null) {
+			} else if (this.cphone === null) {
 				alert('연락처를 입력해주세요.');
-			} else if (this.email === null) {
+			} else if (this.cemail === null) {
 				alert('이메일을 입력해주세요.');
 			} else {
-				console.log(this.company);
-				console.log(this.name);
-				console.log(this.roll);
-				console.log(this.phone);
-				console.log(this.email);
 				this.dialog = true;
+				const info = {
+					cname: this.cname,
+					uname: this.uname,
+					cjob: this.cjob,
+					cphone: this.cphone,
+					cemail: this.cemail,
+				};
+				postCompanyInfo(info);
 			}
 		},
 		close() {
