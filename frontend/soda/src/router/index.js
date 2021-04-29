@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Register from '../views/Register.vue';
 import Certify from '../views/Certify.vue';
+import Admin from '../views/Admin.vue';
 
 Vue.use(VueRouter);
 
@@ -21,6 +22,11 @@ const routes = [
 		path: '/certify',
 		name: 'Certify',
 		component: Certify,
+	},
+	{
+		path: '/admin',
+		name: 'Admin',
+		component: Admin,
 	},
 	{
 		path: '/meeting',
