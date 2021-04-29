@@ -38,6 +38,11 @@ const routes = [
 		name: 'Attend',
 		component: () => import('../views/Attend.vue'),
 	},
+	{
+		path: '/invite',
+		name: 'Invite',
+		component: () => import('../views/Invite.vue'),
+	},
 ];
 
 const router = new VueRouter({
