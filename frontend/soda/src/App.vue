@@ -1,8 +1,8 @@
 <template>
-	<div id="app">
+	<v-app>
 		<TopBar></TopBar>
 		<router-view />
-	</div>
+	</v-app>
 </template>
 
 <script>
