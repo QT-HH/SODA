@@ -4,18 +4,18 @@
 		<v-row cols="12">
 			<v-col cols="2"> </v-col>
 			<v-col class="sodaFont" cols="10">
-				<p>소리를 보다, 소다</p>
+				<p class="margin0">소리를 보다, 소다</p>
 			</v-col>
 			<v-col cols="2"> </v-col>
 			<v-col class="sodaContentFont" cols="10">
-				<p id="font1">
+				<p class="margin0" id="font1">
 					소다는 면접 참여자의 말을 자막으로 실시간 변환하여 제공하는 화상 면접
 					서비스입니다.
 				</p>
 			</v-col>
 			<v-col cols="2"> </v-col>
 			<v-col class="sodaContentFont" cols="10">
-				<p id="font1">
+				<p class="margin0" id="font1">
 					이 화면은 태진이오빠 때문에 할 수 없이 만든 임시 화면입니다^^
 				</p>
 			</v-col>
@@ -82,11 +82,15 @@ export default {
 	font-size: 3em;
 	font-weight: bolder;
 	text-align: start;
-	padding: 6px;
+	color: black;
+	padding: 0px;
 }
 .sodaContentFont {
 	font-size: medium;
 	text-align: start;
-	padding: 6px;
+	padding: 0px;
+}
+.margin0 {
+	margin-bottom: 0px;
 }
 </style>
