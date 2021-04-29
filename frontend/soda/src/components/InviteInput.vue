@@ -1,11 +1,9 @@
 <template>
-    <div>
-        <v-text-field></v-text-field>
-    </div>
+	<div>
+		<v-text-field></v-text-field>
+	</div>
 </template>
 
 <script>
-export default {
-    
-}
+export default {};
 </script>
