@@ -4,7 +4,11 @@ function getCompanyList() {
 	return instance.get('company/company-list');
 }
 function deleteCompany(cid) {
-	return instance.delete('company/del', cid);
+	return instance.delete('company/del', {
+		params: {
+			cid: cid,
+		},
+	});
 }
 function postCompanyInfo(info) {
 	return instance.post('company/new-company', info);
