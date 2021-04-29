@@ -57,10 +57,10 @@ public class MailController {
 	}
 	
 	@ApiOperation(value="거부", notes="거부 이메일 전송")
-	@GetMapping("/reject")
-	public ResponseEntity<String> reject(String email) {
+	@PostMapping("/reject")
+	public ResponseEntity<String> reject(@RequestBody Company company) {
 		try {
-			if(rejectMail.sendMail(email)) {
+			if(rejectMail.sendMail(company.getCemail())) {
 				return new ResponseEntity<String>("전송 실패",HttpStatus.OK);
 			}
 		} catch (MessagingException e) {
