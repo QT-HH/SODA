@@ -9,8 +9,8 @@
 			<v-btn depressed color="warning" @click="outRoom">퇴장</v-btn>
 		</div>
 		<div v-if="streaming">
-			<v-btn depressed @click="screenOff">화면OFF</v-btn>
-			<v-btn depressed @click="screenOn">화면ON</v-btn>
+			<!-- <v-btn depressed @click="screenOff">화면OFF</v-btn>
+			<v-btn depressed @click="screenOn">화면ON</v-btn> -->
 			<v-btn depressed @click="checkVideo">체크</v-btn>
 		</div>
 	</div>
@@ -33,6 +33,10 @@ export default {
 	beforeDestroy() {
 		this.outRoom();
 	},
+	// mounted() {
+	// 	const test = require('https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js');
+	// 	console.log(test);
+	// },
 	methods: {
 		async openRoom() {
 			await getConfirmMeetingCode(this.roomid)
@@ -66,7 +70,7 @@ export default {
 						this.connection.videosContainer = document.querySelector(
 							'.videos-container',
 						);
-						// console.log('participants : ', this.connection.sessionid);
+						console.log('participants : ', this.connection.sessionid);
 					} else {
 						alert('유효하지 않은 미팅코드입니다.');
 					}
