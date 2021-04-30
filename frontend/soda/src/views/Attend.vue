@@ -5,16 +5,21 @@
 				<h2 id="font1">면접에 초대받으신 이메일을 입력해주세요.</h2>
 				<br />
 				<br />
-				<br />
-				<br />
-				<br />
-				<br />
 				<div>
 					<v-text-field
 						v-model="inputSessionId"
 						v-on:keyup.enter="guestbtn"
 						label="Email"
 					></v-text-field>
+				</div>
+				<br />
+				<br />
+				<br />
+				<h2 id="font1">인증코드를 입력해주세요.</h2>
+				<br />
+				<br />
+				<div>
+					<v-text-field v-model="inputCertifycode" label="Code"></v-text-field>
 				</div>
 				<div>
 					<v-btn
@@ -26,6 +31,28 @@
 					>
 						입장하기
 					</v-btn>
+					<br />
+					<br />
+				</div>
+				<div class="text-center">
+					<v-dialog v-model="dialogOpen" width="500">
+						<v-card>
+							<v-card-title class="headline grey lighten-2">
+								유효성 검사
+							</v-card-title>
+
+							<v-card-text> 유효성 검사를 다시 확인해주세요! </v-card-text>
+
+							<v-divider></v-divider>
+
+							<v-card-actions>
+								<v-spacer></v-spacer>
+								<v-btn color="primary" text @click="dialogOpen = false">
+									확인
+								</v-btn>
+							</v-card-actions>
+						</v-card>
+					</v-dialog>
 				</div>
 			</div>
 		</v-col>
@@ -34,13 +61,15 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-import Swal from 'sweetalert2';
+
 export default {
 	name: 'AttendPage',
 	components: {},
 	data: () => {
 		return {
 			inputSessionId: '',
+			inputCertifycode: '',
+			dialogOpen: false,
 		};
 	},
 	computed: {
@@ -55,18 +84,20 @@ export default {
 			'changeMeetingDialog',
 		]),
 		guestbtn() {
-			if (!this.getId) {
-				Swal.fire({
-					title: '먼저 로그인을 해주세요!',
-					icon: 'warning',
-				});
+			// 이메일&인증코드 유효성 확인
+			if (this.inputSessionId == '' || this.inputCertifycode == '') {
+				this.dialogOpen = true;
 				return false;
 			}
-			this.checkSessionId(this.inputSessionId).then(() => {
-				//주최 안한다는 새로운 변수 추가
-				this.ishost = false;
-				this.changeMeetingDialog(true);
-			});
+			let regExp = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+			if (regExp.test(this.inputSessionId) == false) {
+				//이메일 형식이 알파벳+숫자@알파벳+숫자.알파벳+숫자 형식이 아닐경우
+				this.dialogOpen = true;
+				return false;
+			}
+			// 이메일이 초대된 이메일인지 판단하는 api 불러오기
+			// 인증코드의 미팅방으로 이동
+			this.$router.push('/meeting'); // 임시 routing
 		},
 	},
 };
