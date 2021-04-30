@@ -70,7 +70,17 @@ export default {
 							OfferToReceiveAudio: true,
 							OfferToReceiveVideo: true,
 						};
-						this.connection.openOrJoin(this.roomid);
+						// this.connection.openOrJoin(this.roomid);
+						this.connection.checkPresence(
+							this.roomid,
+							function (isRoomOpened, roomid) {
+								if (isRoomExist === true) {
+									connection.join(roomid);
+								} else {
+									connection.open(roomid);
+								}
+							},
+						);
 						this.connection.videosContainer = document.querySelector(
 							'.videos-container',
 						);
