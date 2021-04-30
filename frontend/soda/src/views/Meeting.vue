@@ -9,9 +9,13 @@
 			<v-btn depressed color="warning" @click="outRoom">퇴장</v-btn>
 		</div>
 		<div v-if="streaming">
-			<!-- <v-btn depressed @click="screenOff">화면OFF</v-btn>
-			<v-btn depressed @click="screenOn">화면ON</v-btn> -->
+			<v-btn depressed @click="screenOff">화면OFF</v-btn>
+			<v-btn depressed @click="screenOn">화면ON</v-btn>
 			<v-btn depressed @click="checkVideo">체크</v-btn>
+		</div>
+		<div v-if="streaming">
+			<v-btn depressed @click="voiceOff">마이크OFF</v-btn>
+			<v-btn depressed @click="voiceOn">마이크ON</v-btn>
 		</div>
 	</div>
 </template>
@@ -96,25 +100,20 @@ export default {
 			this.roomid = '';
 		},
 		screenOff() {
-			// let vi = document.querySelector('video');
-			// let event = this.connection.streamEvents.selectAll()[0].streamid;
-			let event = this.findMyVideo();
-			console.log(event);
-			event.session = {
-				audio: event.muteType === 'audio',
-				video: event.muteType === 'video',
-			};
-			event.mediaElement.poster = `https://ifh.cc/g/HlzbiE.jpg`;
-			event.mediaElement.src = null;
-			event.mediaElement.pause();
-			// let event = this.connection.streamEvents[streamEvent.streamid];
-			// this.connection.onmute(event[0]);
+			const event = this.findMyVideo();
+			event.stream.mute('video');
 		},
 		screenOn() {
-			let event = this.findMyVideo();
-			event.mediaElement.poster = null;
-			event.srcObject = event.stream;
-			event.mediaElement.play();
+			const event = this.findMyVideo();
+			event.stream.unmute('video');
+		},
+		voiceOff() {
+			const event = this.findMyVideo();
+			event.stream.mute('audio');
+		},
+		voiceOn() {
+			const event = this.findMyVideo();
+			event.stream.unmute('audio');
 		},
 		findMyVideo() {
 			let events = this.connection.streamEvents.selectAll();
