@@ -15,25 +15,54 @@
 				<div>
 					<v-btn color="primary" text @click="certify"> 다음 </v-btn>
 				</div>
+				<div class="text-center">
+					<v-dialog v-model="dialogOpen" width="500">
+						<v-card>
+							<v-card-title class="headline grey lighten-2">
+								인증코드 오류
+							</v-card-title>
+
+							<v-card-text> 유효하지 않은 인증코드입니다. </v-card-text>
+
+							<v-divider></v-divider>
+
+							<v-card-actions>
+								<v-spacer></v-spacer>
+								<v-btn color="primary" text @click="dialogOpen = false">
+									확인
+								</v-btn>
+							</v-card-actions>
+						</v-card>
+					</v-dialog>
+				</div>
 			</div>
 		</v-col>
 	</v-row>
 </template>
 
 <script>
+import { getConfirmMeetingCode } from '@/api/meeting.js';
+
 export default {
 	name: 'Certify',
 	components: {},
 	data: () => ({
 		code: null,
+		dialogOpen: false,
 	}),
 	methods: {
-		certify() {
+		async certify() {
 			if (this.code === null) {
 				alert('인증코드를 입력해주세요.');
 			} else {
-				console.log(this.code);
-				this.$router.push('/invite');
+				await getConfirmMeetingCode(this.code)
+					.then(res => {
+						if (res.data) this.$router.push('/invite');
+						else this.dialogOpen = true;
+					})
+					.catch(err => {
+						console.log('에러:' + err);
+					});
 			}
 		},
 	},
