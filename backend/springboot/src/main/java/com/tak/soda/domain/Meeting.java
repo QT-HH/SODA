@@ -1,21 +1,18 @@
-package com.tak.soda.model;
+package com.tak.soda.domain;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter @Setter 
 public class Meeting {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(nullable = false, updatable = false)
+	@Column(name = "room_id", nullable = false, updatable = false)
 	private long roomId;
 	
 	@Column(nullable = true)
@@ -26,9 +23,6 @@ public class Meeting {
 	
 	@Column(nullable =false)
 	private long hostId;
-
-	@Column(nullable = false,  columnDefinition = "TINYINT", length=1)
-	private int isPublic;
 	
 	@Column
 	private Date startTime;
@@ -36,6 +30,16 @@ public class Meeting {
 	@Column
 	private Date endTime;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "u_id")
+	private Member member;
+	
+	
+	public void setMember(Member member) {
+		this.member = member;
+		member.getMeetings().add(this);
+	}
+	
 	public void updateEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
