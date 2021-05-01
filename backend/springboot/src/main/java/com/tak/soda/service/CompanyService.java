@@ -2,6 +2,7 @@ package com.tak.soda.service;
 
 import java.util.List;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,22 +11,23 @@ import com.tak.soda.domain.Company;
 import com.tak.soda.repository.CompanyRepository;
 
 @Service
-@Transactional(readOnly = true)
+@Transactional
+@RequiredArgsConstructor
 public class CompanyService {
-	@Autowired
-	CompanyRepository companyRepository;
+
+	private final CompanyRepository companyRepository;
 	
 	// Junit Test
 	public String get() {
 		return "Hello JUnit5";
 	}
 
-
 	/**
 	 * 기업 등록
 	 * @param company
 	 * @return company_id
 	 */
+	@Transactional
 	public Long newCompany(Company company) {
 		validateDuplicateCompany(company);
 		companyRepository.save(company);
@@ -51,15 +53,10 @@ public class CompanyService {
 	/**
 	 * 특정 기업 조회
 	 * @param name
-	 * @return company
+	 * @return company list
 	 */
-	public Company findByName(String name) {
-		List<Company> res = companyRepository.findByName(name);
-		
-		if(!res.isEmpty()) {
-			return res.get(0);
-		}
-		return null;
+	public List<Company> findByName(String name) {
+		return companyRepository.findByName(name);
 	}
 	
 	/**
@@ -67,6 +64,7 @@ public class CompanyService {
 	 * @param id
 	 * @return true/false
 	 */
+	@Transactional
 	public boolean deleteCompany(Long id) {
 		Company findCompany = companyRepository.findOne(id);
 		if(findCompany != null) {

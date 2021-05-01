@@ -5,15 +5,16 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import com.tak.soda.domain.Company;
 
 @Repository
+@RequiredArgsConstructor
 public class CompanyRepository{
-	
-	@PersistenceContext
-	private EntityManager em;
+
+	private final EntityManager em;
 	
 	public void save(Company company) {
 		em.persist(company);
@@ -24,12 +25,12 @@ public class CompanyRepository{
 	}
 	
 	public List<Company> findAll() {
-		return em.createQuery("SELECT * FROM companys", Company.class)
+		return em.createQuery("SELECT c FROM Company c", Company.class)
 				.getResultList();
 	}
 	
 	public List<Company> findByName(String cname) {
-		return em.createQuery("SELECT * FROM companys WHERE c_name=:cname", Company.class)
+		return em.createQuery("SELECT c FROM Company c WHERE c.name=:cname", Company.class)
 				.setParameter("cname", cname)
 				.getResultList();
 	}
