@@ -10,10 +10,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class CompanyDto {
-
+	private Long id;
 	private String cname;
-	private String uname;
-	private String cjob;
-	private String cphone;
-	private String cemail;
+	private String authCode;
 }

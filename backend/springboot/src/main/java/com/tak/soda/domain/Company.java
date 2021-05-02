@@ -28,7 +28,10 @@ public class Company {
 	
 	@Column(name="c_name")
 	private String name;
-	
+
+	@Column(name="auth_code")
+	private String authCode;
+
 	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
 	List<Member> members = new ArrayList<>();
 	
