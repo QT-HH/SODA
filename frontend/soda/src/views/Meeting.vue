@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<div style="margin: 50px"></div>
 		<div class="videos-container"></div>
 		<input v-model="roomid" placeholder="Unique room ID" />
 		<div v-if="!streaming">
@@ -16,6 +17,9 @@
 		<div v-if="streaming">
 			<v-btn depressed @click="voiceOff">마이크OFF</v-btn>
 			<v-btn depressed @click="voiceOn">마이크ON</v-btn>
+		</div>
+		<div v-if="streaming">
+			<v-btn depressed @click="blowUp">방 폭파</v-btn>
 		</div>
 	</div>
 </template>
@@ -70,17 +74,17 @@ export default {
 							OfferToReceiveAudio: true,
 							OfferToReceiveVideo: true,
 						};
-						// this.connection.openOrJoin(this.roomid);
-						this.connection.checkPresence(
-							this.roomid,
-							function (isRoomOpened, roomid) {
-								if (isRoomExist === true) {
-									connection.join(roomid);
-								} else {
-									connection.open(roomid);
-								}
-							},
-						);
+						this.connection.openOrJoin(this.roomid);
+						// this.connection.checkPresence(
+						// 	this.roomid,
+						// 	function (isRoomOpened, roomid) {
+						// 		if (isRoomExist === true) {
+						// 			connection.join(roomid);
+						// 		} else {
+						// 			connection.open(roomid);
+						// 		}
+						// 	},
+						// );
 						this.connection.videosContainer = document.querySelector(
 							'.videos-container',
 						);
@@ -135,6 +139,15 @@ export default {
 		checkVideo() {
 			let video = this.connection.streamEvents.selectAll();
 			console.log(video);
+		},
+		blowUp() {
+			if (this.connection.isInitiator) {
+				console.log(this.connection.isInitiator);
+				this.connection.closeEntireSession();
+				console.log('finish');
+			} else {
+				console.log(`You're not initiator`);
+			}
 		},
 	},
 };
