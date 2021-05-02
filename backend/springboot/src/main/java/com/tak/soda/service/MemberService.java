@@ -1,17 +1,18 @@
 package com.tak.soda.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.tak.soda.domain.*;
+import com.tak.soda.domain.Company;
+import com.tak.soda.domain.Member;
+import com.tak.soda.domain.MemberDto;
+import com.tak.soda.domain.MemberStatus;
 import com.tak.soda.repository.CompanyRepository;
 import com.tak.soda.repository.MeetingRepository;
+import com.tak.soda.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tak.soda.repository.MemberRepository;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -28,19 +29,19 @@ public class MemberService {
 	 * @return member id
 	 */
 	@Transactional
-	public Long join(CompanyDto dto) {
+	public Long join(MemberDto dto) {
 		//중복 이메일 체크
-		validateEmail(dto.getCemail());
+		validateEmail(dto.getEmail());
 
 		//기업 연동
-		List<Company> findCompany = companyRepository.findByName(dto.getCname());
+		List<Company> findCompany = companyRepository.findByName(dto.getCName());
 		Company company;
 
 		if(!findCompany.isEmpty()) {
 			company = findCompany.get(0);
 		}else{
 			company = new Company();
-			company.setName(dto.getCname());
+			company.setName(dto.getCName());
 			companyRepository.save(company);
 		}
 

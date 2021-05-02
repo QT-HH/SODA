@@ -1,16 +1,13 @@
 package com.tak.soda.domain;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.*;
-
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
+
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
@@ -41,13 +38,13 @@ public class Member {
 	private List<Meeting> meetings = new ArrayList<>();
 
 	//==생성 메서드==//
-	public static Member createMember(Company company, CompanyDto info){
+	public static Member createMember(Company company, MemberDto info){
 		Member member = new Member();
 
-		member.setName(info.getUname());
-		member.setEmail(info.getCemail());
-		member.setRole(info.getCjob());
-		member.setPhone(info.getCphone());
+		member.setName(info.getUName());
+		member.setEmail(info.getCName());
+		member.setRole(info.getRole());
+		member.setPhone(info.getPhone());
 		member.setStatus(MemberStatus.PLAN);
 
 		member.setCompany(company);

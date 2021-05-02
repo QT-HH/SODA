@@ -6,8 +6,6 @@ import lombok.*;
 
 @Embeddable
 @Getter @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @ToString
 public class CompanyDto {
 	private Long id;
