@@ -30,7 +30,7 @@ public class MemberController {
 
 	@PostMapping("/new")
 	@ApiOperation(value="멤버 등록", notes="새로운 멤버 등록(기업정보, 사용자정보)")
-	public ResponseEntity newMember(@RequestBody CompanyDto dto) {
+	public ResponseEntity newMember(@RequestBody MemberDto dto) {
 		Long saveId = memberService.join(dto);
 
 		return new ResponseEntity(saveId, HttpStatus.OK);

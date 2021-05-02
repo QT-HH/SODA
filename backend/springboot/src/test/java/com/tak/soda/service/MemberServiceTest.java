@@ -1,9 +1,6 @@
 package com.tak.soda.service;
 
-import com.tak.soda.domain.Company;
-import com.tak.soda.domain.CompanyDto;
-import com.tak.soda.domain.Member;
-import com.tak.soda.domain.MemberStatus;
+import com.tak.soda.domain.*;
 import com.tak.soda.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,7 +23,7 @@ class MemberServiceTest {
     @DisplayName("신규 멤버 등록")
     void testJoin() {
         //Given
-        CompanyDto info = new CompanyDto("삼성전자", "싸피", "부장","010-1111-2222", "ssafy@ssafy.com");
+        MemberDto info = new MemberDto("삼성전자", "싸피", "부장","010-1111-2222", "ssafy@ssafy.com");
 
         //When
         Long id = memberService.join(info);

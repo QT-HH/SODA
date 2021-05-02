@@ -10,6 +10,6 @@ import com.tak.soda.domain.Meeting;
 @Repository
 public interface MeetingRepository extends JpaRepository<Meeting, Integer>{
 
-	@Query(value = "select count(*) from companys where cidentify = :cidentify", nativeQuery = true)
+	@Query(value = "select count(*) from meeting where invite_code = :cidentify", nativeQuery = true)
 	Integer findInviteCode(@Param("cidentify") String cidentify);
 }
