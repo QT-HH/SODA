@@ -60,6 +60,10 @@ public class MemberService {
 		}
 	}
 
+	public Member findById(Long id) {
+		return memberRepository.findById(id);
+	}
+
 	/**
 	 * 전체 조회
 	 * @return
