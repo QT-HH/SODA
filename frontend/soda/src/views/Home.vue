@@ -98,6 +98,7 @@ export default {
 				return [];
 			},
 			error: null,
+			isRun: true,
 		};
 	},
 	methods: {
@@ -108,14 +109,13 @@ export default {
 			this.$router.push({ name: 'Attend' });
 		},
 		start() {
-			window.onload = function () {
-				var section = document.getElementsByTagName('section');
-				var pointBtn = document.querySelectorAll('.pointWrap p');
+			var section = document.getElementsByTagName('section');
+			var pointBtn = document.querySelectorAll('.pointWrap p');
 
-				var pageNum = 0;
-				var totalNum = section.length;
+			var pageNum = 0;
+			var totalNum = section.length;
 
-				var title = document.querySelector('.sodaFont');
+            var title = document.querySelector('.sodaFont');
 
 				for (var i = 0; i < pointBtn.length; i++) {
 					(function (idx) {
@@ -170,7 +170,6 @@ export default {
 					}
 				}
 				textChangeFunc();
-			};
 		},
 	},
 	mounted() {
