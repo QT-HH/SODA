@@ -34,6 +34,12 @@ public class CompanyRepository{
 				.setParameter("cname", cname)
 				.getResultList();
 	}
+
+	public List<Company> findByAuth(String authCode) {
+		return em.createQuery("SELECT c FROM Company c WHERE c.authCode=:authCode", Company.class)
+				.setParameter("authCode", authCode)
+				.getResultList();
+	}
 	
 	public void delete(Company company) {
 		em.remove(company);

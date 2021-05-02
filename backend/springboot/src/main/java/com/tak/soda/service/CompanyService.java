@@ -1,20 +1,20 @@
 package com.tak.soda.service;
 
-import java.util.List;
-
+import com.tak.soda.domain.Company;
+import com.tak.soda.function.RandomAccessToken;
+import com.tak.soda.repository.CompanyRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.tak.soda.domain.Company;
-import com.tak.soda.repository.CompanyRepository;
+import java.util.List;
 
 @Service
 @Transactional
 @RequiredArgsConstructor
 public class CompanyService {
 
+	private final RandomAccessToken randomAccessToken;
 	private final CompanyRepository companyRepository;
 	
 	// Junit Test
@@ -30,6 +30,9 @@ public class CompanyService {
 	@Transactional
 	public Long newCompany(Company company) {
 		validateDuplicateCompany(company);
+		String auth = randomAccessToken.makeToken(10);
+		company.setAuthCode(auth);
+
 		companyRepository.save(company);
 		return company.getId();
 	}
@@ -58,7 +61,14 @@ public class CompanyService {
 	public List<Company> findByName(String name) {
 		return companyRepository.findByName(name);
 	}
-	
+
+	public boolean matchAuthCode(String authCode) {
+		if(companyRepository.findByAuth(authCode).isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
 	/**
 	 * 기업 삭제
 	 * @param id
