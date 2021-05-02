@@ -1,24 +1,17 @@
 package com.tak.soda.controller;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.tak.soda.domain.Company;
 import com.tak.soda.domain.CompanyDto;
 import com.tak.soda.service.CompanyService;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @RestController
@@ -26,7 +19,6 @@ import io.swagger.annotations.ApiOperation;
 @Api(tags = {"기업 컨트롤러"})
 @RequestMapping("/company")
 public class CompanyController {
-
 	@Autowired
 	CompanyService companyService;
 	
@@ -41,14 +33,47 @@ public class CompanyController {
 	@GetMapping("/list")
 	public ResponseEntity showAllCompany() {
 		List<Company> res = companyService.showCompany();
-		return new ResponseEntity(res, HttpStatus.OK);
+		List<CompanyDto> res_list = new ArrayList<>();
+
+		for(Company company: res) {
+			CompanyDto dto = new CompanyDto();
+
+			dto.setId(company.getId());
+			dto.setCname(company.getName());
+			dto.setAuthCode(company.getAuthCode());
+
+			res_list.add(dto);
+		}
+
+		return new ResponseEntity(res_list, HttpStatus.OK);
 	}
 
 	@ApiOperation(value="기업 찾기", notes="기업 이름으로 검색")
 	@GetMapping("/find")
 	public ResponseEntity findCompany(String cname) {
 		List<Company> res = companyService.findByName(cname);
-		return new ResponseEntity(res, HttpStatus.OK);
+		List<CompanyDto> res_list = new ArrayList<>();
+
+		for(Company company: res) {
+			CompanyDto dto = new CompanyDto();
+
+			dto.setId(company.getId());
+			dto.setCname(company.getName());
+			dto.setAuthCode(company.getAuthCode());
+
+			res_list.add(dto);
+		}
+
+		return new ResponseEntity(res_list, HttpStatus.OK);
+	}
+
+	@ApiOperation(value = "기업 인증코드 확인", notes = "인증완료/없는코드")
+	@PostMapping("/auth")
+	public ResponseEntity checkAuthCode(String authCode) {
+		if(companyService.matchAuthCode(authCode)) {
+			return new ResponseEntity("인증완료", HttpStatus.OK);
+		}
+		return new ResponseEntity("없는코드", HttpStatus.OK);
 	}
 
 	@ApiOperation(value="기업정보 삭제", notes="기업 id로 삭제")
