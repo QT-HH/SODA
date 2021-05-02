@@ -115,72 +115,66 @@ export default {
 			var pageNum = 0;
 			var totalNum = section.length;
 
-            var title = document.querySelector('.sodaFont');
+			var title = document.querySelector('.sodaFont');
 
-				for (var i = 0; i < pointBtn.length; i++) {
-					(function (idx) {
-						pointBtn[idx].onclick = function () {
-							pageNum = idx;
-							pageChangeFunc();
-							window.scrollTo({
-								top: section[pageNum].offsetTop - 56,
-								behavior: 'smooth',
-							});
-						};
-					})(i);
-				}
-				window.addEventListener('scroll', function () {
-					var scroll = this.scrollY;
+			for (var i = 0; i < pointBtn.length; i++) {
+				(function (idx) {
+					pointBtn[idx].onclick = function () {
+						pageNum = idx;
+						pageChangeFunc();
+						window.scrollTo({
+							top: section[pageNum].offsetTop - 56,
+							behavior: 'smooth',
+						});
+					};
+				})(i);
+			}
+			window.addEventListener('scroll', function () {
+				var scroll = this.scrollY;
 
-					for (var i = 0; i < totalNum; i++) {
-						if (
-							scroll > section[i].offsetTop - window.outerHeight / 2 &&
-							scroll <
-								section[i].offsetTop -
-									window.outerHeight / 2 +
-									section[i].offsetHeight
-						) {
-							pageNum = i;
-							break;
-						}
+				for (var i = 0; i < totalNum; i++) {
+					if (
+						scroll > section[i].offsetTop - window.outerHeight / 2 &&
+						scroll <
+							section[i].offsetTop -
+								window.outerHeight / 2 +
+								section[i].offsetHeight
+					) {
+						pageNum = i;
+						break;
 					}
-					pageChangeFunc();
-				});
-
-				function pageChangeFunc() {
-					for (var i = 0; i < totalNum; i++) {
-						section[i].classList.remove('active');
-						pointBtn[i].classList.remove('active');
-					}
-					section[pageNum].classList.add('active');
-					pointBtn[pageNum].classList.add('active');
 				}
 				pageChangeFunc();
+			});
 
-				function textChangeFunc() {
-					for (var j = 0; j < title.querySelectorAll('span').length; j++) {
-						var _text = title.querySelectorAll('span')[j];
-
-						window.TweenMax.from(_text, 1, {
-							autoAlpha: 0,
-							scale: 4,
-							delay: Math.random() * 1.2,
-							ease: window.Power4.easeInOut,
-						});
-					}
+			function pageChangeFunc() {
+				for (var i = 0; i < totalNum; i++) {
+					section[i].classList.remove('active');
+					pointBtn[i].classList.remove('active');
 				}
-				textChangeFunc();
+				section[pageNum].classList.add('active');
+				pointBtn[pageNum].classList.add('active');
+			}
+			pageChangeFunc();
+
+			function textChangeFunc() {
+				for (var j = 0; j < title.querySelectorAll('span').length; j++) {
+					var _text = title.querySelectorAll('span')[j];
+
+					window.TweenMax.from(_text, 1, {
+						autoAlpha: 0,
+						scale: 4,
+						delay: Math.random() * 1.2,
+						ease: window.Power4.easeInOut,
+					});
+				}
+			}
+			textChangeFunc();
 		},
 	},
 	mounted() {
 		this.start();
 	},
-	// beforeRouteEnter(to, from, next) {
-	// 	next(vm => {
-	// 		console.log(vm);
-	// 		vm.start();
-	// 	});
-	// },
 };
 </script>
 
