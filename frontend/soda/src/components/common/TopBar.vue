@@ -69,7 +69,7 @@ export default {
 	padding: 0px !important;
 }
 .fixtop {
-	position: sticky;
+	position: fixed;
 	z-index: 100;
 }
 </style>
