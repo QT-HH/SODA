@@ -6,6 +6,7 @@
 			<p>주요 기능</p>
 			<p>사용 가이드</p>
 		</ul>
+		<button button="type" class="topBtn" id="font3">TOP</button>
 		<section class="bgimg">
 			<div class="page1content">
 				<h1 class="sodaFont pb-3" id="font3">
@@ -30,27 +31,10 @@
 				>
 					소리를 보여주는 SODA, 지금 만나보세요.
 				</p>
-				<v-btn
-					id="font3"
-					class="mr-3"
-					outlined
-					color="#B71C1C"
-					x-large
-					rounded
-					@click="createMeeting"
-				>
+				<button id="font3" class="mr-3" @click="createMeeting">
 					면접 개설
-				</v-btn>
-				<v-btn
-					id="font3"
-					outlined
-					color="#B71C1C"
-					x-large
-					rounded
-					@click="goMeeting"
-				>
-					면접 참가
-				</v-btn>
+				</button>
+				<button id="font3" class="mr-3" @click="goMeeting">면접 참가</button>
 			</div>
 		</section>
 		<section class="bgcolor">
@@ -111,6 +95,7 @@ export default {
 		start() {
 			var section = document.getElementsByTagName('section');
 			var pointBtn = document.querySelectorAll('.pointWrap p');
+			var topBtn = document.querySelector('.topBtn');
 
 			var pageNum = 0;
 			var totalNum = section.length;
@@ -170,6 +155,15 @@ export default {
 				}
 			}
 			textChangeFunc();
+			topBtn.addEventListener('click', function () {
+				window.TweenMax.to(window, 1.5, {
+					scrollTo: {
+						y: 0,
+						autoKill: true,
+					},
+					ease: window.Power3.easeInOut,
+				});
+			});
 		},
 	},
 	mounted() {
@@ -242,5 +236,41 @@ section {
 }
 .margin0 {
 	margin-bottom: 0px;
+}
+button {
+	background-color: transparent;
+	border: 2px solid #b71c1c;
+	border-radius: 30px;
+	color: #b71c1c;
+	cursor: pointer;
+	font-size: 17px;
+	padding: 12px 30px;
+	transition: all 200ms;
+}
+button:hover {
+	background-color: #b71c1c;
+	color: white;
+	outline: 0;
+}
+button:focus {
+	outline: none;
+}
+.topBtn {
+	position: fixed;
+	bottom: 40px;
+	right: 40px;
+	padding: 5px;
+	border: 2px solid black;
+	border-radius: 10px;
+	background-color: transparent;
+	transition: all 0.3s ease-out;
+	z-index: 101;
+	font-size: 15px;
+	color: black;
+}
+.topBtn:hover {
+	background-color: #000;
+	border-color: #333;
+	color: #fff;
 }
 </style>
