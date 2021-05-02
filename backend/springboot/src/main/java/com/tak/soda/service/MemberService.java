@@ -110,11 +110,42 @@ public class MemberService {
 
 	/**
 	 * 멤버 업데이트
-	 * @param member
+	 * @param dto
 	 * @return member_id
 	 */
-	public Long update(Member member) {
-		memberRepository.save(member);
+	@Transactional
+	public Long updateStatus(MemberDto dto) {
+		Member member = memberRepository.findById(dto.getId());
+
+		member.setStatus(dto.getStatus());
+
+		System.out.println(member.toString());
+		System.out.println(member.getStatus());
+		return member.getId();
+	}
+	@Transactional
+	public Long updateEmail(MemberDto dto) {
+		Member member = memberRepository.findById(dto.getId());
+
+		member.setEmail(dto.getEmail());
+		return member.getId();
+	}
+	@Transactional
+	public Long updateCompany(MemberDto dto) {
+		Member member = memberRepository.findById(dto.getId());
+		//기업 연동
+		List<Company> findCompany = companyRepository.findByName(dto.getCName());
+		Company company;
+
+		if(!findCompany.isEmpty()) {
+			company = findCompany.get(0);
+		}else{
+			company = new Company();
+			company.setName(dto.getCName());
+			companyRepository.save(company);
+		}
+
+		member.setCompany(company);
 		return member.getId();
 	}
 

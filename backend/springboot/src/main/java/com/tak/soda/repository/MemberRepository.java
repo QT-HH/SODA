@@ -19,7 +19,10 @@ public class MemberRepository{
 	private final EntityManager em;
 	
 	public void save(Member member) {
-		em.persist(member);
+		if(member.getId() == null)
+			em.persist(member);
+		else
+			em.merge(member);
 	}
 
 	public List<Member> findAll() {

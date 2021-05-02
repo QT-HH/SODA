@@ -53,24 +53,24 @@ public class MemberController {
 
 	@PutMapping("/edit/status")
 	@ApiOperation(value="멤버 정보 수정(상태)", notes="PLAN: 예정, PROGRESS: 진행, DONE: 완료")
-	public ResponseEntity updateMemberStatus(@RequestBody Member member) {
-		memberService.update(member);
+	public ResponseEntity updateMemberStatus(@RequestBody MemberDto member) {
+		Long saveId = memberService.updateStatus(member);
 
 		return new ResponseEntity("성공", HttpStatus.OK);
 	}
 
 	@PutMapping("/edit/company")
 	@ApiOperation(value="멤버 정보 수정(기업)", notes="멤버 기업 이름 변경")
-	public ResponseEntity updateMemberCompany(@RequestBody Member member) {
-		memberService.update(member);
+	public ResponseEntity updateMemberCompany(@RequestBody MemberDto member) {
+		memberService.updateCompany(member);
 
 		return new ResponseEntity("성공", HttpStatus.OK);
 	}
 
 	@PutMapping("/edit/email")
 	@ApiOperation(value="멤버 정보 수정(이메일)", notes="멤버 이메일 변경")
-	public ResponseEntity updateMemberEmail(@RequestBody Member member) {
-		memberService.update(member);
+	public ResponseEntity updateMemberEmail(@RequestBody MemberDto member) {
+		memberService.updateEmail(member);
 
 		return new ResponseEntity("성공", HttpStatus.OK);
 	}
