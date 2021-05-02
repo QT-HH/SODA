@@ -5,17 +5,21 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Getter @Setter @ToString
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+@Getter @Setter
 public class Member {
 	
 	@Id @GeneratedValue
 	@Column(name = "u_id")
-	private long id;
+	private Long id;
 	
 	@Column(name = "u_name")
 	private String name;
@@ -35,7 +39,22 @@ public class Member {
 	
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
 	private List<Meeting> meetings = new ArrayList<>();
-	
+
+	//==생성 메서드==//
+	public static Member createMember(Company company, CompanyDto info){
+		Member member = new Member();
+
+		member.setName(info.getUname());
+		member.setEmail(info.getCemail());
+		member.setRole(info.getCjob());
+		member.setPhone(info.getCphone());
+		member.setStatus(MemberStatus.PLAN);
+
+		member.setCompany(company);
+
+		return member;
+	}
+
 	//==연관관계 메서드==//
 	public void setCompany(Company company) {
 		this.company = company;
@@ -46,5 +65,11 @@ public class Member {
 		meetings.add(meeting);
 		meeting.setMember(this);
 	}
+
+	//==비즈니스 로직==//
+	/** 멤버 삭제 */
+
+	//==조회 로직==//
+	/** 전체 멤버 조회 */
 	
 }

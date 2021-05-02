@@ -2,12 +2,13 @@ package com.tak.soda.domain;
 
 import javax.persistence.Embeddable;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Embeddable
-@Getter @Setter @ToString
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class CompanyDto {
 
 	private String cname;

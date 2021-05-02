@@ -38,13 +38,8 @@ public class MailController {
 	public ResponseEntity<String> newCompany(@RequestBody Member member) {
 		String Token = randomAccessToken.makeToken(TokenLength);
 		//company.setCidentify(Token);
-		try {
-			memberService.updateToken(member.getId(), Token);
-		} catch (Exception e1) {
-			
-			e1.printStackTrace();
-		}
-		
+		// 토큰 갱신해야함!!!
+
 		try {
 			if(randomAccessToken.sendMail(Token, member.getEmail())) {
 				return new ResponseEntity<String>("전송 실패",HttpStatus.OK);

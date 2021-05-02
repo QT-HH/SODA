@@ -1,19 +1,23 @@
 package com.tak.soda.domain;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Getter @Setter 
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)@Getter @Setter
 public class Meeting {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "room_id", nullable = false, updatable = false)
-	private long roomId;
+	private Long id;
 	
 	@Column(nullable = true)
 	private String roomName;
@@ -25,10 +29,10 @@ public class Meeting {
 	private long hostId;
 	
 	@Column
-	private Date startTime;
+	private LocalDateTime startTime;
 	
 	@Column
-	private Date endTime;
+	private LocalDateTime endTime;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "u_id")
@@ -40,7 +44,7 @@ public class Meeting {
 		member.getMeetings().add(this);
 	}
 	
-	public void updateEndTime(Date endTime) {
+	public void updateEndTime(LocalDateTime endTime) {
 		this.endTime = endTime;
 	}
 }

@@ -41,7 +41,7 @@ public class CompanyService {
 			throw new IllegalStateException("이미 등록된 기업입니다.");
 		}
 	}
-	
+
 	/**
 	 * 기업 전체 조회
 	 * @return company list
