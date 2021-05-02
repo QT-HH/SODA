@@ -88,6 +88,7 @@ export default {
 				return [];
 			},
 			error: null,
+			isRun: true,
 		};
 	},
 	methods: {
@@ -98,52 +99,52 @@ export default {
 			this.$router.push({ name: 'Attend' });
 		},
 		start() {
-			window.onload = function () {
-				var section = document.getElementsByTagName('section');
-				var pointBtn = document.querySelectorAll('.pointWrap p');
+			var section = document.getElementsByTagName('section');
+			var pointBtn = document.querySelectorAll('.pointWrap p');
 
-				var pageNum = 0;
-				var totalNum = section.length;
+			var pageNum = 0;
+			var totalNum = section.length;
 
-				for (var i = 0; i < pointBtn.length; i++) {
-					(function (idx) {
-						pointBtn[idx].onclick = function () {
-							pageNum = idx;
-							pageChangeFunc();
-							window.scrollTo({
-								top: section[pageNum].offsetTop - 56,
-								behavior: 'smooth',
-							});
-						};
-					})(i);
-				}
-				window.addEventListener('scroll', function () {
-					var scroll = this.scrollY;
+			for (var i = 0; i < pointBtn.length; i++) {
+				(function (idx) {
+					pointBtn[idx].onclick = function () {
+						pageNum = idx;
+						pageChangeFunc();
+						window.scrollTo({
+							top: section[pageNum].offsetTop - 56,
+							behavior: 'smooth',
+						});
+					};
+				})(i);
+			}
+			window.addEventListener('scroll', function () {
+				var scroll = this.scrollY;
 
-					for (var i = 0; i < totalNum; i++) {
-						if (
-							scroll > section[i].offsetTop - window.outerHeight / 2 &&
-							scroll <
-								section[i].offsetTop -
-									window.outerHeight / 2 +
-									section[i].offsetHeight
-						) {
-							pageNum = i;
-							break;
-						}
+				for (var i = 0; i < totalNum; i++) {
+					if (
+						scroll > section[i].offsetTop - window.outerHeight / 2 &&
+						scroll <
+							section[i].offsetTop -
+								window.outerHeight / 2 +
+								section[i].offsetHeight
+					) {
+						pageNum = i;
+						break;
 					}
-					pageChangeFunc();
-				});
-				function pageChangeFunc() {
-					for (var i = 0; i < totalNum; i++) {
-						section[i].classList.remove('active');
-						pointBtn[i].classList.remove('active');
-					}
-					section[pageNum].classList.add('active');
-					pointBtn[pageNum].classList.add('active');
 				}
 				pageChangeFunc();
-			};
+			});
+			function pageChangeFunc() {
+				for (var i = 0; i < totalNum; i++) {
+					section[i].classList.remove('active');
+					pointBtn[i].classList.remove('active');
+				}
+				section[pageNum].classList.add('active');
+				pointBtn[pageNum].classList.add('active');
+			}
+			pageChangeFunc();
+			// window.onload = function () {
+			// };
 		},
 	},
 	mounted() {
