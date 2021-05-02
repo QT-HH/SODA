@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tak.soda.model.Company;
+import com.tak.soda.domain.Company;
+import com.tak.soda.domain.CompanyDto;
 import com.tak.soda.service.CompanyService;
 
 import io.swagger.annotations.Api;
@@ -29,34 +30,33 @@ public class CompanyController {
 	@Autowired
 	CompanyService companyService;
 	
-	@ApiOperation(value="기업정보 입력", notes="기업 정보 입력 후 인증코드 요청")
-	@PostMapping("/new-company")
+	@ApiOperation(value="기업정보 입력", notes="기업 등록")
+	@PostMapping("/new")
 	public ResponseEntity newCompany(@RequestBody Company company) {
-		
-		try {
-			companyService.newCompany(company);
-		} catch (Exception e) {
-			System.out.println("이메일 중복?");
-			return new ResponseEntity("이메일 중복", HttpStatus.OK);
-		}
-		return new ResponseEntity("인증요청", HttpStatus.OK);
-	}
-	
-	@ApiOperation(value="기업정보 리스트", notes="인증코드 요청한 기업 리스트")
-	@GetMapping("/company-list")
-	public ResponseEntity<String> showCompany() {
-		List<Company> res = companyService.showCompany();
-		
+		Long res = companyService.newCompany(company);
 		return new ResponseEntity(res, HttpStatus.OK);
 	}
 	
-	@ApiOperation(value="기업정보 삭제", notes="승인 취소")
+	@ApiOperation(value="기업정보 전체 리스트", notes="DB에 저장된 기업 전체를 반환")
+	@GetMapping("/list")
+	public ResponseEntity showAllCompany() {
+		List<Company> res = companyService.showCompany();
+		return new ResponseEntity(res, HttpStatus.OK);
+	}
+
+	@ApiOperation(value="기업 찾기", notes="기업 이름으로 검색")
+	@GetMapping("/find")
+	public ResponseEntity findCompany(String cname) {
+		List<Company> res = companyService.findByName(cname);
+		return new ResponseEntity(res, HttpStatus.OK);
+	}
+
+	@ApiOperation(value="기업정보 삭제", notes="기업 id로 삭제")
 	@DeleteMapping("/del")
-	public ResponseEntity<String> deltCompany(Integer cid) {
-		if(companyService.deltCompany(cid)) {
-			return new ResponseEntity<String>("성공",HttpStatus.OK);
+	public ResponseEntity delCompany(Long cid) {
+		if(companyService.deleteCompany(cid)) {
+			return new ResponseEntity("성공",HttpStatus.OK);
 		}
-		
-		return new ResponseEntity<String>("실패",HttpStatus.OK);
+		return new ResponseEntity("실패",HttpStatus.OK);
 	}
 }

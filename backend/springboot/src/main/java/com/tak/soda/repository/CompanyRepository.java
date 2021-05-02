@@ -1,20 +1,44 @@
 package com.tak.soda.repository;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+import javax.persistence.EntityManager;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
-import com.tak.soda.model.Company;
+import com.tak.soda.domain.Company;
 
 @Repository
-public interface CompanyRepository extends JpaRepository<Company, Integer>{
+@RequiredArgsConstructor
+public class CompanyRepository{
+
+	private final EntityManager em;
 	
-	@Transactional
-	@Modifying
-	@Query(value = "UPDATE companys set cidentify=:token WHERE cid=:cid", nativeQuery=true)
-	void modifyCidentify(@Param("cid") int cid, @Param("token")String token) throws Exception;
+	public void save(Company company) {
+		em.persist(company);
+	}
+	
+	public Company findOne(Long id) {
+		return em.find(Company.class, id);
+	}
+	
+	public List<Company> findAll() {
+		return em.createQuery("SELECT c FROM Company c", Company.class)
+				.getResultList();
+	}
+	
+	public List<Company> findByName(String cname) {
+		return em.createQuery("SELECT c FROM Company c WHERE c.name=:cname", Company.class)
+				.setParameter("cname", cname)
+				.getResultList();
+	}
+	
+	public void delete(Company company) {
+		em.remove(company);
+	}
+	
+//	@Transactional
+//	@Query(value = "UPDATE companys set cidentify=:token WHERE cid=:cid", nativeQuery=true)
+//	public void modifyCidentify(@Param("cid") int cid, @Param("token")String token) throws Exception;
 }
