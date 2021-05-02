@@ -1,14 +1,40 @@
 <template>
-	<v-row justify="center">
-		<v-col cols="12" sm="10" md="8" lg="6" style="margin: auto">
-			<div>
-				<v-text-field v-model="cname" label="기업명" required></v-text-field>
-				<v-text-field v-model="uname" label="담당자명" required></v-text-field>
-				<v-text-field v-model="cjob" label="직책" required></v-text-field>
-				<v-text-field v-model="cphone" label="연락처" required></v-text-field>
-				<v-text-field v-model="cemail" label="이메일" required></v-text-field>
-			</div>
-			<v-btn dark @click="submit"> 등록하기 </v-btn>
+	<div>
+		<section class="bgcolor"></section>
+		<div class="contentwrap">
+			<h1 class="pb-3" id="font3">기업 등록</h1>
+			<p class="content" id="font2">* 면접 개설 권한을 받기 위한 절차입니다.</p>
+			<v-text-field
+				v-model="cname"
+				label="기업명"
+				required
+				color="#388E3C"
+			></v-text-field>
+			<v-text-field
+				v-model="uname"
+				label="담당자명"
+				required
+				color="#388E3C"
+			></v-text-field>
+			<v-text-field
+				v-model="cjob"
+				label="직책"
+				required
+				color="#388E3C"
+			></v-text-field>
+			<v-text-field
+				v-model="cphone"
+				label="연락처"
+				required
+				color="#388E3C"
+			></v-text-field>
+			<v-text-field
+				v-model="cemail"
+				label="이메일"
+				required
+				color="#388E3C"
+			></v-text-field>
+			<button id="font3" @click="submit">등록</button>
 			<v-dialog v-model="dialog" max-width="290">
 				<v-card>
 					<v-card-title class="headline"> 기업등록 완료! </v-card-title>
@@ -21,8 +47,8 @@
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
-		</v-col>
-	</v-row>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -72,4 +98,38 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+button {
+	background-color: transparent;
+	border: 2px solid #b71c1c;
+	border-radius: 30px;
+	color: #b71c1c;
+	cursor: pointer;
+	font-size: 17px;
+	padding: 6px 20px;
+	transition: all 200ms;
+}
+button:hover {
+	background-color: #b71c1c;
+	color: white;
+	outline: 0;
+}
+button:focus {
+	outline: none;
+}
+.bgcolor {
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	background-color: #e0dcdd;
+}
+.contentwrap {
+	width: 500px;
+	position: fixed;
+	top: calc(50% - 241px);
+	left: calc(50% - 250px);
+}
+.content {
+	font-size: 13px;
+}
+</style>
