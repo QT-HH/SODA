@@ -1,62 +1,61 @@
 <template>
-	<v-row justify="center">
-		<v-col cols="12" sm="10" md="8" lg="6" style="margin: auto">
-			<div>
-				<h2 id="font1">면접에 초대받으신 이메일을 입력해주세요.</h2>
-				<br />
-				<br />
-				<div>
-					<v-text-field
-						v-model="inputSessionId"
-						v-on:keyup.enter="guestbtn"
-						label="Email"
-					></v-text-field>
-				</div>
-				<br />
-				<br />
-				<br />
-				<h2 id="font1">인증코드를 입력해주세요.</h2>
-				<br />
-				<br />
-				<div>
-					<v-text-field v-model="inputCertifycode" label="Code"></v-text-field>
-				</div>
-				<div>
-					<v-btn
-						rounded
-						color="primary"
-						dark
-						v-show="inputSessionId"
-						@click="guestbtn"
-					>
-						입장하기
-					</v-btn>
-					<br />
-					<br />
-				</div>
-				<div class="text-center">
-					<v-dialog v-model="dialogOpen" width="500">
-						<v-card>
-							<v-card-title class="headline grey lighten-2">
-								유효성 검사
-							</v-card-title>
+	<div>
+		<section class="bgcolor"></section>
+		<div class="contentwrap">
+			<h1 class="pb-3" id="font3">
+				면접을 초대받은 이메일과 참여 코드를 입력해주세요.
+			</h1>
+		</div>
+		<div class="inputWidth">
+			<v-text-field
+				solo
+				flat
+				rounded
+				v-model="inputSessionId"
+				v-on:keyup.enter="guestbtn"
+				label="이메일"
+			></v-text-field>
+			<v-text-field
+				solo
+				flat
+				rounded
+				v-model="inputCertifycode"
+				label="참여 코드"
+			></v-text-field>
+			<button id="font3" @click="guestbtn">입장 하기</button>
+		</div>
+		<!-- <div>
+			<v-btn
+				rounded
+				color="primary"
+				dark
+				v-show="inputSessionId"
+				@click="guestbtn"
+			>
+				입장하기
+			</v-btn>
+		</div> -->
+		<div class="text-center">
+			<v-dialog v-model="dialogOpen" width="500">
+				<v-card>
+					<v-card-title class="headline grey lighten-2">
+						유효성 검사
+					</v-card-title>
 
-							<v-card-text> 유효성 검사를 다시 확인해주세요! </v-card-text>
+					<v-card-text> 유효성 검사를 다시 확인해주세요! </v-card-text>
 
-							<v-divider></v-divider>
+					<v-divider></v-divider>
 
-							<v-card-actions>
-								<v-spacer></v-spacer>
-								<v-btn color="primary" text @click="dialogOpen = false">
-									확인
-								</v-btn>
-							</v-card-actions>
-						</v-card>
-					</v-dialog>
-				</div>
-			</div>
-		</v-col>
-	</v-row>
+					<v-card-actions>
+						<v-spacer></v-spacer>
+						<v-btn color="primary" text @click="dialogOpen = false">
+							확인
+						</v-btn>
+					</v-card-actions>
+				</v-card>
+			</v-dialog>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -103,4 +102,41 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.bgcolor {
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	background-color: #e0dcdd;
+}
+.contentwrap {
+	width: 800px;
+	position: fixed;
+	top: calc(50% - 120px);
+	left: calc(50% - 400px);
+}
+.inputWidth {
+	width: 500px;
+	position: fixed;
+	top: calc(50% - 40px);
+	left: calc(50% - 250px);
+}
+button {
+	background-color: transparent;
+	border: 2px solid #b71c1c;
+	border-radius: 30px;
+	color: #b71c1c;
+	cursor: pointer;
+	font-size: 17px;
+	padding: 6px 20px;
+	transition: all 200ms;
+}
+button:hover {
+	background-color: #b71c1c;
+	color: white;
+	outline: 0;
+}
+button:focus {
+	outline: none;
+}
+</style>

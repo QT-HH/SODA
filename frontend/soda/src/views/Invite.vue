@@ -1,34 +1,29 @@
 <template>
-	<v-row justify="center">
-		<v-col cols="12" sm="10" md="8" lg="6" style="margin: auto">
+	<div>
+		<section class="bgcolor"></section>
+		<div class="contentwrap">
+			<h1 class="pb-3" id="font3">면접 참여자의 이메일을 입력해주세요.</h1>
+			<p class="content" id="font2">
+				* 해당 이메일로 면접 참여 코드가 전송됩니다.
+			</p>
+			<p id="font1">면접관</p>
 			<div>
-				<h2 id="font1">미팅을 시작하시겠습니까?</h2>
-				<br />
-				<h2 id="font1">초대할 이메일을 입력해주세요.</h2>
-				<br />
-				<br />
-				<p id="font1">면접관</p>
-				<div>
-					<v-text-field></v-text-field>
-				</div>
-				<div v-for="i in inputs" v-bind:key="i">
-					<invite-input></invite-input>
-				</div>
-				<v-btn
-					color="secondary"
-					fab
-					x-small
-					dark
-					@click="addInvite"
-					v-show="inviteok"
-				>
-					+
-				</v-btn>
+				<v-text-field></v-text-field>
 			</div>
-			<br />
-			<br />
-			<br />
-			<br />
+			<div v-for="i in inputs" v-bind:key="i">
+				<invite-input></invite-input>
+			</div>
+			<v-btn
+				color="secondary"
+				fab
+				x-small
+				dark
+				@click="addInvite"
+				v-show="inviteok"
+			>
+				+
+			</v-btn>
+
 			<p id="font1">면접자</p>
 			<div>
 				<v-text-field></v-text-field>
@@ -36,8 +31,8 @@
 			<div>
 				<v-btn color="primary"> 시작하기 </v-btn>
 			</div>
-		</v-col>
-	</v-row>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -75,4 +70,20 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.bgcolor {
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	background-color: #e0dcdd;
+}
+.contentwrap {
+	width: 600px;
+	position: fixed;
+	top: calc(50% - 241px);
+	left: calc(50% - 250px);
+}
+.content {
+	font-size: 13px;
+}
+</style>

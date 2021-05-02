@@ -1,43 +1,35 @@
 <template>
-	<v-row justify="center">
-		<v-col cols="12" sm="10" md="8" lg="6" style="margin: auto">
-			<div>
-				<br />
-				<h2>인증코드를 입력해주세요.</h2>
-				<br />
-				<br />
-				<br />
-				<p>인증코드</p>
-				<br />
-				<div>
-					<v-text-field filled rounded dense v-model="code"></v-text-field>
-				</div>
-				<div>
-					<v-btn color="primary" text @click="certify"> 다음 </v-btn>
-				</div>
-				<div class="text-center">
-					<v-dialog v-model="dialogOpen" width="500">
-						<v-card>
-							<v-card-title class="headline grey lighten-2">
-								인증코드 오류
-							</v-card-title>
+	<div>
+		<section class="bgcolor"></section>
+		<div class="contentwrap">
+			<h1 class="pb-3" id="font3">기업 코드를 입력해주세요.</h1>
+			<p class="content" id="font2">
+				* 기업 등록 시 기입한 이메일로 발송된 인증 코드
+			</p>
+			<v-text-field solo flat rounded v-model="code"></v-text-field>
+			<button id="font3" @click="certify">다음</button>
+			<div class="text-center">
+				<v-dialog v-model="dialogOpen" width="500">
+					<v-card>
+						<v-card-title class="headline grey lighten-2">
+							인증코드 오류
+						</v-card-title>
 
-							<v-card-text> 유효하지 않은 인증코드입니다. </v-card-text>
+						<v-card-text> 유효하지 않은 인증코드입니다. </v-card-text>
 
-							<v-divider></v-divider>
+						<v-divider></v-divider>
 
-							<v-card-actions>
-								<v-spacer></v-spacer>
-								<v-btn color="primary" text @click="dialogOpen = false">
-									확인
-								</v-btn>
-							</v-card-actions>
-						</v-card>
-					</v-dialog>
-				</div>
+						<v-card-actions>
+							<v-spacer></v-spacer>
+							<v-btn color="primary" text @click="dialogOpen = false">
+								확인
+							</v-btn>
+						</v-card-actions>
+					</v-card>
+				</v-dialog>
 			</div>
-		</v-col>
-	</v-row>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -68,3 +60,38 @@ export default {
 	},
 };
 </script>
+<style scoped>
+.contentwrap {
+	width: 500px;
+	position: fixed;
+	top: calc(50% - 111px);
+	left: calc(50% - 250px);
+}
+.content {
+	font-size: 13px;
+}
+.bgcolor {
+	position: relative;
+	width: 100vw;
+	height: 100vh;
+	background-color: #e0dcdd;
+}
+button {
+	background-color: transparent;
+	border: 2px solid #b71c1c;
+	border-radius: 30px;
+	color: #b71c1c;
+	cursor: pointer;
+	font-size: 17px;
+	padding: 6px 20px;
+	transition: all 200ms;
+}
+button:hover {
+	background-color: #b71c1c;
+	color: white;
+	outline: 0;
+}
+button:focus {
+	outline: none;
+}
+</style>
