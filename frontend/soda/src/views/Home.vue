@@ -8,7 +8,17 @@
 		</ul>
 		<section class="bgimg">
 			<div class="page1content">
-				<p class="sodaFont" id="font3">소리를 보다, 소다</p>
+				<h1 class="sodaFont pb-3" id="font3">
+					<span>소</span>
+					<span>리</span>
+					<span>를 </span>
+					<span>보</span>
+					<span>다</span>
+					<span>, </span>
+					<span>소</span>
+					<span>다</span>
+				</h1>
+				<!-- <p class="sodaFont" id="font3">소리를 보다, 소다</p> -->
 				<p class="sodaContentFont margin0" id="font2">
 					소다는 면접 참여자의 말을 실시간 자막으로 제공하는 화상 면접
 					서비스입니다.
@@ -105,46 +115,61 @@ export default {
 			var pageNum = 0;
 			var totalNum = section.length;
 
-			for (var i = 0; i < pointBtn.length; i++) {
-				(function (idx) {
-					pointBtn[idx].onclick = function () {
-						pageNum = idx;
-						pageChangeFunc();
-						window.scrollTo({
-							top: section[pageNum].offsetTop - 56,
-							behavior: 'smooth',
-						});
-					};
-				})(i);
-			}
-			window.addEventListener('scroll', function () {
-				var scroll = this.scrollY;
+            var title = document.querySelector('.sodaFont');
 
-				for (var i = 0; i < totalNum; i++) {
-					if (
-						scroll > section[i].offsetTop - window.outerHeight / 2 &&
-						scroll <
-							section[i].offsetTop -
-								window.outerHeight / 2 +
-								section[i].offsetHeight
-					) {
-						pageNum = i;
-						break;
+				for (var i = 0; i < pointBtn.length; i++) {
+					(function (idx) {
+						pointBtn[idx].onclick = function () {
+							pageNum = idx;
+							pageChangeFunc();
+							window.scrollTo({
+								top: section[pageNum].offsetTop - 56,
+								behavior: 'smooth',
+							});
+						};
+					})(i);
+				}
+				window.addEventListener('scroll', function () {
+					var scroll = this.scrollY;
+
+					for (var i = 0; i < totalNum; i++) {
+						if (
+							scroll > section[i].offsetTop - window.outerHeight / 2 &&
+							scroll <
+								section[i].offsetTop -
+									window.outerHeight / 2 +
+									section[i].offsetHeight
+						) {
+							pageNum = i;
+							break;
+						}
 					}
+					pageChangeFunc();
+				});
+
+				function pageChangeFunc() {
+					for (var i = 0; i < totalNum; i++) {
+						section[i].classList.remove('active');
+						pointBtn[i].classList.remove('active');
+					}
+					section[pageNum].classList.add('active');
+					pointBtn[pageNum].classList.add('active');
 				}
 				pageChangeFunc();
-			});
-			function pageChangeFunc() {
-				for (var i = 0; i < totalNum; i++) {
-					section[i].classList.remove('active');
-					pointBtn[i].classList.remove('active');
+
+				function textChangeFunc() {
+					for (var j = 0; j < title.querySelectorAll('span').length; j++) {
+						var _text = title.querySelectorAll('span')[j];
+
+						window.TweenMax.from(_text, 1, {
+							autoAlpha: 0,
+							scale: 4,
+							delay: Math.random() * 1.2,
+							ease: window.Power4.easeInOut,
+						});
+					}
 				}
-				section[pageNum].classList.add('active');
-				pointBtn[pageNum].classList.add('active');
-			}
-			pageChangeFunc();
-			// window.onload = function () {
-			// };
+				textChangeFunc();
 		},
 	},
 	mounted() {
@@ -207,7 +232,7 @@ section {
 	padding-left: 15vw;
 	padding-right: 15vw;
 	text-align: start;
-	padding-top: 34vh;
+	padding-top: 35vh;
 }
 .sodaFont {
 	font-size: 3em;
