@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RejectMail {
-
 	@Autowired
 	private JavaMailSender mailSender;
 	

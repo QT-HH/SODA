@@ -42,10 +42,10 @@ public class Member {
 		Member member = new Member();
 
 		member.setName(info.getUName());
-		member.setEmail(info.getCName());
+		member.setEmail(info.getEmail());
 		member.setRole(info.getRole());
 		member.setPhone(info.getPhone());
-		member.setStatus(MemberStatus.PLAN);
+		member.setStatus(MemberStatus.PROGRESS);
 
 		member.setCompany(company);
 

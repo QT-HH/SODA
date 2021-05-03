@@ -3,6 +3,10 @@ package com.tak.soda.controller;
 import com.tak.soda.domain.Company;
 import com.tak.soda.domain.CompanyDto;
 import com.tak.soda.domain.MemberDto;
+import com.tak.soda.function.ApproveMail;
+import com.tak.soda.function.MeetingMail;
+import com.tak.soda.function.RandomAccessToken;
+import com.tak.soda.function.RejectMail;
 import com.tak.soda.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +30,6 @@ import java.util.List;
 public class MemberController {
 
 	private final MemberService memberService;
-	private final CompanyService companyService;
 
 	@PostMapping("/new")
 	@ApiOperation(value="멤버 등록", notes="새로운 멤버 등록(기업정보, 사용자정보)")

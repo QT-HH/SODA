@@ -1,12 +1,14 @@
 package com.tak.soda.service;
 
-import com.tak.soda.domain.Company;
+import com.tak.soda.domain.*;
 import com.tak.soda.function.RandomAccessToken;
 import com.tak.soda.repository.CompanyRepository;
+import com.tak.soda.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -16,6 +18,7 @@ public class CompanyService {
 
 	private final RandomAccessToken randomAccessToken;
 	private final CompanyRepository companyRepository;
+	private final MemberRepository memberRepository;
 	
 	// Junit Test
 	public String get() {
@@ -24,25 +27,51 @@ public class CompanyService {
 
 	/**
 	 * 기업 등록
-	 * @param company
+	 * @param dto
 	 * @return company_id
 	 */
 	@Transactional
-	public Long newCompany(Company company) {
-		validateDuplicateCompany(company);
-		String auth = randomAccessToken.makeToken(10);
-		company.setAuthCode(auth);
+	public Long newCompany(MemberDto dto) {
+		validateDuplicateCompany(dto.getCName());
 
+		Company company = new Company();
+
+		company.setName(dto.getCName());
 		companyRepository.save(company);
+
+		Member member = Member.createMember(company, dto);
+
+		memberRepository.save(member);
+
 		return company.getId();
 	}
 	
-	private void validateDuplicateCompany(Company company) {
-		List<Company> findCompany = companyRepository.findByName(company.getName());
+	private void validateDuplicateCompany(String cName) {
+		List<Company> findCompany = companyRepository.findByName(cName);
 		
 		if(!findCompany.isEmpty()) {
 			throw new IllegalStateException("이미 등록된 기업입니다.");
 		}
+	}
+
+	public String[] generateCode(Long u_id, String email) {
+		String authCode = randomAccessToken.makeToken(10);
+		String inviteCode = randomAccessToken.makeToken(15);
+
+		Member member = memberRepository.findById(u_id);
+
+		Company company = member.getCompany();
+		company.setAuthCode(authCode);
+
+		Meeting meeting = new Meeting();
+		meeting.setHostId(u_id);
+		meeting.setStartTime(LocalDateTime.now());
+		meeting.setMember(member);
+		meeting.setInviteCode(inviteCode);
+
+		member.addMeeting(meeting);
+
+		return new String[]{authCode, inviteCode};
 	}
 
 	/**
