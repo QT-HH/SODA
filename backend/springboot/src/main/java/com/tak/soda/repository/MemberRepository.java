@@ -40,6 +40,12 @@ public class MemberRepository{
 				.getResultList();
 	}
 
+	public List<Member> findByCId(Long c_id) {
+		return em.createQuery("SELECT m FROM Member m WHERE m.company.id=:c_id", Member.class)
+				.setParameter("c_id", c_id)
+				.getResultList();
+	}
+
 	public List<Member> findByEmail(String email) {
 		return em.createQuery("SELECT m FROM Member m where m.email=:email", Member.class)
 				.setParameter("email", email)

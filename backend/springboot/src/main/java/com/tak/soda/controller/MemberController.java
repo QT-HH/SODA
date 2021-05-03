@@ -31,9 +31,17 @@ public class MemberController {
 
 	private final MemberService memberService;
 
-	@PostMapping("/new")
+	@PostMapping("/invite/interviewee")
 	@ApiOperation(value="멤버 등록", notes="새로운 멤버 등록(기업정보, 사용자정보)")
-	public ResponseEntity newMember(@RequestBody MemberDto dto) {
+	public ResponseEntity inviteInterviewee(@RequestBody MemberDto dto) {
+		Long saveId = memberService.join(dto);
+
+		return new ResponseEntity(saveId, HttpStatus.OK);
+	}
+
+	@PostMapping("/invite/interviewer")
+	@ApiOperation(value="멤버 등록", notes="새로운 멤버 등록(기업정보, 사용자정보)")
+	public ResponseEntity inviteInterviewer(@RequestBody MemberDto dto) {
 		Long saveId = memberService.join(dto);
 
 		return new ResponseEntity(saveId, HttpStatus.OK);
