@@ -2,6 +2,7 @@ package com.tak.soda.controller;
 
 import com.tak.soda.domain.Company;
 import com.tak.soda.domain.CompanyDto;
+import com.tak.soda.domain.Member;
 import com.tak.soda.domain.MemberDto;
 import com.tak.soda.function.ApproveMail;
 import com.tak.soda.function.RejectMail;
@@ -71,14 +72,19 @@ public class CompanyController {
 	@GetMapping("/list")
 	public ResponseEntity showAllCompany() {
 		List<Company> res = companyService.showCompany();
-		List<CompanyDto> res_list = new ArrayList<>();
+		List<MemberDto> res_list = new ArrayList<>();
 
 		for(Company company: res) {
-			CompanyDto dto = new CompanyDto();
+			Member member = company.getMembers().get(0);
+			MemberDto dto = new MemberDto();
 
-			dto.setId(company.getId());
-			dto.setCname(company.getName());
-			dto.setAuthCode(company.getAuthCode());
+			System.out.println(member.getName());
+			dto.setCName(company.getName());
+			dto.setUName(member.getName());
+			dto.setRole(member.getRole());
+			dto.setStatus(member.getStatus());
+			dto.setPhone(member.getPhone());
+			dto.setEmail(member.getEmail());
 
 			res_list.add(dto);
 		}
