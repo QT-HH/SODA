@@ -8,28 +8,51 @@
 			</p>
 			<p id="font1">면접관</p>
 			<div>
-				<v-text-field></v-text-field>
-			</div>
-			<div v-for="i in inputs" v-bind:key="i">
-				<invite-input></invite-input>
-			</div>
-			<v-btn
-				color="secondary"
-				fab
-				x-small
-				dark
-				@click="addInvite"
-				v-show="inviteok"
-			>
-				+
-			</v-btn>
-
-			<p id="font1">면접자</p>
-			<div>
-				<v-text-field></v-text-field>
-			</div>
-			<div>
-				<v-btn color="primary"> 시작하기 </v-btn>
+				<h2 id="font1">미팅을 시작하시겠습니까?</h2>
+				<br />
+				<h2 id="font1">초대할 이메일을 입력해주세요.</h2>
+				<br />
+				<br />
+				<p id="font1">면접관</p>
+				<div>
+					<v-text-field v-model="firemailmg"></v-text-field>
+				</div>
+				<div v-for="(item, index) of inputsmg" v-bind:key="index">
+					<v-text-field v-model="emailsmg[index]"></v-text-field>
+				</div>
+				<div>
+					<v-btn
+						color="secondary"
+						fab
+						x-small
+						dark
+						@click="addMG"
+						v-show="inviteok"
+					>
+						+
+					</v-btn>
+				</div>
+				<br />
+				<br />
+				<br />
+				<br />
+				<p id="font1">면접자</p>
+				<div>
+					<v-text-field v-model="firemailmj"></v-text-field>
+				</div>
+				<div v-for="(item, index) of inputsmj" v-bind:key="index">
+					<v-text-field v-model="emailsmj[index]"></v-text-field>
+				</div>
+				<div>
+					<v-btn color="secondary" fab x-small dark @click="addMJ"> + </v-btn>
+				</div>
+				<br />
+				<br />
+				<br />
+				<br />
+				<div>
+					<v-btn color="primary" @click="startMeeting"> 시작하기 </v-btn>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -37,17 +60,18 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-import InviteInput from '../components/InviteInput';
 
 export default {
 	name: 'InvitePage',
-	components: {
-		'invite-input': InviteInput,
-	},
 	data: () => {
 		return {
-			inputs: 0,
+			inputsmg: 0,
+			inputsmj: 0,
 			inviteok: true,
+			firemailmj: '',
+			firemailmg: '',
+			emailsmg: [],
+			emailsmj: [],
 		};
 	},
 	computed: {
@@ -61,10 +85,37 @@ export default {
 			'checkSessionId',
 			'changeMeetingDialog',
 		]),
-		addInvite() {
-			this.inputs++;
-			console.log('추가' + this.inputs);
-			if (this.inputs >= 2) this.inviteok = false;
+		addMG() {
+			this.inputsmg++;
+			if (this.inputsmg >= 2) this.inviteok = false;
+		},
+		addMJ() {
+			this.inputsmj++;
+		},
+		startMeeting() {
+			if (this.firemailmj == '' || this.firemailmg) {
+				alert('이메일을 입력해주세요.');
+				return;
+			}
+			console.log(this.firemailmj);
+			for (let index = 0; index < this.emailsmj.length; index++) {
+				if (this.emailsmj[index] == '') {
+					alert('이메일을 입력해주세요.');
+					return;
+				}
+				var el = this.emailsmj[index];
+				console.log(el);
+			}
+			console.log(this.firemailmg);
+			for (let index = 0; index < this.emailsmg.length; index++) {
+				if (this.emailsmg[index] == '') {
+					alert('이메일을 입력해주세요.');
+					return;
+				}
+				var el2 = this.emailsmg[index];
+				console.log(el2);
+			}
+			// 면접관&면접자 초대 이메일 전송 API
 		},
 	},
 };
