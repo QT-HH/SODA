@@ -21,9 +21,9 @@
 				</v-list>
 			</v-container>
 		</div>
+		<!-- v-if="isChat" -->
 		<div
 			id="chat-container"
-			v-if="isChat"
 			class="sticky-box"
 			style="border: 2px solid; color: #4527a0; float: right"
 		>
@@ -64,36 +64,8 @@
 					<div class="videos-container"></div>
 				</v-row>
 			</v-container>
-			<!-- <div id="chat-container" v-show="streaming && chatting">
-				<v-navigation-drawer v-model="chatting" absolute right width="350">
-					<v-list-item>
-						<v-list-item-content>
-							<v-list-item-title>Chat</v-list-item-title>
-						</v-list-item-content>
-					</v-list-item>
-
-					<v-divider></v-divider>
-
-					<div class="chat-output"></div>
-
-					<div class="bottom">
-						<v-divider></v-divider>
-						<input
-							type="text"
-							id="input-text-chat"
-							placeholder="Enter Text Chat"
-							v-model="chatInfo.data"
-							@keyup.enter="inputChat"
-						/>
-						<v-btn depressed @click="inputChat">입력</v-btn>
-					</div>
-				</v-navigation-drawer>
-			</div> -->
 		</v-sheet>
-		<br />
-		<br />
-		<br />
-		<br />
+
 		<MeetingBottomBar
 			v-if="streaming"
 			@userlist="userlist"
@@ -144,9 +116,6 @@ export default {
 		userlist() {
 			this.isUser = !this.isUser;
 		},
-		chatOnoff() {
-			this.isChat = !this.isChat;
-		},
 		async openRoom() {
 			await getConfirmMeetingCode(this.roomid)
 				.then(res => {
@@ -157,7 +126,7 @@ export default {
 						this.$store.state.meetingOn = this.streaming;
 						this.connection = new RTCMultiConnection();
 						this.chatInfo.sender = this.connection.userid;
-						// this.connection.autoCloseEntireSession = true;
+						this.connection.autoCloseEntireSession = true;
 						this.connection.socketMessageEvent = this.roomid;
 						this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 
@@ -171,8 +140,8 @@ export default {
 						this.connection.videosContainer = document.querySelector(
 							'.videos-container',
 						);
-						this.userlist();
-						this.chatOnOff();
+						// this.userlist();
+						// this.chatOnOff();
 					} else {
 						alert('유효하지 않은 미팅코드입니다.');
 					}
@@ -182,11 +151,8 @@ export default {
 				});
 		},
 		outRoom() {
-			// if (this.connection.isInitiator) {
-			// 	this.connection.socket.emit('close-socket');
-			// }
-			this.userlist();
-			this.chatOnOff();
+			// this.userlist();
+			// this.chatOnOff();
 			if (!!this.connection) {
 				this.connection.getAllParticipants().forEach(participantId => {
 					this.connection.disconnectWith(participantId);
@@ -199,11 +165,11 @@ export default {
 				this.connection.closeSocket();
 				this.connection = null;
 				this.streaming = !this.streaming;
-				this.$store.state.meetingOn = this.streaming;
 				this.roomid = '';
-				this.$router.push('/attend');
-				var el = document.getElementById('apdiv');
-				el.remove();
+				// this.$store.state.meetingOn = this.streaming;
+				// this.$router.push('/attend');
+				// var el = document.getElementById('apdiv');
+				// el.remove();
 			}
 		},
 		screenOff() {
@@ -222,9 +188,6 @@ export default {
 			const event = this.findMyVideo();
 			event.stream.unmute('audio');
 		},
-		chatOn() {
-			this.chatting = !this.chatting;
-		},
 		findMyVideo() {
 			let events = this.connection.streamEvents.selectAll();
 			let event = events.find(event => {
@@ -237,6 +200,7 @@ export default {
 			// console.log(video);
 		},
 		inputChat() {
+			console.log(1);
 			const myChat = {
 				data: this.chatInfo,
 			};
