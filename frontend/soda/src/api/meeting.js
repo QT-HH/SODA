@@ -29,4 +29,4 @@ function meetingInviteCode(cidentify) {
 	return instance.get(`meeting/inviteCode/${cidentify}`);
 }
 
-export { attendMeeting, delMeeting, meetingInviteCode };
+export { getConfirmMeetingCode, attendMeeting, delMeeting, meetingInviteCode };
