@@ -2,7 +2,11 @@
 	<div>
 		<div style="margin: 50px"></div>
 		<div class="videos-container"></div>
-		<input v-model="roomid" placeholder="Unique room ID" />
+		<input
+			v-model="roomid"
+			placeholder="Unique room ID"
+			@keyup.enter="openRoom"
+		/>
 		<div v-if="!streaming">
 			<v-btn depressed color="primary" @click="openRoom">open or join</v-btn>
 		</div>
@@ -29,6 +33,7 @@
 				id="input-text-chat"
 				placeholder="Enter Text Chat"
 				v-model="chatInfo.data"
+				@keyup.enter="inputChat"
 			/>
 			<v-btn depressed @click="inputChat">입력</v-btn>
 		</div>
@@ -96,7 +101,7 @@ export default {
 			this.connection.videosContainer = document.querySelector(
 				'.videos-container',
 			);
-			console.log('participants : ', this.connection.sessionid);
+			// console.log('participants : ', this.connection.sessionid);
 			// await getConfirmMeetingCode(this.roomid)
 			// 	.then(res => {
 			// 		// console.log(res);
@@ -116,7 +121,6 @@ export default {
 			}
 
 			this.connection.getAllParticipants().forEach(participantId => {
-				console.log('ppppp :', participantId);
 				this.connection.disconnectWith(participantId);
 			});
 
@@ -154,7 +158,7 @@ export default {
 		},
 		checkVideo() {
 			let video = this.connection.streamEvents.selectAll();
-			console.log(video);
+			// console.log(video);
 		},
 		inputChat() {
 			const myChat = {
@@ -167,7 +171,7 @@ export default {
 			}
 		},
 		appendDIV(event) {
-			console.log(event);
+			// console.log(event);
 			const chatContainer = document.querySelector('.chat-output');
 			let div = document.createElement('div');
 			div.innerHTML = `${event.data.sender} : ${event.data.data}`;
