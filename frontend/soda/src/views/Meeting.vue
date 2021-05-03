@@ -167,6 +167,7 @@ export default {
 				this.streaming = !this.streaming;
 				this.$store.state.meetingOn = this.streaming;
 				this.roomid = '';
+				this.$router.push('/attend');
 				var el = document.getElementById('apdiv');
 				el.remove();
 			}
