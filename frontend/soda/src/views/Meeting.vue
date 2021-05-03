@@ -21,8 +21,8 @@
 				</v-list>
 			</v-container>
 		</div>
-		<!-- v-if="isChat" -->
 		<div
+			v-if="isChat"
 			id="chat-container"
 			class="sticky-box"
 			style="border: 2px solid; color: #4527a0; float: right"
@@ -126,9 +126,14 @@ export default {
 						this.$store.state.meetingOn = this.streaming;
 						this.connection = new RTCMultiConnection();
 						this.chatInfo.sender = this.connection.userid;
-						this.connection.autoCloseEntireSession = true;
+						// this.connection.autoCloseEntireSession = true;
 						this.connection.socketMessageEvent = this.roomid;
 						this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
+						this.connection.session = {
+							audio: true,
+							video: true,
+							data: true,
+						};
 
 						this.connection.onmessage = this.appendDIV;
 						this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
@@ -140,8 +145,8 @@ export default {
 						this.connection.videosContainer = document.querySelector(
 							'.videos-container',
 						);
-						// this.userlist();
-						// this.chatOnOff();
+						this.userlist();
+						this.chatOnOff();
 					} else {
 						alert('유효하지 않은 미팅코드입니다.');
 					}
@@ -151,8 +156,8 @@ export default {
 				});
 		},
 		outRoom() {
-			// this.userlist();
-			// this.chatOnOff();
+			this.userlist();
+			this.chatOnOff();
 			if (!!this.connection) {
 				this.connection.getAllParticipants().forEach(participantId => {
 					this.connection.disconnectWith(participantId);
@@ -166,10 +171,11 @@ export default {
 				this.connection = null;
 				this.streaming = !this.streaming;
 				this.roomid = '';
-				// this.$store.state.meetingOn = this.streaming;
-				// this.$router.push('/attend');
-				// var el = document.getElementById('apdiv');
-				// el.remove();
+				this.$store.state.meetingOn = this.streaming;
+				this.$router.push('/attend');
+				var el = document.getElementById('apdiv');
+				el.remove();
+				console.log('outroom');
 			}
 		},
 		screenOff() {
@@ -197,7 +203,7 @@ export default {
 		},
 		checkVideo() {
 			let video = this.connection.streamEvents.selectAll();
-			// console.log(video);
+			console.log(video);
 		},
 		inputChat() {
 			console.log(1);
