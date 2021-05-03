@@ -37,6 +37,10 @@
 			/>
 			<v-btn depressed @click="inputChat">입력</v-btn>
 		</div>
+		<div>
+			<button @click="updateRoomList">방정보 새로고침</button>
+			<div id="rooms-list"></div>
+		</div>
 	</div>
 </template>
 
@@ -80,11 +84,8 @@ export default {
 			this.chatInfo.sender = this.connection.userid;
 			this.connection.autoCloseEntireSession = true;
 			this.connection.socketMessageEvent = this.roomid;
-			// this.connection.onmessage = function (event) {
-			// 	const chatMessage = event.data;
-			// 	console.log(this);
-			// 	appendDIV(chatMessage);
-			// };
+			this.connection.publicRoomIdentifier = this.roomid;
+
 			this.connection.onmessage = this.appendDIV;
 			this.connection.session = {
 				audio: true,
@@ -116,10 +117,9 @@ export default {
 			// 	});
 		},
 		outRoom() {
-			if (this.connection.isInitiator) {
-				this.connection.socket.emit('close-socket');
-			}
-
+			// if (this.connection.isInitiator) {
+			// 	this.connection.socket.emit('close-socket');
+			// }
 			this.connection.getAllParticipants().forEach(participantId => {
 				this.connection.disconnectWith(participantId);
 			});
@@ -181,6 +181,22 @@ export default {
 
 			document.getElementById('input-text-chat').focus();
 		},
+		updateRoomList() {
+			this.connection.socket.emit(
+				'get-public-rooms',
+				this.connection.publicRoomIidentifier,
+				function (listOfRooms) {
+					console.log(window.location);
+					console.log(listOfRooms);
+					// listOfRooms.forEach(function (room) {
+					// 	console.log(roomid);
+					// });
+				},
+			);
+		},
+		// updateListOfRooms(rooms) {
+		// 	console.log(rooms);
+		// },
 	},
 };
 </script>
