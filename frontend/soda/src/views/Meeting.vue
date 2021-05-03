@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="isUser">
+		<div v-if="streaming && isUser">
 			<v-container
 				fluid
 				class="sticky-box"
@@ -30,25 +30,6 @@
 		<div v-if="!streaming">
 			<v-btn depressed color="primary" @click="openRoom">open or join</v-btn>
 		</div>
-		<div v-if="streaming">
-			<v-btn depressed color="warning" @click="outRoom">퇴장</v-btn>
-		</div>
-		<div v-if="streaming">
-			<v-btn depressed @click="screenOff">화면OFF</v-btn>
-			<v-btn depressed @click="screenOn">화면ON</v-btn>
-			<v-btn depressed @click="checkVideo">체크</v-btn>
-		</div>
-		<div v-if="streaming">
-			<v-btn depressed @click="voiceOff">마이크OFF</v-btn>
-			<v-btn depressed @click="voiceOn">마이크ON</v-btn>
-		</div>
-		<div v-if="streaming">
-			<v-btn depressed @click="chatOn">채팅ON</v-btn>
-		</div>
-		<br />
-		<br />
-		<br />
-		<br />
 		<v-sheet height="100%" class="overflow-hidden" style="position: relative">
 			<v-container class="fill-height">
 				<v-row align="center" justify="center">
@@ -86,13 +67,14 @@
 		<br />
 		<br />
 		<MeetingBottomBar
-			v-if="meetingStart"
+			v-if="streaming"
 			@userlist="userlist"
 			@outRoom="outRoom"
 			@voiceOn="voiceOn"
 			@voiceOff="voiceOff"
 			@screenOn="screenOn"
 			@screenOff="screenOff"
+			@chatOn="chatOn"
 		></MeetingBottomBar>
 		<!-- <MeetingUser v-if="isUser"></MeetingUser> -->
 	</div>
@@ -135,37 +117,37 @@ export default {
 			this.isChat = !this.isChat;
 		},
 		async openRoom() {
-			await getConfirmMeetingCode(this.roomid)
-				.then(res => {
-					if (res.data) {
-						// console.log(res.data);
-						this.meetingStart = !this.meetingStart;
-						this.streaming = !this.streaming;
-						this.$store.state.meetingOn = this.streaming;
-						this.connection = new RTCMultiConnection();
-						this.chatInfo.sender = this.connection.userid;
-						this.connection.autoCloseEntireSession = true;
-						this.connection.socketMessageEvent = this.roomid;
-						this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
+			// await getConfirmMeetingCode(this.roomid)
+			// 	.then(res => {
+			// 		if (res.data) {
+			// console.log(res.data);
+			this.meetingStart = !this.meetingStart;
+			this.streaming = !this.streaming;
+			this.$store.state.meetingOn = this.streaming;
+			this.connection = new RTCMultiConnection();
+			this.chatInfo.sender = this.connection.userid;
+			this.connection.autoCloseEntireSession = true;
+			this.connection.socketMessageEvent = this.roomid;
+			this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 
-						this.connection.onmessage = this.appendDIV;
-						this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
-						this.connection.sdpConstraints.mandatory = {
-							OfferToReceiveAudio: true,
-							OfferToReceiveVideo: true,
-						};
-						this.connection.openOrJoin(this.roomid);
-						this.connection.videosContainer = document.querySelector(
-							'.videos-container',
-						);
-						this.userlist();
-					} else {
-						alert('유효하지 않은 미팅코드입니다.');
-					}
-				})
-				.catch(err => {
-					console.log('에러');
-				});
+			this.connection.onmessage = this.appendDIV;
+			this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
+			this.connection.sdpConstraints.mandatory = {
+				OfferToReceiveAudio: true,
+				OfferToReceiveVideo: true,
+			};
+			this.connection.openOrJoin(this.roomid);
+			this.connection.videosContainer = document.querySelector(
+				'.videos-container',
+			);
+			this.userlist();
+			// 	} else {
+			// 		alert('유효하지 않은 미팅코드입니다.');
+			// 	}
+			// })
+			// .catch(err => {
+			// 	console.log('에러');
+			// });
 		},
 		outRoom() {
 			// if (this.connection.isInitiator) {

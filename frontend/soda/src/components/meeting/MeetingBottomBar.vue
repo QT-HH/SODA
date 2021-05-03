@@ -66,7 +66,7 @@ export default {
 			isAudio: true,
 			isVideo: true,
 			isSubtitle: true,
-			isChatting: true,
+			isChatting: false,
 		};
 	},
 	methods: {
@@ -95,6 +95,7 @@ export default {
 		},
 		chatting() {
 			this.isChatting = !this.isChatting;
+			this.$emit('chatOn');
 		},
 		outRoom() {
 			this.$emit('outRoom');
