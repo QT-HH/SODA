@@ -5,7 +5,7 @@ import Register from '../views/Register.vue';
 import Certify from '../views/Certify.vue';
 import Admin from '../views/Admin.vue';
 import MeetingUser from '../components/meeting/MeetingUser.vue';
-import MeetingBottomBar from '../components/meeting/MeetingBottomBar.vue';
+// import MeetingBottomBar from '../components/meeting/MeetingBottomBar.vue';
 
 Vue.use(VueRouter);
 
@@ -35,11 +35,11 @@ const routes = [
 		name: 'MeetingUser',
 		component: MeetingUser,
 	},
-	{
-		path: '/meetingbottombar',
-		name: 'MeetingBottomBar',
-		component: MeetingBottomBar,
-	},
+	// {
+	// 	path: '/meetingbottombar',
+	// 	name: 'MeetingBottomBar',
+	// 	component: MeetingBottomBar,
+	// },
 	{
 		path: '/meeting',
 		name: 'Meeting',
