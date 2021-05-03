@@ -33,7 +33,7 @@
 </template>
 
 <script>
-// import { getConfirmMeetingCode } from '@/api/meeting.js';
+import { authCompany } from '@/api/company.js';
 
 export default {
 	name: 'Certify',
@@ -43,20 +43,22 @@ export default {
 		dialogOpen: false,
 	}),
 	methods: {
-		// async certify() {
-		// 	if (this.code === null) {
-		// 		alert('인증코드를 입력해주세요.');
-		// 	} else {
-		// 		await getConfirmMeetingCode(this.code)
-		// 			.then(res => {
-		// 				if (res.data) this.$router.push('/invite');
-		// 				else this.dialogOpen = true;
-		// 			})
-		// 			.catch(err => {
-		// 				console.log('에러:' + err);
-		// 			});
-		// 	}
-		// },
+		async certify() {
+			console.log(this.code);
+			const authCode = this.code;
+			if (this.code === null) {
+				alert('인증코드를 입력해주세요.');
+			} else {
+				await authCompany(authCode)
+					.then(res => {
+						if (res.data) this.$router.push('/invite');
+						else this.dialogOpen = true;
+					})
+					.catch(err => {
+						console.log('에러:' + err);
+					});
+			}
+		},
 	},
 };
 </script>

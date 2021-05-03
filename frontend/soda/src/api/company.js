@@ -1,7 +1,7 @@
 import { instance } from './index';
 
 function authCompany(authCode) {
-	return instance.post('company/auth', authCode);
+	return instance.post(`company/auth?authCode=${authCode}`);
 }
 function delCompany(cid) {
 	return instance.delete(`company/del/${cid}`);

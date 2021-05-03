@@ -82,7 +82,7 @@ export default {
 		};
 	},
 	methods: {
-		submit() {
+		async submit() {
 			if (this.cName === null) {
 				alert('기업명을 입력해주세요.');
 			} else if (this.uName === null) {
@@ -100,7 +100,7 @@ export default {
 				const role = this.role;
 				const phone = this.phone;
 				const email = this.email;
-				newCompany(cName, email, phone, role, uName);
+				await newCompany(cName, email, phone, role, uName);
 			}
 		},
 		close() {
