@@ -38,7 +38,7 @@ export default {
 		const company = await getCompanyList();
 		// console.log(company);
 		this.companyList = company.data;
-		console.log(this.companyList);
+		// console.log(this.companyList);
 	},
 };
 </script>
