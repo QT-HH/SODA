@@ -35,7 +35,7 @@ public class Member {
 	private Company company;
 	
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
-	private List<Meeting> meetings = new ArrayList<>();
+	private List<MeetingMember> meetings = new ArrayList<>();
 
 	//==생성 메서드==//
 	public static Member createMember(Company company, MemberDto info){
@@ -58,13 +58,17 @@ public class Member {
 		company.getMembers().add(this);
 	}
 	
-	public void addMeeting(Meeting meeting) {
+	public void addMeeting(MeetingMember meeting) {
 		meetings.add(meeting);
 		meeting.setMember(this);
 	}
 
 	//==비즈니스 로직==//
-	/** 멤버 삭제 */
+	/** 미팅 코드 생성 */
+	public void createMeeting() {
+
+	}
+
 
 	//==조회 로직==//
 	/** 전체 멤버 조회 */

@@ -29,14 +29,6 @@ class MeetingServiceTest {
     @DisplayName("새로운 미팅 추가 - 멤버에도 추가")
     @Test
     void testCreateMeeting() {
-        //Given
-        Member member = memberRepository.findById(3L); // 임의로 3번 멤버 가져옴
-        String inviteCode = "asdf";
-
-        //When
-        Long saveId = meetingService.createMeeting(member, inviteCode);
-        System.out.println(saveId);
-        //Then
 
     }
 }

@@ -1,5 +1,26 @@
 <template>
 	<div>
+		<div v-if="isUser">
+			<v-container
+				fluid
+				class="sticky-box"
+				style="border: 2px solid; color: #4527a0"
+			>
+				<p style="color: black">면접자리스트</p>
+				<v-list>
+					<v-list-item style="padding: 0px; text-align: center">
+						<div class="text-center">
+							<p style="margin: 3px">youlee602@hanmail.net</p>
+							<v-chip-group mandatory>
+								<v-chip color="indigo darken-3" outlined small> 예정 </v-chip>
+								<v-chip color="indigo darken-3" outlined small> 진행 </v-chip>
+								<v-chip color="indigo darken-3" outlined small> 완료 </v-chip>
+							</v-chip-group>
+						</div>
+					</v-list-item>
+				</v-list>
+			</v-container>
+		</div>
 		<div style="margin: 50px"></div>
 		<div class="videos-container"></div>
 		<input
@@ -37,6 +58,11 @@
 			/>
 			<v-btn depressed @click="inputChat">입력</v-btn>
 		</div>
+		<MeetingBottomBar
+			v-if="meetingStart"
+			@userlist="userlist"
+		></MeetingBottomBar>
+		<!-- <MeetingUser v-if="isUser"></MeetingUser> -->
 	</div>
 </template>
 
@@ -45,11 +71,18 @@
 
 <script>
 import { getConfirmMeetingCode } from '@/api/meeting.js';
-
+import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
+// import MeetingUser from '@/components/meeting/MeetingUser.vue';
 export default {
+	components: {
+		MeetingBottomBar,
+		// MeetingUser,
+	},
 	data() {
 		return {
+			isUser: '',
 			roomid: '',
+			meetingStart: false,
 			connection: null,
 			streaming: false,
 			chatInfo: {
@@ -67,7 +100,11 @@ export default {
 	// 	console.log(test);
 	// },
 	methods: {
+		userlist() {
+			this.isUser = !this.isUser;
+		},
 		async openRoom() {
+			this.meetingStart = !this.meetingStart;
 			if (this.connection) {
 				if (this.connection.sessionid !== this.roomid) {
 					this.outRoom();
@@ -182,5 +219,13 @@ export default {
 .videos-container video {
 	width: 500px;
 	margin: 10px;
+}
+.sticky-box {
+	width: 200px;
+	height: 570px;
+	float: left;
+	background-color: white;
+	border-radius: 10px;
+	padding: 100%, 0%;
 }
 </style>
