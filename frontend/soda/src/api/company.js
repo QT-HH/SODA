@@ -1,7 +1,7 @@
 import { instance } from './index';
 
 function getCompanyList() {
-	return instance.get('company/company-list');
+	return instance.get('company/list');
 }
 function deleteCompany(cid) {
 	return instance.delete('company/del', {
