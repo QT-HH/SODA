@@ -109,6 +109,9 @@ export default {
 	beforeDestroy() {
 		this.outRoom();
 	},
+	created() {
+		this.openRoom(this.$store.state.meetingCode);
+	},
 	methods: {
 		chatOnOff() {
 			this.isChat = !this.isChat;
@@ -116,11 +119,14 @@ export default {
 		userlist() {
 			this.isUser = !this.isUser;
 		},
-		async openRoom() {
-			await getConfirmMeetingCode(this.roomid)
+		chatOnoff() {
+			this.isChat = !this.isChat;
+		},
+		async openRoom(code) {
+			await getConfirmMeetingCode(code)
 				.then(res => {
 					if (res.data) {
-						// console.log(res.data);
+						console.log(res.data);
 						this.meetingStart = !this.meetingStart;
 						this.streaming = !this.streaming;
 						this.$store.state.meetingOn = this.streaming;
@@ -172,6 +178,7 @@ export default {
 				this.streaming = !this.streaming;
 				this.roomid = '';
 				this.$store.state.meetingOn = this.streaming;
+				this.$store.state.meetingCode = '';
 				this.$router.push('/attend');
 				var el = document.getElementById('apdiv');
 				el.remove();
@@ -217,7 +224,6 @@ export default {
 			}
 		},
 		appendDIV(event) {
-			// console.log(event);
 			const chatContainer = document.querySelector('.chat-output');
 			let div = document.createElement('div');
 			div.setAttribute('id', 'apdiv');
