@@ -123,6 +123,7 @@ export default {
 			await getConfirmMeetingCode(code)
 				.then(res => {
 					if (res.data) {
+						this.roomid = code;
 						console.log(res.data);
 						this.meetingStart = !this.meetingStart;
 						this.streaming = !this.streaming;
