@@ -47,7 +47,7 @@
 		<br />
 		<br />
 		<br />
-		<div id="chat-container">
+		<div id="chat-container" v-if="isChat">
 			<div class="chat-output"></div>
 			<input
 				type="text"
@@ -61,6 +61,11 @@
 		<MeetingBottomBar
 			v-if="meetingStart"
 			@userlist="userlist"
+			@outRoom="outRoom"
+			@voiceOn="voiceOn"
+			@voiceOff="voiceOff"
+			@screenOn="screenOn"
+			@screenOff="screenOff"
 		></MeetingBottomBar>
 	</div>
 </template>
@@ -69,7 +74,7 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
-// import { getConfirmMeetingCode } from '@/api/meeting.js';
+import { getConfirmMeetingCode } from '@/api/meeting.js';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
 export default {
 	components: {
@@ -77,7 +82,8 @@ export default {
 	},
 	data() {
 		return {
-			isUser: '',
+			isUser: false,
+			isChat: false,
 			roomid: '',
 			meetingStart: false,
 			connection: null,
@@ -95,6 +101,9 @@ export default {
 	methods: {
 		userlist() {
 			this.isUser = !this.isUser;
+		},
+		chatOnoff() {
+			this.isChat = !this.isChat;
 		},
 		async openRoom() {
 			await getConfirmMeetingCode(this.roomid)
@@ -120,6 +129,7 @@ export default {
 						this.connection.videosContainer = document.querySelector(
 							'.videos-container',
 						);
+						this.userlist();
 					} else {
 						alert('유효하지 않은 미팅코드입니다.');
 					}
