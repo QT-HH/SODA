@@ -95,6 +95,7 @@ export default {
 		},
 		chatting() {
 			this.isChatting = !this.isChatting;
+			this.$emit('chatOnOff');
 		},
 		outRoom() {
 			this.$emit('outRoom');

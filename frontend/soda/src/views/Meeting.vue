@@ -21,9 +21,37 @@
 				</v-list>
 			</v-container>
 		</div>
+		<div
+			id="chat-container"
+			v-if="isChat"
+			class="sticky-box"
+			style="border: 2px solid; color: #4527a0; float: right"
+		>
+			<div class="chat-output"></div>
+			<div class="chat-input">
+				<input
+					type="text"
+					id="input-text-chat"
+					class="comp"
+					placeholder="Enter Text Chat"
+					v-model="chatInfo.data"
+					@keyup.enter="inputChat"
+					style="width: 70%; left: 0px"
+				/>
+				<v-btn
+					depressed
+					small
+					class="comp"
+					@click="inputChat"
+					style="width: 30%; right: 0px"
+					>입력</v-btn
+				>
+			</div>
+		</div>
 		<div style="margin: 50px"></div>
 		<div class="videos-container"></div>
 		<input
+			v-if="!streaming"
 			v-model="roomid"
 			placeholder="Unique room ID"
 			@keyup.enter="openRoom"
@@ -31,33 +59,7 @@
 		<div v-if="!streaming">
 			<v-btn depressed color="primary" @click="openRoom">open or join</v-btn>
 		</div>
-		<div v-if="streaming">
-			<v-btn depressed color="warning" @click="outRoom">퇴장</v-btn>
-		</div>
-		<div v-if="streaming">
-			<v-btn depressed @click="screenOff">화면OFF</v-btn>
-			<v-btn depressed @click="screenOn">화면ON</v-btn>
-			<v-btn depressed @click="checkVideo">체크</v-btn>
-		</div>
-		<div v-if="streaming">
-			<v-btn depressed @click="voiceOff">마이크OFF</v-btn>
-			<v-btn depressed @click="voiceOn">마이크ON</v-btn>
-		</div>
-		<br />
-		<br />
-		<br />
-		<br />
-		<div id="chat-container" v-if="isChat">
-			<div class="chat-output"></div>
-			<input
-				type="text"
-				id="input-text-chat"
-				placeholder="Enter Text Chat"
-				v-model="chatInfo.data"
-				@keyup.enter="inputChat"
-			/>
-			<v-btn depressed @click="inputChat">입력</v-btn>
-		</div>
+
 		<MeetingBottomBar
 			v-if="meetingStart"
 			@userlist="userlist"
@@ -66,6 +68,7 @@
 			@voiceOff="voiceOff"
 			@screenOn="screenOn"
 			@screenOff="screenOff"
+			@chatOnOff="chatOnOff"
 		></MeetingBottomBar>
 	</div>
 </template>
@@ -99,6 +102,9 @@ export default {
 		this.outRoom();
 	},
 	methods: {
+		chatOnOff() {
+			this.isChat = !this.isChat;
+		},
 		userlist() {
 			this.isUser = !this.isUser;
 		},
@@ -115,7 +121,7 @@ export default {
 						this.$store.state.meetingOn = this.streaming;
 						this.connection = new RTCMultiConnection();
 						this.chatInfo.sender = this.connection.userid;
-						this.connection.autoCloseEntireSession = true;
+						// this.connection.autoCloseEntireSession = true;
 						this.connection.socketMessageEvent = this.roomid;
 						this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 
@@ -130,6 +136,7 @@ export default {
 							'.videos-container',
 						);
 						this.userlist();
+						this.chatOnOff();
 					} else {
 						alert('유효하지 않은 미팅코드입니다.');
 					}
@@ -142,6 +149,8 @@ export default {
 			// if (this.connection.isInitiator) {
 			// 	this.connection.socket.emit('close-socket');
 			// }
+			this.userlist();
+			this.chatOnOff();
 			if (!!this.connection) {
 				this.connection.getAllParticipants().forEach(participantId => {
 					this.connection.disconnectWith(participantId);
@@ -222,5 +231,17 @@ export default {
 	background-color: white;
 	border-radius: 10px;
 	padding: 100%, 0%;
+}
+.chat-output {
+	height: 95%;
+	overflow-y: auto;
+}
+.chat-input {
+	position: relative;
+	height: 5%;
+}
+.chat-input .comp {
+	position: absolute;
+	bottom: 0px;
 }
 </style>
