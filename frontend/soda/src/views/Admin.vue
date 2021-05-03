@@ -1,17 +1,15 @@
 <template>
 	<div>
-		<v-simple-table>
-			<template>
-				<thead>
-					<tr>
-						<th class="text-center">기업명</th>
-						<th class="text-center">담당자명</th>
-						<th class="text-center">직책</th>
-						<th class="text-center">연락처</th>
-						<th class="text-center">이메일</th>
-					</tr>
-				</thead>
-			</template>
+		<v-simple-table dense>
+			<thead>
+				<tr>
+					<th class="text-center table" style="padding: 0px">기업명</th>
+					<th class="text-center table" style="padding: 0px">담당자명</th>
+					<th class="text-center table" style="padding: 0px">직책</th>
+					<th class="text-center table" style="padding: 0px">연락처</th>
+					<th class="text-center table" style="padding: 0px">이메일</th>
+				</tr>
+			</thead>
 		</v-simple-table>
 		<CompanyList
 			v-for="(item, index) in companyList"
@@ -50,4 +48,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.table {
+	width: 20%;
+}
+</style>

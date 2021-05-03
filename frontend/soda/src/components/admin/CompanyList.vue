@@ -3,11 +3,21 @@
 		<v-simple-table>
 			<tbody>
 				<tr @click="modal">
-					<td class="text-left">{{ companyList.cname }}</td>
-					<td class="text-left">{{ companyList.uname }}</td>
-					<td class="text-left">{{ companyList.cjob }}</td>
-					<td class="text-left">{{ companyList.cphone }}</td>
-					<td class="text-left">{{ companyList.cemail }}</td>
+					<td class="text-center table" style="padding: 0px">
+						{{ companyList.cname }}
+					</td>
+					<td class="text-center table" style="padding: 0px">
+						{{ companyList.uname }}
+					</td>
+					<td class="text-center table" style="padding: 0px">
+						{{ companyList.cjob }}
+					</td>
+					<td class="text-center table" style="padding: 0px">
+						{{ companyList.cphone }}
+					</td>
+					<td class="text-center table" style="padding: 0px">
+						{{ companyList.cemail }}
+					</td>
 				</tr>
 				<v-dialog v-model="dialog" max-width="500">
 					<v-card>
@@ -81,4 +91,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.table {
+	width: 20%;
+}
+</style>
