@@ -22,7 +22,7 @@
 			</v-container>
 		</div>
 		<div
-			v-if="isChat"
+			v-show="isChat"
 			id="chat-container"
 			class="sticky-box"
 			style="border: 2px solid; color: #4527a0; float: right"
