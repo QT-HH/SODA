@@ -104,7 +104,8 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
-
+import { authCompany } from '@/api/company.js';
+import { sendMeetingCode } from '@/api/member.js';
 export default {
 	name: 'InvitePage',
 	data: () => {
@@ -117,12 +118,17 @@ export default {
 			firemailmg: '',
 			emailsmg: [],
 			emailsmj: [],
+			cname: '',
+			inviteCode: '',
 		};
 	},
 	computed: {
 		...mapGetters(['getId']),
 		...mapState(['user']),
 		...mapState('meetingStore', ['mySessionId', 'meetingDialog']),
+	},
+	created() {
+		this.getCompanyInfo(this.$store.state.auth_code);
 	},
 	methods: {
 		...mapActions('meetingStore', [
@@ -151,29 +157,42 @@ export default {
 			this.emailsmj.splice(idx, 1);
 		},
 		startMeeting() {
-			if (this.firemailmj == '') {
-				alert('a이메일을 입력해주세요.');
+			if (this.emailsmj.length == 0) {
+				alert('면접자 이메일을 입력해주세요.');
 				return;
 			}
-			console.log(this.firemailmj);
-			for (let index = 0; index < this.emailsmj.length; index++) {
-				if (this.emailsmj[index] == '') {
-					alert('b이메일을 입력해주세요.');
-					return;
-				}
-				var el = this.emailsmj[index];
-				console.log(el);
-			}
-			console.log(this.firemailmg);
-			for (let index = 0; index < this.emailsmg.length; index++) {
-				if (this.emailsmg[index] == '') {
-					alert('c이메일을 입력해주세요.');
-					return;
-				}
-				var el2 = this.emailsmg[index];
-				console.log(el2);
-			}
-			// 면접관&면접자 초대 이메일 전송 API
+			this.postInviteCode();
+		},
+		async getCompanyInfo(code) {
+			await authCompany(code)
+				.then(res => {
+					if (res.data) {
+						console.log(res.data);
+						this.cname = res.data[0][0];
+						this.inviteCode = res.data[0][1];
+					} else {
+						alert('유효하지 않은 미팅코드입니다.');
+					}
+				})
+				.catch(err => {
+					console.log('에러' + err);
+				});
+		},
+		async postInviteCode() {
+			await sendMeetingCode({
+				cname: this.cname,
+				emails: this.emailsmg,
+				inviteCode: this.inviteCode,
+				role: '면접관',
+			});
+			await sendMeetingCode({
+				cname: this.cname,
+				emails: this.emailsmj,
+				inviteCode: this.inviteCode,
+				role: '면접자',
+			});
+			this.$store.state.meetingCode = this.inviteCode;
+			this.$router.push('/meeting');
 		},
 	},
 };
