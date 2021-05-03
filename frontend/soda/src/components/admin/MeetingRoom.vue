@@ -1,8 +1,8 @@
 <template>
 	<tr>
-		<td class="text-left">{{ Room.sessionid }}</td>
-		<td class="text-left">{{ Room.owner }}</td>
-		<td class="text-left">{{ Room.participants }}</td>
+		<td class="text-center">{{ Room.sessionid }}</td>
+		<td class="text-center">{{ Room.owner }}</td>
+		<td class="text-center">{{ Room.participants }}</td>
 	</tr>
 </template>
 
@@ -15,4 +15,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.table {
+	width: 20%;
+}
+</style>

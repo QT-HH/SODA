@@ -73,4 +73,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.table {
+	width: 20%;
+}
+</style>
