@@ -37,9 +37,6 @@
 							<v-spacer></v-spacer>
 							<v-btn color="error" text @click="approve"> 등록 승인 </v-btn>
 							<v-btn color="error" text @click="reject"> 등록 거부 </v-btn>
-							<v-btn color="error" text @click="delcompany">
-								기업정보삭제
-							</v-btn>
 							<v-btn color="green darken-1" text @click="close"> 닫기 </v-btn>
 						</v-card-actions>
 					</v-card>
@@ -50,9 +47,8 @@
 </template>
 
 <script>
-// import { deleteCompany } from '@/api/company';
-// import { postApproveEmail } from '@/api/email';
-// import { postRejectEmail } from '@/api/email';
+// import { approveEmail } from '@/api/company';
+import { rejectEmail } from '@/api/company';
 export default {
 	name: 'company',
 	props: {
@@ -70,23 +66,20 @@ export default {
 		close() {
 			this.dialog = false;
 		},
-		// delcompany() {
-		// 	// console.log(this.company.cid);
-		// 	const cid = this.company.cid;
-		// 	deleteCompany(cid);
-		// 	this.dialog = false;
-		// 	this.$router.go(this.$router.currentRoute);
-		// },
-		// approve() {
-		// 	const companyInfo = this.company;
-		// 	postApproveEmail(companyInfo);
-		// 	this.dialog = false;
-		// },
-		// reject() {
-		// 	const companyInfo = this.company;
-		// 	postRejectEmail(companyInfo);
-		// 	this.dialog = false;
-		// },
+		approve() {
+			const companyInfo = this.company;
+			// const email = companyInfo.email;
+			console.log(companyInfo);
+			// approveEmail(email);
+			this.dialog = false;
+		},
+		reject() {
+			const companyInfo = this.company;
+			const email = companyInfo.email;
+			// console.log(email);
+			rejectEmail(email);
+			this.dialog = false;
+		},
 	},
 };
 </script>
