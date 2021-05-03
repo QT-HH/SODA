@@ -4,19 +4,14 @@ import com.tak.soda.domain.MeetingDto;
 import com.tak.soda.domain.Member;
 import com.tak.soda.domain.MemberDto;
 import com.tak.soda.function.RandomAccessToken;
+import com.tak.soda.service.MeetingService;
 import com.tak.soda.service.MemberService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import com.tak.soda.service.MeetingService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
-import javax.mail.MessagingException;
-import java.util.List;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -62,5 +57,19 @@ public class MeetingController {
 	public ResponseEntity inviteInterviewee(@RequestBody MeetingDto dto) {
 
 		return new ResponseEntity("초대 성공", HttpStatus.OK);
+	}
+
+	@GetMapping("attend")
+	@ApiOperation(value = "미팅 참여(면접관/면접자 구분)", notes = "면접관인지 면접자인지 구분하는 값 반환")
+	public ResponseEntity attendMeeting(String email, String inviteCode) {
+
+		return new ResponseEntity("면접자", HttpStatus.OK);
+	}
+
+	@DeleteMapping("del")
+	@ApiOperation(value = "미팅 삭제(종료)", notes = "")
+	public ResponseEntity delMeeting(String inviteCode) {
+
+		return new ResponseEntity("삭제 성공", HttpStatus.OK);
 	}
 }

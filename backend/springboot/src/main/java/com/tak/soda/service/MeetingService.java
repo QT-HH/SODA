@@ -15,6 +15,24 @@ public class MeetingService {
 	@Autowired
 	MeetingRepository meetingRepository;
 
+	/**
+	 * 미팅 코드 유효성 검사
+	 * @param inviteCode
+	 * @return
+	 */
+	public boolean getValidInviteCode(String inviteCode) {
+		if(meetingRepository.findInviteCode(inviteCode) > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * 미팅 개설
+	 * @param member
+	 * @param inviteCode
+	 * @return
+	 */
 	public Long createMeeting(Member member, String inviteCode) {
 		Meeting meeting = new Meeting();
 		String room_name = member.getCompany().getName() +"_"+ inviteCode.substring(0,3);
@@ -31,10 +49,7 @@ public class MeetingService {
 		return meeting.getId();
 	}
 
-	public boolean getValidInviteCode(String cidentify) {
-		if(meetingRepository.findInviteCode(cidentify) > 0) {
-			return true;
-		}
-		return false;
-	}
+//	public Long inviteInterviewer(String member_id, String room_id) {
+//
+//	}
 }
