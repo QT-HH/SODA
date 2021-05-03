@@ -18,19 +18,28 @@
 			:companyList="item"
 			:key="index"
 		></CompanyList>
+		<v-btn depressed @click="meetingRoomList = !meetingRoomList"
+			>방 정보 보기</v-btn
+		>
+		<MeetingRoomList v-if="meetingRoomList"></MeetingRoomList>
 	</div>
 </template>
 
 <script>
 import CompanyList from '@/components/admin/CompanyList.vue';
+import MeetingRoomList from '@/components/admin/MeetingRoomList.vue';
 import { getCompanyList } from '@/api/company';
 export default {
 	name: 'Admin',
 	components: {
 		CompanyList,
+		MeetingRoomList,
 	},
 	data() {
-		return { companyList: Array };
+		return {
+			companyList: Array,
+			meetingRoomList: false,
+		};
 	},
 	async created() {
 		const company = await getCompanyList();
