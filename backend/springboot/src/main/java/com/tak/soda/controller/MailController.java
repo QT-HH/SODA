@@ -4,6 +4,7 @@ import javax.mail.MessagingException;
 
 import com.tak.soda.domain.Meeting;
 import com.tak.soda.domain.MemberDto;
+import com.tak.soda.function.ApproveMail;
 import com.tak.soda.service.MeetingService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,8 @@ public class MailController {
 	@Autowired
 	RandomAccessToken randomAccessToken;
 	@Autowired
+	ApproveMail approveMail;
+	@Autowired
 	RejectMail rejectMail;
 	@Autowired
 	MeetingService meetingService;
@@ -47,14 +50,7 @@ public class MailController {
 		Member member = memberService.findById(dto.getId());
 		String Token = randomAccessToken.makeToken(TokenLength);
 
-		meetingService.createMeeting(member, Token);
-		try {
-			if(randomAccessToken.sendMail(Token, member.getEmail())) {
-				return new ResponseEntity<String>("전송 실패",HttpStatus.OK);
-			}
-		} catch (MessagingException e) {
-			e.printStackTrace();
-		}
+
 		return new ResponseEntity<String>("전송 완료",HttpStatus.OK);
 	}
 	

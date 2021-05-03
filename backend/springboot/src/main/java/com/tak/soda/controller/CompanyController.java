@@ -2,6 +2,9 @@ package com.tak.soda.controller;
 
 import com.tak.soda.domain.Company;
 import com.tak.soda.domain.CompanyDto;
+import com.tak.soda.domain.MemberDto;
+import com.tak.soda.function.ApproveMail;
+import com.tak.soda.function.RejectMail;
 import com.tak.soda.service.CompanyService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -10,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,16 +23,50 @@ import java.util.List;
 @Api(tags = {"기업 컨트롤러"})
 @RequestMapping("/company")
 public class CompanyController {
+
+	@Autowired
+	ApproveMail approveMail;
+	@Autowired
+	RejectMail rejectMail;
+
 	@Autowired
 	CompanyService companyService;
 	
-	@ApiOperation(value="기업정보 입력", notes="기업 등록")
+	@ApiOperation(value="기업정보 입력", notes="기업 등록하면 기업코드, 미팅코드 이메일로 전송")
 	@PostMapping("/new")
-	public ResponseEntity newCompany(@RequestBody Company company) {
-		Long res = companyService.newCompany(company);
+	public ResponseEntity newCompany(String cName, String uName, String role, String phone, String email) {
+		MemberDto dto = new MemberDto();
+
+		dto.setCName(cName);
+		dto.setUName(uName);
+		dto.setRole(role);
+		dto.setPhone(phone);
+		dto.setEmail(email);
+		Long res = companyService.newCompany(dto);
+
 		return new ResponseEntity(res, HttpStatus.OK);
 	}
-	
+
+	@GetMapping("/email/approve")
+	@ApiOperation(value="승인 이메일", notes="기업코드, 미팅코드 같이 보냄")
+	public ResponseEntity sendApproveEmail(Long u_id, String email) throws MessagingException {
+		String[] val = companyService.generateCode(u_id, email);
+		System.out.println(val[0]+" " + val[1]);
+
+		approveMail.sendMail(val[0], val[1], email);
+
+		return new ResponseEntity("메일 보냄", HttpStatus.OK);
+	}
+	@GetMapping("/email/reject")
+	@ApiOperation(value="미승인 이메일", notes="ㅋㅋㅈㅅ")
+	public ResponseEntity sendRejectEmail(String email) throws MessagingException {
+		rejectMail.sendMail(email);
+
+		return new ResponseEntity("메일 보냄", HttpStatus.OK);
+
+	}
+
+
 	@ApiOperation(value="기업정보 전체 리스트", notes="DB에 저장된 기업 전체를 반환")
 	@GetMapping("/list")
 	public ResponseEntity showAllCompany() {
