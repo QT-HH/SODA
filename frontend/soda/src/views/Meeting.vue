@@ -119,9 +119,6 @@ export default {
 		userlist() {
 			this.isUser = !this.isUser;
 		},
-		chatOnoff() {
-			this.isChat = !this.isChat;
-		},
 		async openRoom(code) {
 			await getConfirmMeetingCode(code)
 				.then(res => {
