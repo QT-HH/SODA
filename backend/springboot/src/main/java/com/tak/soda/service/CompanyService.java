@@ -3,6 +3,7 @@ package com.tak.soda.service;
 import com.tak.soda.domain.*;
 import com.tak.soda.function.RandomAccessToken;
 import com.tak.soda.repository.CompanyRepository;
+import com.tak.soda.repository.MeetingRepository;
 import com.tak.soda.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,11 @@ import java.util.List;
 public class CompanyService {
 
 	private final RandomAccessToken randomAccessToken;
+
 	private final CompanyRepository companyRepository;
 	private final MemberRepository memberRepository;
-	
+	private final MeetingRepository meetingRepository;
+
 	// Junit Test
 	public String get() {
 		return "Hello JUnit5";
@@ -54,6 +57,7 @@ public class CompanyService {
 		}
 	}
 
+	@Transactional
 	public String[] generateCode(Long u_id, String email) {
 		String authCode = randomAccessToken.makeToken(10);
 		String inviteCode = randomAccessToken.makeToken(15);
@@ -63,13 +67,21 @@ public class CompanyService {
 		Company company = member.getCompany();
 		company.setAuthCode(authCode);
 
+		String room_name = member.getCompany().getName() +"_"+ inviteCode.substring(0,3);
+
 		Meeting meeting = new Meeting();
 		meeting.setHostId(u_id);
+		meeting.setRoomName(room_name);
 		meeting.setStartTime(LocalDateTime.now());
-		meeting.setMember(member);
 		meeting.setInviteCode(inviteCode);
 
-		member.addMeeting(meeting);
+		meetingRepository.save(meeting);
+
+		MeetingMember mm = new MeetingMember();
+		mm.setMeeting(meeting);
+
+		meeting.addMeeting(mm);
+		member.addMeeting(mm);
 
 		return new String[]{authCode, inviteCode};
 	}
@@ -91,11 +103,25 @@ public class CompanyService {
 		return companyRepository.findByName(name);
 	}
 
-	public boolean matchAuthCode(String authCode) {
-		if(companyRepository.findByAuth(authCode).isEmpty()) {
-			return false;
+	public Company matchAuthCode(String authCode) {
+		List<Company> res = companyRepository.findByAuth(authCode);
+		if(res.isEmpty()) {
+			return null;
 		}
-		return true;
+		return res.get(0);
+	}
+
+	public Member findMember(Long c_id) {
+		List<Member> res =  memberRepository.findByCId(c_id);
+
+		if(!res.isEmpty()) {
+			return res.get(0);
+		}
+		return null;
+	}
+
+	public String findInviteCode(Long host_id) {
+		return meetingRepository.findInviteCodeByHostId(host_id);
 	}
 
 	/**

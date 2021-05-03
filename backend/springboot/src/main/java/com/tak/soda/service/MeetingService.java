@@ -27,28 +27,6 @@ public class MeetingService {
 		return false;
 	}
 
-	/**
-	 * 미팅 개설
-	 * @param member
-	 * @param inviteCode
-	 * @return
-	 */
-	public Long createMeeting(Member member, String inviteCode) {
-		Meeting meeting = new Meeting();
-		String room_name = member.getCompany().getName() +"_"+ inviteCode.substring(0,3);
-
-		meeting.setRoomName(room_name);
-		meeting.setInviteCode(inviteCode);
-		meeting.setHostId(member.getId());
-		meeting.setStartTime(LocalDateTime.now());
-
-		meetingRepository.save(meeting);
-
-		member.addMeeting(meeting);
-
-		return meeting.getId();
-	}
-
 //	public Long inviteInterviewer(String member_id, String room_id) {
 //
 //	}

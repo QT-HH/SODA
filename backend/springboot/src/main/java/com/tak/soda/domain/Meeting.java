@@ -1,7 +1,9 @@
 package com.tak.soda.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -21,27 +23,25 @@ public class Meeting {
 	
 	@Column(nullable = true)
 	private String roomName;
-	
-	@Column(nullable = false)
-	private String inviteCode;
-	
+
 	@Column(nullable =false)
 	private long hostId;
-	
+
+	@Column(nullable = false)
+	private String inviteCode;
+
 	@Column
 	private LocalDateTime startTime;
 	
 	@Column
 	private LocalDateTime endTime;
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "u_id")
-	private Member member;
-	
-	
-	public void setMember(Member member) {
-		this.member = member;
-		member.getMeetings().add(this);
+	@OneToMany(mappedBy = "meeting")
+	private List<MeetingMember> meetings = new ArrayList<>();
+
+	public void addMeeting(MeetingMember mm) {
+		meetings.add(mm);
+		mm.setMeeting(this);
 	}
 	
 	public void updateEndTime(LocalDateTime endTime) {

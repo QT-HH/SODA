@@ -1,9 +1,6 @@
 package com.tak.soda.service;
 
-import com.tak.soda.domain.Company;
-import com.tak.soda.domain.Member;
-import com.tak.soda.domain.MemberDto;
-import com.tak.soda.domain.MemberStatus;
+import com.tak.soda.domain.*;
 import com.tak.soda.repository.CompanyRepository;
 import com.tak.soda.repository.MeetingRepository;
 import com.tak.soda.repository.MemberRepository;
@@ -63,6 +60,35 @@ public class MemberService {
 
 	public Member findById(Long id) {
 		return memberRepository.findById(id);
+	}
+
+	@Transactional
+	public void createInterviewee(String email, Company company) {
+		Member member = new Member();
+
+		// 면접관 생성
+		member.setCompany(company);
+		member.setStatus(MemberStatus.PLAN);
+		member.setEmail(email);
+		member.setRole("면접관");
+		member.setName(company.getName() + " 면접관");
+
+		memberRepository.save(member);
+
+	}
+
+	@Transactional
+	public void createInterviewer(String email) {
+		Member member = new Member();
+
+		// 면접관 생성
+		member.setStatus(MemberStatus.PLAN);
+		member.setEmail(email);
+		member.setRole("면접자");
+		member.setName(email.split("@")[0] + " 님");
+
+		System.out.println(member.getName());
+		memberRepository.save(member);
 	}
 
 	/**

@@ -1,5 +1,26 @@
 <template>
 	<div>
+		<div v-if="isUser">
+			<v-container
+				fluid
+				class="sticky-box"
+				style="border: 2px solid; color: #4527a0"
+			>
+				<p style="color: black">면접자리스트</p>
+				<v-list>
+					<v-list-item style="padding: 0px; text-align: center">
+						<div class="text-center">
+							<p style="margin: 3px">youlee602@hanmail.net</p>
+							<v-chip-group mandatory>
+								<v-chip color="indigo darken-3" outlined small> 예정 </v-chip>
+								<v-chip color="indigo darken-3" outlined small> 진행 </v-chip>
+								<v-chip color="indigo darken-3" outlined small> 완료 </v-chip>
+							</v-chip-group>
+						</div>
+					</v-list-item>
+				</v-list>
+			</v-container>
+		</div>
 		<div style="margin: 50px"></div>
 		<input
 			v-if="!streaming"
@@ -70,6 +91,11 @@
 			<button @click="updateRoomList">방정보 새로고침</button>
 			<div id="rooms-list"></div>
 		</div>
+		<MeetingBottomBar
+			v-if="meetingStart"
+			@userlist="userlist"
+		></MeetingBottomBar>
+		<!-- <MeetingUser v-if="isUser"></MeetingUser> -->
 	</div>
 </template>
 
@@ -78,11 +104,18 @@
 
 <script>
 import { getConfirmMeetingCode } from '@/api/meeting.js';
-
+import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
+// import MeetingUser from '@/components/meeting/MeetingUser.vue';
 export default {
+	components: {
+		MeetingBottomBar,
+		// MeetingUser,
+	},
 	data() {
 		return {
+			isUser: '',
 			roomid: '',
+			meetingStart: false,
 			connection: null,
 			streaming: false,
 			chatInfo: {
@@ -90,12 +123,7 @@ export default {
 				sender: null,
 			},
 			chatting: false,
-
-			drawer: null,
-			items: [
-				{ title: 'Home', icon: 'mdi-view-dashboard' },
-				{ title: 'About', icon: 'mdi-forum' },
-			],
+			publicRoomIdentifier: 'sodasoda',
 		};
 	},
 	beforeDestroy() {
@@ -106,7 +134,11 @@ export default {
 	// 	console.log(test);
 	// },
 	methods: {
+		userlist() {
+			this.isUser = !this.isUser;
+		},
 		async openRoom() {
+			this.meetingStart = !this.meetingStart;
 			if (this.connection) {
 				if (this.connection.sessionid !== this.roomid) {
 					this.outRoom();
@@ -121,15 +153,9 @@ export default {
 			this.chatInfo.sender = this.connection.userid;
 			this.connection.autoCloseEntireSession = true;
 			this.connection.socketMessageEvent = this.roomid;
-			this.connection.publicRoomIdentifier = this.roomid;
+			this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 
 			this.connection.onmessage = this.appendDIV;
-			this.connection.session = {
-				audio: true,
-				video: true,
-				data: true,
-			};
-
 			this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
 			this.connection.sdpConstraints.mandatory = {
 				OfferToReceiveAudio: true,
@@ -225,22 +251,6 @@ export default {
 
 			document.getElementById('input-text-chat').focus();
 		},
-		updateRoomList() {
-			this.connection.socket.emit(
-				'get-public-rooms',
-				this.connection.publicRoomIidentifier,
-				function (listOfRooms) {
-					console.log(window.location);
-					console.log(listOfRooms);
-					// listOfRooms.forEach(function (room) {
-					// 	console.log(roomid);
-					// });
-				},
-			);
-		},
-		// updateListOfRooms(rooms) {
-		// 	console.log(rooms);
-		// },
 	},
 };
 </script>
@@ -254,5 +264,14 @@ export default {
 .bottom {
 	position: absolute;
 	bottom: 0;
+}
+
+.sticky-box {
+	width: 200px;
+	height: 570px;
+	float: left;
+	background-color: white;
+	border-radius: 10px;
+	padding: 100%, 0%;
 }
 </style>
