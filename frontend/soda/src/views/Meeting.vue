@@ -18,9 +18,20 @@
 			<v-btn depressed @click="voiceOff">마이크OFF</v-btn>
 			<v-btn depressed @click="voiceOn">마이크ON</v-btn>
 		</div>
-		<!-- <div v-if="streaming">
-			<v-btn depressed @click="blowUp">방 폭파</v-btn>
-		</div> -->
+		<br />
+		<br />
+		<br />
+		<br />
+		<div id="chat-container">
+			<div class="chat-output"></div>
+			<input
+				type="text"
+				id="input-text-chat"
+				placeholder="Enter Text Chat"
+				v-model="chatInfo.data"
+			/>
+			<v-btn depressed @click="inputChat">입력</v-btn>
+		</div>
 	</div>
 </template>
 
@@ -36,6 +47,10 @@ export default {
 			roomid: '',
 			connection: null,
 			streaming: false,
+			chatInfo: {
+				data: '',
+				sender: null,
+			},
 		};
 	},
 	beforeDestroy() {
@@ -47,44 +62,53 @@ export default {
 	// },
 	methods: {
 		async openRoom() {
-			await getConfirmMeetingCode(this.roomid)
-				.then(res => {
-					if (res.data) {
-						console.log(res.data);
-						if (this.connection) {
-							if (this.connection.sessionid !== this.roomid) {
-								this.outRoom();
-							} else {
-								console.log('already');
-								return;
-							}
-						}
-						this.streaming = !this.streaming;
-						this.connection = new RTCMultiConnection();
-						this.connection.autoCloseEntireSession = true;
-						this.connection.session = {
-							audio: true,
-							video: true,
-							data: true,
-						};
+			if (this.connection) {
+				if (this.connection.sessionid !== this.roomid) {
+					this.outRoom();
+				} else {
+					console.log('already');
+					return;
+				}
+			}
+			this.streaming = !this.streaming;
+			this.connection = new RTCMultiConnection();
+			this.chatInfo.sender = this.connection.userid;
+			this.connection.autoCloseEntireSession = true;
+			this.connection.socketMessageEvent = this.roomid;
+			// this.connection.onmessage = function (event) {
+			// 	const chatMessage = event.data;
+			// 	console.log(this);
+			// 	appendDIV(chatMessage);
+			// };
+			this.connection.onmessage = this.appendDIV;
+			this.connection.session = {
+				audio: true,
+				video: true,
+				data: true,
+			};
 
-						this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
-						this.connection.sdpConstraints.mandatory = {
-							OfferToReceiveAudio: true,
-							OfferToReceiveVideo: true,
-						};
-						this.connection.openOrJoin(this.roomid);
-						this.connection.videosContainer = document.querySelector(
-							'.videos-container',
-						);
-						console.log('participants : ', this.connection.sessionid);
-					} else {
-						alert('유효하지 않은 미팅코드입니다.');
-					}
-				})
-				.catch(err => {
-					console.log('에러');
-				});
+			this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
+			this.connection.sdpConstraints.mandatory = {
+				OfferToReceiveAudio: true,
+				OfferToReceiveVideo: true,
+			};
+			this.connection.openOrJoin(this.roomid);
+			this.connection.videosContainer = document.querySelector(
+				'.videos-container',
+			);
+			console.log('participants : ', this.connection.sessionid);
+			// await getConfirmMeetingCode(this.roomid)
+			// 	.then(res => {
+			// 		// console.log(res);
+			// 		// if (res.data) {
+			// 		// 	console.log(res.data);
+			// 		// } else {
+			// 		// 	alert('유효하지 않은 미팅코드입니다.');
+			// 		// }
+			// 	})
+			// 	.catch(err => {
+			// 		console.log('에러');
+			// 	});
 		},
 		outRoom() {
 			if (this.connection.isInitiator) {
@@ -132,15 +156,27 @@ export default {
 			let video = this.connection.streamEvents.selectAll();
 			console.log(video);
 		},
-		// blowUp() {
-		// 	if (this.connection.isInitiator) {
-		// 		console.log(this.connection.isInitiator);
-		// 		this.connection.closeEntireSession();
-		// 		console.log('finish');
-		// 	} else {
-		// 		console.log(`You're not initiator`);
-		// 	}
-		// },
+		inputChat() {
+			const myChat = {
+				data: this.chatInfo,
+			};
+			if (!!myChat.data.data) {
+				this.connection.send(myChat.data);
+				this.appendDIV(myChat);
+				this.chatInfo.data = '';
+			}
+		},
+		appendDIV(event) {
+			console.log(event);
+			const chatContainer = document.querySelector('.chat-output');
+			let div = document.createElement('div');
+			div.innerHTML = `${event.data.sender} : ${event.data.data}`;
+			chatContainer.insertBefore(div, chatContainer.firstchild);
+			div.tabIndex = 0;
+			div.focus();
+
+			document.getElementById('input-text-chat').focus();
+		},
 	},
 };
 </script>
