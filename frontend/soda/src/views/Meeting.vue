@@ -76,6 +76,7 @@ export default {
 				}
 			}
 			this.streaming = !this.streaming;
+			this.$store.state.meetingOn = this.streaming;
 			this.connection = new RTCMultiConnection();
 			this.chatInfo.sender = this.connection.userid;
 			this.connection.autoCloseEntireSession = true;
@@ -131,6 +132,7 @@ export default {
 			this.connection.closeSocket();
 			this.connection = null;
 			this.streaming = !this.streaming;
+			this.$store.state.meetingOn = this.streaming;
 			this.roomid = '';
 		},
 		screenOff() {

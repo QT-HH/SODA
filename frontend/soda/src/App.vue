@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<TopBar></TopBar>
+		<TopBar v-show="!$store.state.meetingOn"></TopBar>
 		<v-main>
 			<router-view />
 		</v-main>
@@ -9,6 +9,7 @@
 
 <script>
 import TopBar from './components/common/TopBar.vue';
+
 export default {
 	name: 'app',
 

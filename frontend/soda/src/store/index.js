@@ -6,7 +6,9 @@ import meetingStore from '@/store/modules/meetingStore';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-	state: {},
+	state: {
+		meetingOn: false,
+	},
 	mutations: {},
 	actions: {},
 	modules: {
