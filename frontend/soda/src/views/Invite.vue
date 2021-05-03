@@ -164,21 +164,12 @@ export default {
 			this.postInviteCode();
 		},
 		async getCompanyInfo(code) {
-			await authCompany(code)
-				.then(res => {
-					if (res.data) {
-						console.log(res.data);
-						this.cname = res.data[0][0];
-						this.inviteCode = res.data[0][1];
-					} else {
-						alert('유효하지 않은 미팅코드입니다.');
-					}
-				})
-				.catch(err => {
-					console.log('에러' + err);
-				});
+			const res = await authCompany(code);
+			this.cname = res.data[0];
+			this.inviteCode = res.data[1];
 		},
 		async postInviteCode() {
+			console.log('되니' + this.inviteCode);
 			await sendMeetingCode({
 				cname: this.cname,
 				emails: this.emailsmg,
