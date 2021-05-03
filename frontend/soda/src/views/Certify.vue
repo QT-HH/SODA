@@ -51,6 +51,7 @@ export default {
 			} else {
 				await authCompany(authCode)
 					.then(res => {
+						this.$store.state.auth_code = authCode;
 						if (res.data) this.$router.push('/invite');
 						else this.dialogOpen = true;
 					})
