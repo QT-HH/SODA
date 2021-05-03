@@ -21,8 +21,36 @@
 				</v-list>
 			</v-container>
 		</div>
+		<div
+			id="chat-container"
+			v-if="isChat"
+			class="sticky-box"
+			style="border: 2px solid; color: #4527a0; float: right"
+		>
+			<div class="chat-output"></div>
+			<div class="chat-input">
+				<input
+					type="text"
+					id="input-text-chat"
+					class="comp"
+					placeholder="Enter Text Chat"
+					v-model="chatInfo.data"
+					@keyup.enter="inputChat"
+					style="width: 70%; left: 0px"
+				/>
+				<v-btn
+					depressed
+					small
+					class="comp"
+					@click="inputChat"
+					style="width: 30%; right: 0px"
+					>입력</v-btn
+				>
+			</div>
+		</div>
 		<div style="margin: 50px"></div>
 		<input
+			v-if="!streaming"
 			v-model="roomid"
 			placeholder="Unique room ID"
 			@keyup.enter="openRoom"
@@ -36,7 +64,7 @@
 					<div class="videos-container"></div>
 				</v-row>
 			</v-container>
-			<div id="chat-container" v-show="streaming && chatting">
+			<!-- <div id="chat-container" v-show="streaming && chatting">
 				<v-navigation-drawer v-model="chatting" absolute right width="350">
 					<v-list-item>
 						<v-list-item-content>
@@ -60,7 +88,7 @@
 						<v-btn depressed @click="inputChat">입력</v-btn>
 					</div>
 				</v-navigation-drawer>
-			</div>
+			</div> -->
 		</v-sheet>
 		<br />
 		<br />
@@ -74,7 +102,7 @@
 			@voiceOff="voiceOff"
 			@screenOn="screenOn"
 			@screenOff="screenOff"
-			@chatOn="chatOn"
+			@chatOnOff="chatOnOff"
 		></MeetingBottomBar>
 		<!-- <MeetingUser v-if="isUser"></MeetingUser> -->
 	</div>
@@ -110,6 +138,9 @@ export default {
 		this.outRoom();
 	},
 	methods: {
+		chatOnOff() {
+			this.isChat = !this.isChat;
+		},
 		userlist() {
 			this.isUser = !this.isUser;
 		},
@@ -117,42 +148,45 @@ export default {
 			this.isChat = !this.isChat;
 		},
 		async openRoom() {
-			// await getConfirmMeetingCode(this.roomid)
-			// 	.then(res => {
-			// 		if (res.data) {
-			// console.log(res.data);
-			this.meetingStart = !this.meetingStart;
-			this.streaming = !this.streaming;
-			this.$store.state.meetingOn = this.streaming;
-			this.connection = new RTCMultiConnection();
-			this.chatInfo.sender = this.connection.userid;
-			this.connection.autoCloseEntireSession = true;
-			this.connection.socketMessageEvent = this.roomid;
-			this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
+			await getConfirmMeetingCode(this.roomid)
+				.then(res => {
+					if (res.data) {
+						// console.log(res.data);
+						this.meetingStart = !this.meetingStart;
+						this.streaming = !this.streaming;
+						this.$store.state.meetingOn = this.streaming;
+						this.connection = new RTCMultiConnection();
+						this.chatInfo.sender = this.connection.userid;
+						// this.connection.autoCloseEntireSession = true;
+						this.connection.socketMessageEvent = this.roomid;
+						this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 
-			this.connection.onmessage = this.appendDIV;
-			this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
-			this.connection.sdpConstraints.mandatory = {
-				OfferToReceiveAudio: true,
-				OfferToReceiveVideo: true,
-			};
-			this.connection.openOrJoin(this.roomid);
-			this.connection.videosContainer = document.querySelector(
-				'.videos-container',
-			);
-			this.userlist();
-			// 	} else {
-			// 		alert('유효하지 않은 미팅코드입니다.');
-			// 	}
-			// })
-			// .catch(err => {
-			// 	console.log('에러');
-			// });
+						this.connection.onmessage = this.appendDIV;
+						this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
+						this.connection.sdpConstraints.mandatory = {
+							OfferToReceiveAudio: true,
+							OfferToReceiveVideo: true,
+						};
+						this.connection.openOrJoin(this.roomid);
+						this.connection.videosContainer = document.querySelector(
+							'.videos-container',
+						);
+						this.userlist();
+						this.chatOnOff();
+					} else {
+						alert('유효하지 않은 미팅코드입니다.');
+					}
+				})
+				.catch(err => {
+					console.log('에러');
+				});
 		},
 		outRoom() {
 			// if (this.connection.isInitiator) {
 			// 	this.connection.socket.emit('close-socket');
 			// }
+			this.userlist();
+			this.chatOnOff();
 			if (!!this.connection) {
 				this.connection.getAllParticipants().forEach(participantId => {
 					this.connection.disconnectWith(participantId);
@@ -241,7 +275,18 @@ export default {
 	border-radius: 10px;
 	padding: 100%, 0%;
 }
-
+.chat-output {
+	height: 95%;
+	overflow-y: auto;
+}
+.chat-input {
+	position: relative;
+	height: 5%;
+}
+.chat-input .comp {
+	position: absolute;
+	bottom: 0px;
+}
 .bottom {
 	position: absolute;
 	bottom: 0;
