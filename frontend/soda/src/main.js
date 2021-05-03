@@ -8,9 +8,12 @@ Vue.use(Vuetify);
 Vue.config.productionTip = false;
 
 new Vue({
-	vuetify: new Vuetify(),
+	vuetify: new Vuetify({
+		icons: {
+			iconfont: 'mdiSvg', // 'mdi' || 'mdiSvg' || 'md' || 'fa' || 'fa4' || 'faSvg'
+		},
+	}),
 	router,
 	store,
-	Vuetify,
 	render: h => h(App),
 }).$mount('#app');

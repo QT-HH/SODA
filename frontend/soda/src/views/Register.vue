@@ -5,7 +5,7 @@
 			<h1 class="pb-3" id="font3">기업 등록</h1>
 			<p class="content" id="font2">* 면접 개설 권한을 받기 위한 절차입니다.</p>
 			<v-text-field
-				v-model="cname"
+				v-model="cName"
 				solo
 				flat
 				rounded
@@ -14,7 +14,7 @@
 				color="#388E3C"
 			></v-text-field>
 			<v-text-field
-				v-model="uname"
+				v-model="uName"
 				solo
 				flat
 				rounded
@@ -23,7 +23,7 @@
 				color="#388E3C"
 			></v-text-field>
 			<v-text-field
-				v-model="cjob"
+				v-model="role"
 				solo
 				flat
 				rounded
@@ -32,7 +32,7 @@
 				color="#388E3C"
 			></v-text-field>
 			<v-text-field
-				v-model="cphone"
+				v-model="phone"
 				solo
 				flat
 				rounded
@@ -41,7 +41,7 @@
 				color="#388E3C"
 			></v-text-field>
 			<v-text-field
-				v-model="cemail"
+				v-model="email"
 				solo
 				flat
 				rounded
@@ -67,44 +67,42 @@
 </template>
 
 <script>
-// import { postCompanyInfo } from '@/api/company';
+import { newCompany } from '@/api/company';
 export default {
 	name: 'Register',
 	components: {},
 	data() {
 		return {
 			dialog: false,
-			cname: null,
-			uname: null,
-			cjob: null,
-			cphone: null,
-			cemail: null,
+			cName: null,
+			email: null,
+			phone: null,
+			role: null,
+			uName: null,
 		};
 	},
 	methods: {
-		// submit() {
-		// 	if (this.cname === null) {
-		// 		alert('기업명을 입력해주세요.');
-		// 	} else if (this.uname === null) {
-		// 		alert('담당자명을 입력해주세요.');
-		// 	} else if (this.cjob === null) {
-		// 		alert('직책을 입력해주세요.');
-		// 	} else if (this.cphone === null) {
-		// 		alert('연락처를 입력해주세요.');
-		// 	} else if (this.cemail === null) {
-		// 		alert('이메일을 입력해주세요.');
-		// 	} else {
-		// 		this.dialog = true;
-		// 		const info = {
-		// 			cname: this.cname,
-		// 			uname: this.uname,
-		// 			cjob: this.cjob,
-		// 			cphone: this.cphone,
-		// 			cemail: this.cemail,
-		// 		};
-		// 		postCompanyInfo(info);
-		// 	}
-		// },
+		async submit() {
+			if (this.cName === null) {
+				alert('기업명을 입력해주세요.');
+			} else if (this.uName === null) {
+				alert('담당자명을 입력해주세요.');
+			} else if (this.role === null) {
+				alert('직책을 입력해주세요.');
+			} else if (this.phone === null) {
+				alert('연락처를 입력해주세요.');
+			} else if (this.email === null) {
+				alert('이메일을 입력해주세요.');
+			} else {
+				this.dialog = true;
+				const cName = this.cName;
+				const uName = this.uName;
+				const role = this.role;
+				const phone = this.phone;
+				const email = this.email;
+				await newCompany(cName, email, phone, role, uName);
+			}
+		},
 		close() {
 			this.dialog = false;
 			this.$router.push('/');

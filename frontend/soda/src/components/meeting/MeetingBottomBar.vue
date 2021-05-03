@@ -66,7 +66,7 @@ export default {
 			isAudio: true,
 			isVideo: true,
 			isSubtitle: true,
-			isChatting: true,
+			isChatting: false,
 		};
 	},
 	methods: {

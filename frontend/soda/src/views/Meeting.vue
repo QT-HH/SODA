@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div v-if="isUser">
+		<div v-if="streaming && isUser">
 			<v-container
 				fluid
 				class="sticky-box"
@@ -49,7 +49,6 @@
 			</div>
 		</div>
 		<div style="margin: 50px"></div>
-		<div class="videos-container"></div>
 		<input
 			v-if="!streaming"
 			v-model="roomid"
@@ -59,9 +58,44 @@
 		<div v-if="!streaming">
 			<v-btn depressed color="primary" @click="openRoom">open or join</v-btn>
 		</div>
+		<v-sheet height="100%" class="overflow-hidden" style="position: relative">
+			<v-container class="fill-height">
+				<v-row align="center" justify="center">
+					<div class="videos-container"></div>
+				</v-row>
+			</v-container>
+			<!-- <div id="chat-container" v-show="streaming && chatting">
+				<v-navigation-drawer v-model="chatting" absolute right width="350">
+					<v-list-item>
+						<v-list-item-content>
+							<v-list-item-title>Chat</v-list-item-title>
+						</v-list-item-content>
+					</v-list-item>
 
+					<v-divider></v-divider>
+
+					<div class="chat-output"></div>
+
+					<div class="bottom">
+						<v-divider></v-divider>
+						<input
+							type="text"
+							id="input-text-chat"
+							placeholder="Enter Text Chat"
+							v-model="chatInfo.data"
+							@keyup.enter="inputChat"
+						/>
+						<v-btn depressed @click="inputChat">입력</v-btn>
+					</div>
+				</v-navigation-drawer>
+			</div> -->
+		</v-sheet>
+		<br />
+		<br />
+		<br />
+		<br />
 		<MeetingBottomBar
-			v-if="meetingStart"
+			v-if="streaming"
 			@userlist="userlist"
 			@outRoom="outRoom"
 			@voiceOn="voiceOn"
@@ -70,6 +104,7 @@
 			@screenOff="screenOff"
 			@chatOnOff="chatOnOff"
 		></MeetingBottomBar>
+		<!-- <MeetingUser v-if="isUser"></MeetingUser> -->
 	</div>
 </template>
 
@@ -91,6 +126,7 @@ export default {
 			meetingStart: false,
 			connection: null,
 			streaming: false,
+			chatting: false,
 			chatInfo: {
 				data: '',
 				sender: null,
@@ -165,6 +201,9 @@ export default {
 				this.streaming = !this.streaming;
 				this.$store.state.meetingOn = this.streaming;
 				this.roomid = '';
+				this.$router.push('/attend');
+				var el = document.getElementById('apdiv');
+				el.remove();
 			}
 		},
 		screenOff() {
@@ -182,6 +221,9 @@ export default {
 		voiceOn() {
 			const event = this.findMyVideo();
 			event.stream.unmute('audio');
+		},
+		chatOn() {
+			this.chatting = !this.chatting;
 		},
 		findMyVideo() {
 			let events = this.connection.streamEvents.selectAll();
@@ -208,6 +250,7 @@ export default {
 			// console.log(event);
 			const chatContainer = document.querySelector('.chat-output');
 			let div = document.createElement('div');
+			div.setAttribute('id', 'apdiv');
 			div.innerHTML = `${event.data.sender} : ${event.data.data}`;
 			chatContainer.insertBefore(div, chatContainer.firstchild);
 			div.tabIndex = 0;
@@ -243,5 +286,10 @@ export default {
 .chat-input .comp {
 	position: absolute;
 	bottom: 0px;
+}
+.bottom {
+	position: absolute;
+	bottom: 0;
+	width: 350px;
 }
 </style>
