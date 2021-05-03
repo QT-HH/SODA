@@ -33,7 +33,7 @@
 						style="margin-left: 15px; margin-right: 15px"
 						@click="audio"
 					>
-						<i class="fas fa-volume-up"> 오디오 ON</i></v-btn
+						<i class="fas fa-volume-up"> {{ isAudio }} </i></v-btn
 					>
 					<v-btn
 						v-if="isVideo"
@@ -91,11 +91,11 @@ export default {
 	name: 'MeetingBottomBar',
 	data() {
 		return {
-			isUser: false,
-			isAudio: false,
-			isVideo: false,
-			isSubtitle: false,
-			isChatting: false,
+			isUser: true,
+			isAudio: true,
+			isVideo: true,
+			isSubtitle: true,
+			isChatting: true,
 		};
 	},
 	methods: {

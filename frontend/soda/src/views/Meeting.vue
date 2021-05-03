@@ -92,73 +92,61 @@ export default {
 	beforeDestroy() {
 		this.outRoom();
 	},
-	// mounted() {
-	// 	const test = require('https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js');
-	// 	console.log(test);
-	// },
 	methods: {
 		userlist() {
 			this.isUser = !this.isUser;
 		},
 		async openRoom() {
-			this.meetingStart = !this.meetingStart;
-			if (this.connection) {
-				if (this.connection.sessionid !== this.roomid) {
-					this.outRoom();
-				} else {
-					console.log('already');
-					return;
-				}
-			}
-			this.streaming = !this.streaming;
-			this.$store.state.meetingOn = this.streaming;
-			this.connection = new RTCMultiConnection();
-			this.chatInfo.sender = this.connection.userid;
-			this.connection.autoCloseEntireSession = true;
-			this.connection.socketMessageEvent = this.roomid;
-			this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
+			await getConfirmMeetingCode(this.roomid)
+				.then(res => {
+					if (res.data) {
+						// console.log(res.data);
+						this.meetingStart = !this.meetingStart;
+						this.streaming = !this.streaming;
+						this.$store.state.meetingOn = this.streaming;
+						this.connection = new RTCMultiConnection();
+						this.chatInfo.sender = this.connection.userid;
+						this.connection.autoCloseEntireSession = true;
+						this.connection.socketMessageEvent = this.roomid;
+						this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 
-			this.connection.onmessage = this.appendDIV;
-			this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
-			this.connection.sdpConstraints.mandatory = {
-				OfferToReceiveAudio: true,
-				OfferToReceiveVideo: true,
-			};
-			this.connection.openOrJoin(this.roomid);
-			this.connection.videosContainer = document.querySelector(
-				'.videos-container',
-			);
-			// console.log('participants : ', this.connection.sessionid);
-			// await getConfirmMeetingCode(this.roomid)
-			// 	.then(res => {
-			// 		// console.log(res);
-			// 		// if (res.data) {
-			// 		// 	console.log(res.data);
-			// 		// } else {
-			// 		// 	alert('유효하지 않은 미팅코드입니다.');
-			// 		// }
-			// 	})
-			// 	.catch(err => {
-			// 		console.log('에러');
-			// 	});
+						this.connection.onmessage = this.appendDIV;
+						this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
+						this.connection.sdpConstraints.mandatory = {
+							OfferToReceiveAudio: true,
+							OfferToReceiveVideo: true,
+						};
+						this.connection.openOrJoin(this.roomid);
+						this.connection.videosContainer = document.querySelector(
+							'.videos-container',
+						);
+					} else {
+						alert('유효하지 않은 미팅코드입니다.');
+					}
+				})
+				.catch(err => {
+					console.log('에러');
+				});
 		},
 		outRoom() {
 			// if (this.connection.isInitiator) {
 			// 	this.connection.socket.emit('close-socket');
 			// }
-			this.connection.getAllParticipants().forEach(participantId => {
-				this.connection.disconnectWith(participantId);
-			});
+			if (!!this.connection) {
+				this.connection.getAllParticipants().forEach(participantId => {
+					this.connection.disconnectWith(participantId);
+				});
 
-			this.connection.attachStreams.forEach(function (localStream) {
-				localStream.stop();
-			});
+				this.connection.attachStreams.forEach(function (localStream) {
+					localStream.stop();
+				});
 
-			this.connection.closeSocket();
-			this.connection = null;
-			this.streaming = !this.streaming;
-			this.$store.state.meetingOn = this.streaming;
-			this.roomid = '';
+				this.connection.closeSocket();
+				this.connection = null;
+				this.streaming = !this.streaming;
+				this.$store.state.meetingOn = this.streaming;
+				this.roomid = '';
+			}
 		},
 		screenOff() {
 			const event = this.findMyVideo();
