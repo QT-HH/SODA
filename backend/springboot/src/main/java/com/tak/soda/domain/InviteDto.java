@@ -10,7 +10,9 @@ import java.util.List;
 @Getter @Setter
 public class InviteDto {
 
-    private boolean isInterviewee;
+    private String role;
+    private String cName;
+    private String inviteCode;
     private List<String> emails;
 
 }

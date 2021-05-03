@@ -116,16 +116,18 @@ public class CompanyController {
 	public ResponseEntity checkAuthCode(String authCode) {
 		Company company = companyService.matchAuthCode(authCode);
 		Member member = companyService.findMember(company.getId());
-
-		String inviteCode = "없는 인증코드";
+		String[] res;
+		String inviteCode = "없는 인증코드";;
 
 		if(company != null) {
 			inviteCode = companyService.findInviteCode(member.getId());
-			System.out.println(inviteCode);
-			return new ResponseEntity(inviteCode, HttpStatus.OK);
+			res = new String[] {company.getName(), inviteCode};
+
+			return new ResponseEntity(res, HttpStatus.OK);
 		}
-		System.out.println(inviteCode);
-		return new ResponseEntity(inviteCode, HttpStatus.OK);
+
+		res = new String[] {company.getName(), inviteCode};
+		return new ResponseEntity(res, HttpStatus.OK);
 	}
 
 	@ApiOperation(value="기업정보 삭제", notes="기업 id로 삭제")
