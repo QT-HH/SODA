@@ -9,7 +9,7 @@
 						style="margin-right: 15px"
 						@click="user"
 					>
-						<i class="fas fa-users"> 면접자리스트 ON</i></v-btn
+						<i class="fas fa-users"> 면접자리스트 OFF</i></v-btn
 					>
 					<v-btn
 						v-else-if="!isUser"
@@ -17,7 +17,7 @@
 						style="margin-right: 15px"
 						@click="user"
 					>
-						<i class="fas fa-users"> 면접자리스트 OFF</i></v-btn
+						<i class="fas fa-users"> 면접자리스트 ON</i></v-btn
 					>
 					<v-btn
 						v-if="isAudio"
@@ -87,10 +87,8 @@
 </template>
 
 <script>
-// import MeetingUser from '@/components/meeting/MeetingUser.vue';
 export default {
 	name: 'MeetingBottomBar',
-	// components: { MeetingUser },
 	data() {
 		return {
 			isUser: false,
@@ -103,6 +101,7 @@ export default {
 	methods: {
 		user() {
 			this.isUser = !this.isUser;
+			this.$emit('userlist', this.isUser);
 		},
 		audio() {
 			this.isAudio = !this.isAudio;

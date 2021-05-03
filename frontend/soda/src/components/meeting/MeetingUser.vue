@@ -2,7 +2,7 @@
 	<div class="size">
 		<v-container
 			fluid
-			class="backcolor"
+			class="backcolor sticky-box"
 			style="border: 2px solid; color: #4527a0; height: 580px"
 		>
 			<p style="color: black">면접자리스트</p>
@@ -35,5 +35,9 @@ export default {
 .backcolor {
 	background-color: white;
 	border-radius: 10px;
+}
+.sticky-box {
+	position: sticky;
+	top: 0px;
 }
 </style>
