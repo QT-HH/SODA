@@ -26,10 +26,11 @@ public class MeetingMail {
         MimeMessage mail = mailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(mail);
         String mailContent = "<h1>[인증번호]</h1>"+
+                "</br>" +
                 "<p>미팅 인증번호는 "+token+ " 입니다.</p>";
 
         try {
-            helper.setSubject("[SODA 관리자] 미팅룸 생성 인증번호");
+            helper.setSubject("[SODA 관리자] 면접방 참가 인증번호");
             helper.setText(mailContent, true);
             helper.setTo(email);
             mailSender.send(mail);
