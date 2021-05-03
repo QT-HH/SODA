@@ -6,30 +6,45 @@
 			<p class="content" id="font2">* 면접 개설 권한을 받기 위한 절차입니다.</p>
 			<v-text-field
 				v-model="cname"
+				solo
+				flat
+				rounded
 				label="기업명"
 				required
 				color="#388E3C"
 			></v-text-field>
 			<v-text-field
 				v-model="uname"
+				solo
+				flat
+				rounded
 				label="담당자명"
 				required
 				color="#388E3C"
 			></v-text-field>
 			<v-text-field
 				v-model="cjob"
+				solo
+				flat
+				rounded
 				label="직책"
 				required
 				color="#388E3C"
 			></v-text-field>
 			<v-text-field
 				v-model="cphone"
+				solo
+				flat
+				rounded
 				label="연락처"
 				required
 				color="#388E3C"
 			></v-text-field>
 			<v-text-field
 				v-model="cemail"
+				solo
+				flat
+				rounded
 				label="이메일"
 				required
 				color="#388E3C"
@@ -126,7 +141,7 @@ button:focus {
 .contentwrap {
 	width: 500px;
 	position: fixed;
-	top: calc(50% - 241px);
+	top: calc(50% - 250px);
 	left: calc(50% - 250px);
 }
 .content {
