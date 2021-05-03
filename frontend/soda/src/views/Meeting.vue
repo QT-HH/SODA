@@ -62,7 +62,6 @@
 			v-if="meetingStart"
 			@userlist="userlist"
 		></MeetingBottomBar>
-		<!-- <MeetingUser v-if="isUser"></MeetingUser> -->
 	</div>
 </template>
 
@@ -70,13 +69,11 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
-import { getConfirmMeetingCode } from '@/api/meeting.js';
+// import { getConfirmMeetingCode } from '@/api/meeting.js';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
-// import MeetingUser from '@/components/meeting/MeetingUser.vue';
 export default {
 	components: {
 		MeetingBottomBar,
-		// MeetingUser,
 	},
 	data() {
 		return {

@@ -119,7 +119,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .asd {
 	background-color: rgb(204, 193, 243);
 }

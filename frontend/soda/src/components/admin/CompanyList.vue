@@ -21,7 +21,7 @@
 
 <script>
 import Company from '@/components/admin/Company.vue';
-import { getCompanyList } from '@/api/company';
+// import { getCompanyList } from '@/api/company';
 
 export default {
 	name: 'CompanyList',
@@ -34,12 +34,11 @@ export default {
 			meetingRoomList: false,
 		};
 	},
-	async created() {
-		const company = await getCompanyList();
-		// console.log(company);
-		this.companyList = company.data;
-		// console.log(this.companyList);
-	},
+	// async created() {
+	// 	const company = await getCompanyList();
+	// 	this.companyList = company.data;
+	// 	console.log(this.companyList);
+	// },
 };
 </script>
 
