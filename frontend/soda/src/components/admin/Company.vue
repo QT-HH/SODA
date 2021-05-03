@@ -50,9 +50,9 @@
 </template>
 
 <script>
-import { deleteCompany } from '@/api/company';
-import { postApproveEmail } from '@/api/email';
-import { postRejectEmail } from '@/api/email';
+// import { deleteCompany } from '@/api/company';
+// import { postApproveEmail } from '@/api/email';
+// import { postRejectEmail } from '@/api/email';
 export default {
 	name: 'company',
 	props: {
@@ -70,23 +70,23 @@ export default {
 		close() {
 			this.dialog = false;
 		},
-		delcompany() {
-			// console.log(this.company.cid);
-			const cid = this.company.cid;
-			deleteCompany(cid);
-			this.dialog = false;
-			this.$router.go(this.$router.currentRoute);
-		},
-		approve() {
-			const companyInfo = this.company;
-			postApproveEmail(companyInfo);
-			this.dialog = false;
-		},
-		reject() {
-			const companyInfo = this.company;
-			postRejectEmail(companyInfo);
-			this.dialog = false;
-		},
+		// delcompany() {
+		// 	// console.log(this.company.cid);
+		// 	const cid = this.company.cid;
+		// 	deleteCompany(cid);
+		// 	this.dialog = false;
+		// 	this.$router.go(this.$router.currentRoute);
+		// },
+		// approve() {
+		// 	const companyInfo = this.company;
+		// 	postApproveEmail(companyInfo);
+		// 	this.dialog = false;
+		// },
+		// reject() {
+		// 	const companyInfo = this.company;
+		// 	postRejectEmail(companyInfo);
+		// 	this.dialog = false;
+		// },
 	},
 };
 </script>
