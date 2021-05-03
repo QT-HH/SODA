@@ -52,9 +52,11 @@ export default {
 		this.connection.connectSocket();
 		// this.updateInterval();
 	},
-	// beforeDestroy() {
-	// 	clearInterval(this.updateInterval);
-	// },
+	beforeDestroy() {
+		// clearInterval(this.updateInterval);
+		this.connection.closeSocket();
+		this.connection = null;
+	},
 	methods: {
 		// updateInterval() {
 		// 	setInterval(this.updateRoomList, 3000);

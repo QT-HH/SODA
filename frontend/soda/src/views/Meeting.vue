@@ -95,25 +95,11 @@ export default {
 	beforeDestroy() {
 		this.outRoom();
 	},
-	// mounted() {
-	// 	const test = require('https://rtcmulticonnection.herokuapp.com/dist/RTCMultiConnection.min.js');
-	// 	console.log(test);
-	// },
 	methods: {
 		userlist() {
 			this.isUser = !this.isUser;
 		},
 		async openRoom() {
-			// console.log('participants : ', this.connection.sessionid);
-			// if (this.connection) {
-			// 	if (this.connection.sessionid !== this.roomid) {
-			// 		this.outRoom();
-			// 	} else {
-			// 		console.log('already');
-			// 		return;
-			// 	}
-			// }
-			// console.log(res);
 			await getConfirmMeetingCode(this.roomid)
 				.then(res => {
 					if (res.data) {
