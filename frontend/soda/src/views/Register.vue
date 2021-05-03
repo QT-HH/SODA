@@ -67,7 +67,7 @@
 </template>
 
 <script>
-import { postCompanyInfo } from '@/api/company';
+// import { postCompanyInfo } from '@/api/company';
 export default {
 	name: 'Register',
 	components: {},
@@ -82,29 +82,29 @@ export default {
 		};
 	},
 	methods: {
-		submit() {
-			if (this.cname === null) {
-				alert('기업명을 입력해주세요.');
-			} else if (this.uname === null) {
-				alert('담당자명을 입력해주세요.');
-			} else if (this.cjob === null) {
-				alert('직책을 입력해주세요.');
-			} else if (this.cphone === null) {
-				alert('연락처를 입력해주세요.');
-			} else if (this.cemail === null) {
-				alert('이메일을 입력해주세요.');
-			} else {
-				this.dialog = true;
-				const info = {
-					cname: this.cname,
-					uname: this.uname,
-					cjob: this.cjob,
-					cphone: this.cphone,
-					cemail: this.cemail,
-				};
-				postCompanyInfo(info);
-			}
-		},
+		// submit() {
+		// 	if (this.cname === null) {
+		// 		alert('기업명을 입력해주세요.');
+		// 	} else if (this.uname === null) {
+		// 		alert('담당자명을 입력해주세요.');
+		// 	} else if (this.cjob === null) {
+		// 		alert('직책을 입력해주세요.');
+		// 	} else if (this.cphone === null) {
+		// 		alert('연락처를 입력해주세요.');
+		// 	} else if (this.cemail === null) {
+		// 		alert('이메일을 입력해주세요.');
+		// 	} else {
+		// 		this.dialog = true;
+		// 		const info = {
+		// 			cname: this.cname,
+		// 			uname: this.uname,
+		// 			cjob: this.cjob,
+		// 			cphone: this.cphone,
+		// 			cemail: this.cemail,
+		// 		};
+		// 		postCompanyInfo(info);
+		// 	}
+		// },
 		close() {
 			this.dialog = false;
 			this.$router.push('/');
