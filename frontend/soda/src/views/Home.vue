@@ -6,6 +6,7 @@
 			<p>주요 기능</p>
 			<p>사용 가이드</p>
 		</ul>
+		<p v-show="scroll0" class="arrow"><span></span></p>
 		<button button="type" class="topBtn" id="font3">TOP</button>
 		<section class="bgimg">
 			<div class="page1content">
@@ -19,7 +20,6 @@
 					<span>소</span>
 					<span>다</span>
 				</h1>
-				<!-- <p class="sodaFont" id="font3">소리를 보다, 소다</p> -->
 				<p class="sodaContentFont margin0" id="font2">
 					소다는 면접 참여자의 말을 실시간 자막으로 제공하는 화상 면접
 					서비스입니다.
@@ -83,6 +83,7 @@ export default {
 			},
 			error: null,
 			isRun: true,
+			scroll0: true,
 		};
 	},
 	methods: {
@@ -165,8 +166,22 @@ export default {
 				});
 			});
 		},
+		showArrow() {
+			if (
+				document.body.scrollTop > 100 ||
+				document.documentElement.scrollTop > 100
+			) {
+				this.scroll0 = false;
+			} else {
+				this.scroll0 = true;
+			}
+		},
 	},
 	mounted() {
+		window.onscroll = () => {
+			this.showArrow();
+		};
+
 		this.start();
 	},
 };
@@ -272,5 +287,54 @@ button:focus {
 	background-color: #000;
 	border-color: #333;
 	color: #fff;
+}
+.arrow {
+	padding-top: 60px;
+	position: fixed;
+	bottom: 0;
+	left: calc(50% - 20px);
+	align-items: center;
+	z-index: 100;
+}
+.arrow span {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	width: 24px;
+	height: 24px;
+	margin-left: -12px;
+	border-left: 3px solid white;
+	border-bottom: 3px solid white;
+	-webkit-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+	-webkit-animation: sdb 1.5s infinite;
+	animation: sdb 1.5s infinite;
+	box-sizing: border-box;
+}
+@-webkit-keyframes sdb {
+	0% {
+		-webkit-transform: rotate(-45deg) translate(0, 0);
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		-webkit-transform: rotate(-45deg) translate(-20px, 20px);
+		opacity: 0;
+	}
+}
+@keyframes sdb {
+	0% {
+		transform: rotate(-45deg) translate(0, 0);
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		transform: rotate(-45deg) translate(-20px, 20px);
+		opacity: 0;
+	}
 }
 </style>
