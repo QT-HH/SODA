@@ -1,6 +1,8 @@
 package com.tak.soda.controller;
 
 import com.tak.soda.domain.IntervieweeDto;
+import com.tak.soda.domain.MeetingAttendDto;
+import com.tak.soda.domain.Member;
 import com.tak.soda.function.RandomAccessToken;
 import com.tak.soda.service.MeetingService;
 import com.tak.soda.service.MemberService;
@@ -33,20 +35,41 @@ public class MeetingController {
 	}
 
 
-	@GetMapping("interviewee")
+	@GetMapping("interviewee/list")
 	@ApiOperation(value = "면접 대상자", notes ="면접자 리스트를 반환")
 	public ResponseEntity getIntervieweeList(String inviteCode) {
 		List<IntervieweeDto> dto = meetingService.findByInviteCode(inviteCode);
+
+		if(dto.isEmpty()) {
+			return new ResponseEntity("면접자 없음", HttpStatus.OK);
+		}
 
 		return new ResponseEntity(dto, HttpStatus.OK);
 	}
 
 
 	@GetMapping("attend")
-	@ApiOperation(value = "미팅 참여(면접관/면접자 구분)", notes = "면접관인지 면접자인지 구분하는 값 반환")
+	@ApiOperation(value = "미팅 참여(면접관/면접자 구분)",
+			notes = "면접관인지 면접자인지 구분하는 값 반환하고" +
+					"면접자라면 status를 한 번 더 확인함" +
+					"PLAN : 아직 입장 불가능" +
+					"PROGRESS : 입장 가능" +
+					"DONE : 미팅 끝남")
 	public ResponseEntity attendMeeting(String email, String inviteCode) {
 
-		return new ResponseEntity("면접자", HttpStatus.OK);
+		List<MeetingAttendDto> res = meetingService.findMember(email, inviteCode);
+
+		// 면접관이면?
+//		if(meetingService.isInterviewer(member.getU_id())) {
+//			//member.setFlag("면접관");
+//
+//		} // 면접자라면?
+//		else{
+//			//member.setFlag("면접자");
+//		}
+
+
+		return new ResponseEntity(res, HttpStatus.OK);
 	}
 
 	@DeleteMapping("del")

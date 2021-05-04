@@ -2,6 +2,7 @@ package com.tak.soda.service;
 
 import com.tak.soda.domain.*;
 import com.tak.soda.repository.CompanyRepository;
+import com.tak.soda.repository.MeetingMemberRepository;
 import com.tak.soda.repository.MeetingRepository;
 import com.tak.soda.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class MemberService {
 	private final CompanyRepository companyRepository;
 	private final MemberRepository memberRepository;
 	private final MeetingRepository meetingRepository;
+	private final MeetingMemberRepository meetingMemberRepository;
 	
 	/**
 	 * 신규 멤버 등록(기업 담당자)
@@ -62,8 +64,66 @@ public class MemberService {
 		return memberRepository.findById(id);
 	}
 
+	public Member findByEmail(String email) {
+		List<Member> res = memberRepository.findByEmail(email);
+		return res.get(0);
+	}
+
+	/**
+	 * 미팅 조회(미팅코드)
+	 * @param inviteCode
+	 */
+	public Meeting findMeetingByInviteCode(String inviteCode) {
+		Meeting meeting = meetingRepository.findByInviteCode(inviteCode);
+
+		return meeting;
+	}
+
+	/**
+	 * 멤버 검색(이메일)
+	 * @param email
+	 */
+	public boolean isMember(String email) {
+		List<Member> res = memberRepository.findByEmail(email);
+
+		if(res.isEmpty()) {
+			return false;
+		}
+
+		return true;
+	}
+
 	@Transactional
-	public void createInterviewer(String email, String name, Company company) {
+	public void addToMeeting(Member member, Meeting meeting, String role) {
+		if(!isDuplicate(member.getId(), meeting.getId())) {
+			MeetingMember meetingMember = new MeetingMember();
+
+			meetingMember.setMember(member);
+			meetingMember.setMeeting(meeting);
+			if(role.matches("면접자"))
+				meetingMember.setStatus(MeetingStatus.PLAN);
+			else
+				meetingMember.setStatus(MeetingStatus.PROGRESS);
+
+			member.addMeeting(meetingMember);
+			meeting.addMember(meetingMember);
+
+		}else{
+			System.out.println("이미 초대됨");
+		}
+	}
+
+	private boolean isDuplicate(Long u_id, Long m_id) {
+		List<MeetingMember> res = meetingMemberRepository.checkDuplicate(m_id, u_id);
+
+		if(res.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	@Transactional
+	public Member createInterviewer(String email, String name, Company company) {
 		Member member = new Member();
 
 		// 면접관 생성
@@ -79,10 +139,11 @@ public class MemberService {
 
 		memberRepository.save(member);
 
+		return member;
 	}
 
 	@Transactional
-	public void createInterviewee(String email, String name) {
+	public Member createInterviewee(String email, String name) {
 		Member member = new Member();
 
 		// 면접관 생성
@@ -96,6 +157,8 @@ public class MemberService {
 		}
 
 		memberRepository.save(member);
+
+		return member;
 	}
 
 	/**
@@ -147,22 +210,6 @@ public class MemberService {
 		}
 		return res_list;
 	}
-
-	/**
-	 * 멤버 검색(이메일)
-	 * @param true, false
-	 */
-	public boolean isMember(String email) {
-		List<Member> res = memberRepository.findByEmail(email);
-
-		if(res.isEmpty()) {
-			return false;
-		}
-
-		return true;
-	}
-
-
 
 	/**
 	 * 멤버 업데이트

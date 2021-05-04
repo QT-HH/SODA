@@ -22,4 +22,7 @@ public class MeetingMember {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "m_id")
     private Meeting meeting; // 미팅방
+
+    @Column(name = "mm_status")
+    private MeetingStatus status;
 }

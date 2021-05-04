@@ -35,42 +35,43 @@ public class MemberController {
 	@PostMapping("/invite")
 	@ApiOperation(value="미팅 인증코드 전송", notes="role 통해 면접자/면접관 구분, 면접관이다 면접자이다 적어주면 됨. ex) role='면접관'")
 	public ResponseEntity inviteInterviewee(@RequestBody InviteDto dto) throws MessagingException {
-		Member member = new Member();
+		Meeting meeting = memberService.findMeetingByInviteCode(dto.getInviteCode());
+
 		List<String> emails = dto.getEmails();
 		List<String> names = dto.getNames();
 
-		if(dto.getRole() == "면접관") {
-			Company company = companyService.findByName(dto.getCName()).get(0);
+		for(int i=0; i<dto.getEmails().size(); i++) {
+			String email = emails.get(i);
+			String name = names.get(i);
+			String pattern = "면접자";
 
-			for(int i=0; i<dto.getEmails().size(); i++) {
-				String email = emails.get(i);
-				String name = names.get(i);
+			Member member;
 
-				// 면접관이 DB에 없으면
-				if(!memberService.isMember(email)) {
-					// 면접관 생성
-					memberService.createInterviewer(email, name, company);
+			// 멤버가 DB에 없으면
+			if (!memberService.isMember(email)) {
+				// 면접관/면접자 생성
+
+
+				if (pattern.matches(dto.getRole())) {
+					member = memberService.createInterviewee(email, name);
+				} else {
+					Company company = companyService.findByName(dto.getCName()).get(0);
+					member = memberService.createInterviewer(email, name, company);
 				}
-
-				meetingMail.sendMail(dto.getInviteCode(), email);
+			} else {
+				member = memberService.findByEmail(email);
 			}
-		}else{
-			// 면접자 생성
-			for(int i=0; i<dto.getEmails().size(); i++) {
-				String email = emails.get(i);
-				String name = names.get(i);
 
-				// 면접관이 DB에 없으면
-				if(!memberService.isMember(email)) {
-					// 면접자 생성
-					memberService.createInterviewee(email, name);
-				}
-
-				meetingMail.sendMail(dto.getInviteCode(), email);
+			// 미팅방에 초대
+			if (pattern.matches(dto.getRole())) {
+				memberService.addToMeeting(member, meeting, "면접자");
+			} else {
+				memberService.addToMeeting(member, meeting, "면접관");
 			}
+			// 메일 보내기
+			//meetingMail.sendMail(dto.getInviteCode(), email);
+
 		}
-
-
 
 		return new ResponseEntity("전송 완료", HttpStatus.OK);
 	}

@@ -1,17 +1,14 @@
 package com.tak.soda.service;
 
 import com.tak.soda.domain.IntervieweeDto;
-import com.tak.soda.domain.Meeting;
-import com.tak.soda.domain.MeetingMember;
+import com.tak.soda.domain.MeetingAttendDto;
 import com.tak.soda.domain.Member;
-import com.tak.soda.repository.InterVieweeRepository;
+import com.tak.soda.repository.JoinSQLRepository;
+import com.tak.soda.repository.MeetingRepository;
+import com.tak.soda.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.tak.soda.repository.MeetingRepository;
-
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,7 +17,9 @@ public class MeetingService {
 	@Autowired
 	MeetingRepository meetingRepository;
 	@Autowired
-	InterVieweeRepository interVieweeRepository;
+	MemberRepository memberRepository;
+	@Autowired
+	JoinSQLRepository joinSQLRepository;
 
 	/**
 	 * 미팅 코드 유효성 검사
@@ -34,6 +33,16 @@ public class MeetingService {
 		return false;
 	}
 
+	public List<MeetingAttendDto> findMember(String email, String inviteCode) {
+		List<MeetingAttendDto> res = joinSQLRepository.findByEmailAndInviteCode(email, inviteCode);
+
+		return res;
+	}
+
+	public boolean isInterviewer(Long u_id) {
+
+		return true;
+	}
 	/**
 	 * 면접방 입장
 	 * @param email
@@ -43,8 +52,17 @@ public class MeetingService {
 
 	}
 
+	/**
+	 * 면접자 리스트
+	 * @param inviteCode
+	 */
 	public List<IntervieweeDto> findByInviteCode(String inviteCode) {
-		List<IntervieweeDto> meetingMember = interVieweeRepository.findMemberByInviteCode(inviteCode);
+		List<IntervieweeDto> meetingMember = joinSQLRepository.findMemberByInviteCode(inviteCode);
+
+		if(meetingMember.isEmpty()) {
+			System.out.println("비어있음");
+		}
+
 		return meetingMember;
 	}
 
