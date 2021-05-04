@@ -47,7 +47,7 @@
 </template>
 
 <script>
-// import { approveEmail } from '@/api/company';
+import { approveEmail } from '@/api/company';
 import { rejectEmail } from '@/api/company';
 export default {
 	name: 'company',
@@ -68,9 +68,10 @@ export default {
 		},
 		approve() {
 			const companyInfo = this.company;
-			// const email = companyInfo.email;
-			console.log(companyInfo);
-			// approveEmail(email);
+			const email = companyInfo.email;
+			const u_id = companyInfo.u_id;
+			// console.log(companyInfo);
+			approveEmail(email, u_id);
 			this.dialog = false;
 		},
 		reject() {
