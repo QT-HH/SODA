@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="bgcolor">
 		<div v-if="streaming && isUser">
 			<v-container
 				fluid
@@ -48,7 +48,7 @@
 				>
 			</div>
 		</div>
-		<div style="margin: 50px"></div>
+		<!-- <div style="margin: 50px"></div> -->
 		<input
 			v-if="!streaming"
 			v-model="roomid"
@@ -58,8 +58,12 @@
 		<div v-if="!streaming">
 			<v-btn depressed color="primary" @click="openRoom">open or join</v-btn>
 		</div>
-		<v-sheet height="100%" class="overflow-hidden" style="position: relative">
-			<v-container class="fill-height">
+		<v-sheet
+			height="100%"
+			class="overflow-hidden bgcolor"
+			style="position: relative"
+		>
+			<v-container class="fill-height bgcolor">
 				<v-row align="center" justify="center">
 					<div class="videos-container"></div>
 				</v-row>
@@ -236,7 +240,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .videos-container video {
 	width: 500px;
 	margin: 10px;
@@ -265,5 +269,8 @@ export default {
 	position: absolute;
 	bottom: 0;
 	width: 350px;
+}
+.bgcolor {
+	background-color: #e0dcdd;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<v-app>
 		<TopBar v-show="!$store.state.meetingOn"></TopBar>
-		<v-main>
+		<v-main class="bgcolor">
 			<router-view />
 		</v-main>
 	</v-app>
@@ -60,5 +60,8 @@ export default {
 	-moz-osx-font-smoothing: grayscale;
 	text-align: center;
 	color: #2c3e50;
+}
+.bgcolor {
+	background-color: #e0dcdd;
 }
 </style>
