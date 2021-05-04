@@ -102,8 +102,10 @@ public class MemberService {
 		for(Member member: res) {
 			MemberDto dto = new MemberDto();
 
-			dto.setId(member.getId());
-			dto.setCName(member.getCompany().getName());
+			dto.setU_id(member.getId());
+			if(member.getCompany() != null) {
+				dto.setCName(member.getCompany().getName());
+			}
 			dto.setUName(member.getName());
 			dto.setPhone(member.getPhone());
 			dto.setRole(member.getRole());
@@ -126,7 +128,7 @@ public class MemberService {
 		for(Member member: res) {
 			MemberDto dto = new MemberDto();
 
-			dto.setId(member.getId());
+			dto.setU_id(member.getId());
 			dto.setCName(member.getCompany().getName());
 			dto.setUName(member.getName());
 			dto.setPhone(member.getPhone());
@@ -141,58 +143,47 @@ public class MemberService {
 
 	/**
 	 * 멤버 업데이트
-	 * @param dto
 	 * @return member_id
 	 */
 	@Transactional
-	public Long updateStatus(MemberDto dto) {
-		Member member = memberRepository.findById(dto.getId());
+	public Long updateStatus(Long u_id, MemberStatus status) {
+		Member member = memberRepository.findById(u_id);
 
-		member.setStatus(dto.getStatus());
-
-		System.out.println(member.toString());
-		System.out.println(member.getStatus());
+		member.setStatus(status);
 		return member.getId();
 	}
 	@Transactional
-	public Long updateEmail(MemberDto dto) {
-		Member member = memberRepository.findById(dto.getId());
+	public Long updateEmail(Long u_id, String email) {
+		Member member = memberRepository.findById(u_id);
 
-		member.setEmail(dto.getEmail());
+		member.setEmail(email);
 		return member.getId();
 	}
 	@Transactional
-	public Long updateCompany(MemberDto dto) {
-		Member member = memberRepository.findById(dto.getId());
+	public Long updateName(Long u_id, String u_name) {
+		Member member = memberRepository.findById(u_id);
+
+		member.setName(u_name);
+		return member.getId();
+	}
+	@Transactional
+	public Long updateCompany(Long u_id, String c_name) {
+		Member member = memberRepository.findById(u_id);
 		//기업 연동
-		List<Company> findCompany = companyRepository.findByName(dto.getCName());
+		List<Company> findCompany = companyRepository.findByName(c_name);
 		Company company;
 
 		if(!findCompany.isEmpty()) {
 			company = findCompany.get(0);
 		}else{
 			company = new Company();
-			company.setName(dto.getCName());
+			company.setName(c_name);
 			companyRepository.save(company);
 		}
 
 		member.setCompany(company);
 		return member.getId();
 	}
-
-	/**
-	 * 멤버 상태 변경(예정, 진행, 종료)
-	 * @param memberId
-	 * @param status
-	 */
-	@Transactional
-	public void updateStatus(Long memberId, MemberStatus status) {
-		Member member = memberRepository.findById(memberId);
-
-		member.setStatus(status);
-		memberRepository.save(member);
-	}
-
 
 	@Transactional
 	public boolean deleteMember(Long id) {
