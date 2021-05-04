@@ -78,8 +78,9 @@ public class CompanyController {
 			Member member = company.getMembers().get(0);
 			MemberDto dto = new MemberDto();
 
-			System.out.println(member.getName());
+			dto.setC_id(company.getId());
 			dto.setCName(company.getName());
+			dto.setU_id(member.getId());
 			dto.setUName(member.getName());
 			dto.setRole(member.getRole());
 			dto.setStatus(member.getStatus());

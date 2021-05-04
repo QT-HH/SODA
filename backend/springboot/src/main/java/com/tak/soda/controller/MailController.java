@@ -47,7 +47,7 @@ public class MailController {
 	@ApiOperation(value="승인", notes="승인 이메일 전송(인증코드 발송)")
 	@PostMapping("/approve")
 	public ResponseEntity<String> approve(@RequestBody MemberDto dto) {
-		Member member = memberService.findById(dto.getId());
+		Member member = memberService.findById(dto.getU_id());
 		String Token = randomAccessToken.makeToken(TokenLength);
 
 

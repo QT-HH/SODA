@@ -11,7 +11,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class MemberDto {
-    private Long id;
+    private Long u_id;
+    private Long c_id;
+
     private String uName;
     private String email;
     private String role;

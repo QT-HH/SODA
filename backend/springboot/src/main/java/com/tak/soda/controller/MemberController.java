@@ -79,24 +79,31 @@ public class MemberController {
 
 	@PutMapping("/edit/status")
 	@ApiOperation(value="멤버 정보 수정(상태)", notes="PLAN: 예정, PROGRESS: 진행, DONE: 완료")
-	public ResponseEntity updateMemberStatus(@RequestBody MemberDto member) {
-		Long saveId = memberService.updateStatus(member);
+	public ResponseEntity updateMemberStatus(Long u_id, MemberStatus status) {
+		Long saveId = memberService.updateStatus(u_id, status);
+
+		return new ResponseEntity("성공", HttpStatus.OK);
+	}
+	@PutMapping("/edit/name")
+	@ApiOperation(value="멤버 정보 수정(이름)", notes="멤버 이름 변경")
+	public ResponseEntity updateMemberName(Long u_id, String u_name) {
+		memberService.updateName(u_id, u_name);
 
 		return new ResponseEntity("성공", HttpStatus.OK);
 	}
 
 	@PutMapping("/edit/company")
 	@ApiOperation(value="멤버 정보 수정(기업)", notes="멤버 기업 이름 변경")
-	public ResponseEntity updateMemberCompany(@RequestBody MemberDto member) {
-		memberService.updateCompany(member);
+	public ResponseEntity updateMemberCompany(Long u_id, String c_name) {
+		memberService.updateCompany(u_id, c_name);
 
 		return new ResponseEntity("성공", HttpStatus.OK);
 	}
 
 	@PutMapping("/edit/email")
 	@ApiOperation(value="멤버 정보 수정(이메일)", notes="멤버 이메일 변경")
-	public ResponseEntity updateMemberEmail(@RequestBody MemberDto member) {
-		memberService.updateEmail(member);
+	public ResponseEntity updateMemberEmail(Long u_id, String email) {
+		memberService.updateEmail(u_id, email);
 
 		return new ResponseEntity("성공", HttpStatus.OK);
 	}
