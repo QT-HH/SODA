@@ -142,6 +142,22 @@ public class MemberService {
 	}
 
 	/**
+	 * 멤버 검색(이메일)
+	 * @param true, false
+	 */
+	public boolean isMember(String email) {
+		List<Member> res = memberRepository.findByEmail(email);
+
+		if(res.isEmpty()) {
+			return false;
+		}
+
+		return true;
+	}
+
+
+
+	/**
 	 * 멤버 업데이트
 	 * @return member_id
 	 */

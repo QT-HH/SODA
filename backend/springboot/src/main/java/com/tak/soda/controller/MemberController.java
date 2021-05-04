@@ -41,17 +41,22 @@ public class MemberController {
 			Company company = companyService.findByName(dto.getCName()).get(0);
 
 			for(String email: dto.getEmails()) {
-				// 면접관 생성
-				memberService.createInterviewee(email, company);
+				// 면접관이 DB에 없으면
+				if(!memberService.isMember(email)) {
+					// 면접관 생성
+					memberService.createInterviewee(email, company);
+				}
 
 				meetingMail.sendMail(dto.getInviteCode(), email);
 			}
 		}else{
 			// 면접자 생성
-
 			for(String email: dto.getEmails()) {
-				// 면접자 생성
-				memberService.createInterviewer(email);
+				// 면접관이 DB에 없으면
+				if(!memberService.isMember(email)) {
+					// 면접자 생성
+					memberService.createInterviewer(email);
+				}
 
 				meetingMail.sendMail(dto.getInviteCode(), email);
 			}
