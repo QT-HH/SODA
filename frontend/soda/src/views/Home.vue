@@ -6,7 +6,7 @@
 			<p>주요 기능</p>
 			<p>사용 가이드</p>
 		</ul>
-		<p v-show="scroll0" class="arrow"><span></span></p>
+		<!-- <p v-show="scroll0" class="arrow"><span></span></p> -->
 		<button button="type" class="topBtn" id="font3">TOP</button>
 		<section class="bgimg">
 			<div class="page1content">
@@ -178,9 +178,9 @@ export default {
 		},
 	},
 	mounted() {
-		window.onscroll = () => {
-			this.showArrow();
-		};
+		// window.onscroll = () => {
+		// 	this.showArrow();
+		// };
 
 		this.start();
 	},
