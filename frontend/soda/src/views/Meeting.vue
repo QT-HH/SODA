@@ -10,7 +10,9 @@
 				<v-list>
 					<v-list-item style="padding: 0px; text-align: center">
 						<div class="text-center">
-							<p style="margin: 3px">youlee602@hanmail.net</p>
+							<div class="text-center user">
+								<p style="margin: 2px">youlee602@hanmail.netsxdcvfgbhnjk</p>
+							</div>
 							<v-chip-group mandatory>
 								<v-chip color="indigo darken-3" outlined small> 예정 </v-chip>
 								<v-chip color="indigo darken-3" outlined small> 진행 </v-chip>
@@ -265,5 +267,10 @@ export default {
 	position: absolute;
 	bottom: 0;
 	width: 350px;
+}
+.user {
+	width: 180px;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 </style>
