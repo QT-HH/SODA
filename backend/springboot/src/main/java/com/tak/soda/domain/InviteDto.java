@@ -14,5 +14,6 @@ public class InviteDto {
     private String cName;
     private String inviteCode;
     private List<String> emails;
+    private List<String> names;
 
 }

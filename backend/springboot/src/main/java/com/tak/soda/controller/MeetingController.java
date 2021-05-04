@@ -1,5 +1,6 @@
 package com.tak.soda.controller;
 
+import com.tak.soda.domain.IntervieweeDto;
 import com.tak.soda.function.RandomAccessToken;
 import com.tak.soda.service.MeetingService;
 import com.tak.soda.service.MemberService;
@@ -10,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin(origins = "*")
 @Api(tags = {"미팅 컨트롤러"})
@@ -17,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 public class MeetingController {
 	private final int TokenLength = 15;
 
-	@Autowired
-	RandomAccessToken randomAccessToken;
 	@Autowired
 	MeetingService meetingService;
 	@Autowired
@@ -32,6 +33,15 @@ public class MeetingController {
 	}
 
 
+	@GetMapping("interviewee")
+	@ApiOperation(value = "면접 대상자", notes ="면접자 리스트를 반환")
+	public ResponseEntity getIntervieweeList(String inviteCode) {
+		List<IntervieweeDto> dto = meetingService.findByInviteCode(inviteCode);
+
+		return new ResponseEntity(dto, HttpStatus.OK);
+	}
+
+
 	@GetMapping("attend")
 	@ApiOperation(value = "미팅 참여(면접관/면접자 구분)", notes = "면접관인지 면접자인지 구분하는 값 반환")
 	public ResponseEntity attendMeeting(String email, String inviteCode) {
@@ -42,6 +52,7 @@ public class MeetingController {
 	@DeleteMapping("del")
 	@ApiOperation(value = "미팅 삭제(종료)", notes = "")
 	public ResponseEntity delMeeting(String inviteCode) {
+		meetingService.removeMeeting(inviteCode);
 
 		return new ResponseEntity("삭제 성공", HttpStatus.OK);
 	}

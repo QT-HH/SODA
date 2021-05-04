@@ -63,7 +63,7 @@ public class MemberService {
 	}
 
 	@Transactional
-	public void createInterviewee(String email, Company company) {
+	public void createInterviewer(String email, String name, Company company) {
 		Member member = new Member();
 
 		// 면접관 생성
@@ -71,23 +71,30 @@ public class MemberService {
 		member.setStatus(MemberStatus.PLAN);
 		member.setEmail(email);
 		member.setRole("면접관");
-		member.setName(company.getName() + " 면접관");
+		if(name=="") {
+			member.setName(company.getName() + " 면접관");
+		}else{
+			member.setName("["+company.getName()+ "] " + name);
+		}
 
 		memberRepository.save(member);
 
 	}
 
 	@Transactional
-	public void createInterviewer(String email) {
+	public void createInterviewee(String email, String name) {
 		Member member = new Member();
 
 		// 면접관 생성
 		member.setStatus(MemberStatus.PLAN);
 		member.setEmail(email);
 		member.setRole("면접자");
-		member.setName(email.split("@")[0] + " 님");
+		if(name=="") {
+			member.setName(email.split("@")[0]);
+		}else{
+			member.setName(name);
+		}
 
-		System.out.println(member.getName());
 		memberRepository.save(member);
 	}
 
@@ -140,6 +147,22 @@ public class MemberService {
 		}
 		return res_list;
 	}
+
+	/**
+	 * 멤버 검색(이메일)
+	 * @param true, false
+	 */
+	public boolean isMember(String email) {
+		List<Member> res = memberRepository.findByEmail(email);
+
+		if(res.isEmpty()) {
+			return false;
+		}
+
+		return true;
+	}
+
+
 
 	/**
 	 * 멤버 업데이트
