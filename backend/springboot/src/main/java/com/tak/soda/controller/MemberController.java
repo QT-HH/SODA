@@ -36,22 +36,35 @@ public class MemberController {
 	@ApiOperation(value="미팅 인증코드 전송", notes="role 통해 면접자/면접관 구분, 면접관이다 면접자이다 적어주면 됨. ex) role='면접관'")
 	public ResponseEntity inviteInterviewee(@RequestBody InviteDto dto) throws MessagingException {
 		Member member = new Member();
+		List<String> emails = dto.getEmails();
+		List<String> names = dto.getNames();
 
 		if(dto.getRole() == "면접관") {
 			Company company = companyService.findByName(dto.getCName()).get(0);
 
-			for(String email: dto.getEmails()) {
-				// 면접관 생성
-				memberService.createInterviewee(email, company);
+			for(int i=0; i<dto.getEmails().size(); i++) {
+				String email = emails.get(i);
+				String name = names.get(i);
+
+				// 면접관이 DB에 없으면
+				if(!memberService.isMember(email)) {
+					// 면접관 생성
+					memberService.createInterviewer(email, name, company);
+				}
 
 				meetingMail.sendMail(dto.getInviteCode(), email);
 			}
 		}else{
 			// 면접자 생성
+			for(int i=0; i<dto.getEmails().size(); i++) {
+				String email = emails.get(i);
+				String name = names.get(i);
 
-			for(String email: dto.getEmails()) {
-				// 면접자 생성
-				memberService.createInterviewer(email);
+				// 면접관이 DB에 없으면
+				if(!memberService.isMember(email)) {
+					// 면접자 생성
+					memberService.createInterviewee(email, name);
+				}
 
 				meetingMail.sendMail(dto.getInviteCode(), email);
 			}
