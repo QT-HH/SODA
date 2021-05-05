@@ -83,7 +83,6 @@ public class CompanyController {
 			dto.setU_id(member.getId());
 			dto.setUName(member.getName());
 			dto.setRole(member.getRole());
-			dto.setStatus(member.getStatus());
 			dto.setPhone(member.getPhone());
 			dto.setEmail(member.getEmail());
 

@@ -128,7 +128,7 @@ public class MemberService {
 
 		// 면접관 생성
 		member.setCompany(company);
-		member.setStatus(MemberStatus.PLAN);
+		//member.setStatus(MemberStatus.PLAN);
 		member.setEmail(email);
 		member.setRole("면접관");
 		if(name=="") {
@@ -147,7 +147,7 @@ public class MemberService {
 		Member member = new Member();
 
 		// 면접관 생성
-		member.setStatus(MemberStatus.PLAN);
+		//member.setStatus(MemberStatus.PLAN);
 		member.setEmail(email);
 		member.setRole("면접자");
 		if(name=="") {
@@ -171,6 +171,7 @@ public class MemberService {
 
 		for(Member member: res) {
 			MemberDto dto = new MemberDto();
+			MeetingMember mm = meetingMemberRepository.findByU_Id(member.getId());
 
 			dto.setU_id(member.getId());
 			if(member.getCompany() != null) {
@@ -180,7 +181,7 @@ public class MemberService {
 			dto.setPhone(member.getPhone());
 			dto.setRole(member.getRole());
 			dto.setEmail(member.getEmail());
-			dto.setStatus(member.getStatus());
+			dto.setStatus(mm.getStatus());
 
 			res_list.add(dto);
 		}
@@ -197,6 +198,7 @@ public class MemberService {
 
 		for(Member member: res) {
 			MemberDto dto = new MemberDto();
+			MeetingMember mm = meetingMemberRepository.findByU_Id(member.getId());
 
 			dto.setU_id(member.getId());
 			dto.setCName(member.getCompany().getName());
@@ -204,7 +206,7 @@ public class MemberService {
 			dto.setPhone(member.getPhone());
 			dto.setRole(member.getRole());
 			dto.setEmail(member.getEmail());
-			dto.setStatus(member.getStatus());
+			dto.setStatus(mm.getStatus());
 
 			res_list.add(dto);
 		}
@@ -216,11 +218,13 @@ public class MemberService {
 	 * @return member_id
 	 */
 	@Transactional
-	public Long updateStatus(Long u_id, MemberStatus status) {
-		Member member = memberRepository.findById(u_id);
+	public Long updateStatus(Long u_id, MeetingStatus status) {
+		//Member member = memberRepository.findById(u_id);
+		MeetingMember meetingMember = meetingMemberRepository.findByU_Id(u_id);
 
-		member.setStatus(status);
-		return member.getId();
+		meetingMember.setStatus(status);
+
+		return meetingMember.getId();
 	}
 	@Transactional
 	public Long updateEmail(Long u_id, String email) {

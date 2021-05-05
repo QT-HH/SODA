@@ -38,7 +38,7 @@ class MemberServiceTest {
     void testUpdateStatus() {
         //Given
         Member member = memberRepository.findAll().get(0);
-        MemberStatus origin = member.getStatus();
+//        MemberStatus origin = member.getStatus();
         MemberStatus newStatus = MemberStatus.DONE;
 
         //When

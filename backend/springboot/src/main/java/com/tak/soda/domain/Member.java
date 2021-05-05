@@ -27,8 +27,8 @@ public class Member {
 	@Column(name = "u_phone")
 	private String phone;
 
-	@Enumerated(EnumType.STRING)
-	private MemberStatus status; // 방에 들어올 수 있는지 여부(예정/진행/완료) - (PLAN/PROCESS/DONE)
+	//@Enumerated(EnumType.STRING)
+	//private MemberStatus status; // 방에 들어올 수 있는지 여부(예정/진행/완료) - (PLAN/PROCESS/DONE)
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "c_id")
@@ -45,7 +45,7 @@ public class Member {
 		member.setEmail(info.getEmail());
 		member.setRole(info.getRole());
 		member.setPhone(info.getPhone());
-		member.setStatus(MemberStatus.PROGRESS);
+		//member.setStatus(MemberStatus.PROGRESS);
 
 		member.setCompany(company);
 

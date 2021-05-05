@@ -14,9 +14,8 @@ public class JoinSQLRepository {
 
     private final EntityManager em;
 
-
     public List<IntervieweeDto> findMemberByInviteCode(String inviteCode) {
-        String qlString = "select mm.member.id, mm.meeting.id, m.hostId, u.email, u.name, u.phone, u.role, u.status " +
+        String qlString = "select u.id, m.id, m.hostId, u.email, u.name, u.phone, u.role, u.status " +
                 "from Member u right join MeetingMember mm " +
                 "on u.id=mm.member.id " +
                 "inner join Meeting m " +

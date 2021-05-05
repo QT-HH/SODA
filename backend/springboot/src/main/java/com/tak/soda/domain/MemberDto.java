@@ -18,7 +18,7 @@ public class MemberDto {
     private String email;
     private String role;
     private String phone;
-    private MemberStatus status;
+    private MeetingStatus status;
     private String cName;
     private List<String> meetings;
 
