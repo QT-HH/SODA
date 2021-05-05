@@ -15,5 +15,7 @@ public interface MeetingRepository extends JpaRepository<Meeting, Integer>{
 	@Query(value = "select count(*) from meeting where invite_code=:inviteCode", nativeQuery = true)
 	Integer findInviteCode(@Param("inviteCode") String inviteCode);
 
+	Meeting findByInviteCode(String inviteCode);
+
 	long deleteByInviteCode(String inviteCode);
 }

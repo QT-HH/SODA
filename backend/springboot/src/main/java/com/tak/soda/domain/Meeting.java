@@ -25,7 +25,7 @@ public class Meeting {
 	private String roomName;
 
 	@Column(nullable =false)
-	private long hostId;
+	private Long hostId;
 
 	@Column(nullable = false)
 	private String inviteCode;
@@ -37,10 +37,10 @@ public class Meeting {
 	private LocalDateTime endTime;
 
 	@OneToMany(mappedBy = "meeting")
-	private List<MeetingMember> meetings = new ArrayList<>();
+	private List<MeetingMember> member = new ArrayList<>();
 
-	public void addMeeting(MeetingMember mm) {
-		meetings.add(mm);
+	public void addMember(MeetingMember mm) {
+		member.add(mm);
 		mm.setMeeting(this);
 	}
 	

@@ -1,6 +1,7 @@
 package com.tak.soda.service;
 
 import com.tak.soda.domain.*;
+import com.tak.soda.domain.dto.MemberDto;
 import com.tak.soda.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -37,12 +38,8 @@ class MemberServiceTest {
     @DisplayName("멤버 정보 수정 - status 변경")
     void testUpdateStatus() {
         //Given
-        Member member = memberRepository.findAll().get(0);
-        MemberStatus origin = member.getStatus();
-        MemberStatus newStatus = MemberStatus.DONE;
 
         //When
-
 
         //Then
 

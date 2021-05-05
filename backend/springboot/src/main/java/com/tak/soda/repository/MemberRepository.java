@@ -3,11 +3,8 @@ package com.tak.soda.repository;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import com.tak.soda.domain.MemberStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import com.tak.soda.domain.Member;
@@ -42,6 +39,14 @@ public class MemberRepository{
 
 	public List<Member> findByInviteCode(String inviteCode) {
 		return em.createQuery("SELECT m FROM Member m WHERE m.name=:uname", Member.class)
+				.setParameter("inviteCode", inviteCode)
+				.getResultList();
+	}
+
+	public List<Member> findByEmailAndInviteCode(String email, String inviteCode) {
+		String qlString = "";
+
+		return em.createQuery("SELECT m FROM Member m WHERE m.email=:email and ", Member.class)
 				.setParameter("inviteCode", inviteCode)
 				.getResultList();
 	}
