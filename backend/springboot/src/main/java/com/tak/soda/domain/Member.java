@@ -2,6 +2,7 @@ package com.tak.soda.domain;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.tak.soda.domain.dto.MemberDto;
 import lombok.Getter;
 import lombok.Setter;
 

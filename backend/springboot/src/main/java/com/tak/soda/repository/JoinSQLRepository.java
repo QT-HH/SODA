@@ -1,7 +1,7 @@
 package com.tak.soda.repository;
 
-import com.tak.soda.domain.IntervieweeDto;
-import com.tak.soda.domain.MeetingAttendDto;
+import com.tak.soda.domain.dto.IntervieweeDto;
+import com.tak.soda.domain.dto.MeetingAttendDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

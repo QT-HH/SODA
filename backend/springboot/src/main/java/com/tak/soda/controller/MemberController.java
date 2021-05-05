@@ -1,13 +1,11 @@
 package com.tak.soda.controller;
 
 import com.tak.soda.domain.*;
-import com.tak.soda.function.ApproveMail;
+import com.tak.soda.domain.dto.InviteDto;
+import com.tak.soda.domain.dto.MemberDto;
 import com.tak.soda.function.MeetingMail;
-import com.tak.soda.function.RandomAccessToken;
-import com.tak.soda.function.RejectMail;
 import com.tak.soda.service.CompanyService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -69,7 +67,7 @@ public class MemberController {
 				memberService.addToMeeting(member, meeting, "면접관");
 			}
 			// 메일 보내기
-			//meetingMail.sendMail(dto.getInviteCode(), email);
+			meetingMail.sendMail(dto.getInviteCode(), email);
 
 		}
 
@@ -114,13 +112,14 @@ public class MemberController {
 		return new ResponseEntity("성공", HttpStatus.OK);
 	}
 
-	@PutMapping("/edit/email")
-	@ApiOperation(value="멤버 정보 수정(이메일)", notes="멤버 이메일 변경")
-	public ResponseEntity updateMemberEmail(Long u_id, String email) {
-		memberService.updateEmail(u_id, email);
-
-		return new ResponseEntity("성공", HttpStatus.OK);
-	}
+	// 일단 닫아놓음
+//	@PutMapping("/edit/email")
+//	@ApiOperation(value="멤버 정보 수정(이메일)", notes="멤버 이메일 변경")
+//	public ResponseEntity updateMemberEmail(Long u_id, String email) {
+//		memberService.updateEmail(u_id, email);
+//
+//		return new ResponseEntity("성공", HttpStatus.OK);
+//	}
 
 	@DeleteMapping("/del/{id}")
 	@ApiOperation(value="멤버 삭제", notes="멤버 id로 삭제")

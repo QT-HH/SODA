@@ -1,8 +1,7 @@
 package com.tak.soda.service;
 
-import com.tak.soda.domain.IntervieweeDto;
+import com.tak.soda.domain.dto.IntervieweeDto;
 import com.tak.soda.domain.Meeting;
-import com.tak.soda.domain.MeetingAttendDto;
 import com.tak.soda.domain.Member;
 import com.tak.soda.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,7 +56,8 @@ public class MeetingService {
 	 * @param email
 	 * @param inviteCode
 	 */
-	public boolean enterMeeting(String email, String inviteCode) {
+
+	public Long enterMeeting(String email, String inviteCode) {
 
 		List<Member> member = memberRepository.findByEmail(email);
 		Meeting meeting = meetingRepository.findByInviteCode(inviteCode);
@@ -65,10 +65,19 @@ public class MeetingService {
 		Long u_id = meetingAttendRepository.findByEmailAndInviteCode(email, inviteCode);
 
 		if(u_id == -1) {
-			return false;
+			return -1L;
 		}
 
-		return true;
+		return u_id;
+	}
+
+	public boolean isInterviewer(Long u_id) {
+		Member member = memberRepository.findById(u_id);
+
+		if(member.getCompany() != null) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

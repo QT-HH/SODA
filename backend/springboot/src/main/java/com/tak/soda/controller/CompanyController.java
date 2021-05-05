@@ -1,9 +1,9 @@
 package com.tak.soda.controller;
 
 import com.tak.soda.domain.Company;
-import com.tak.soda.domain.CompanyDto;
+import com.tak.soda.domain.dto.CompanyDto;
 import com.tak.soda.domain.Member;
-import com.tak.soda.domain.MemberDto;
+import com.tak.soda.domain.dto.MemberDto;
 import com.tak.soda.function.ApproveMail;
 import com.tak.soda.function.RejectMail;
 import com.tak.soda.service.CompanyService;

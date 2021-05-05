@@ -1,4 +1,4 @@
-package com.tak.soda.domain;
+package com.tak.soda.domain.dto;
 
 import lombok.Data;
 

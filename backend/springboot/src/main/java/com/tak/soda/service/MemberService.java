@@ -1,6 +1,7 @@
 package com.tak.soda.service;
 
 import com.tak.soda.domain.*;
+import com.tak.soda.domain.dto.MemberDto;
 import com.tak.soda.repository.CompanyRepository;
 import com.tak.soda.repository.MeetingMemberRepository;
 import com.tak.soda.repository.MeetingRepository;

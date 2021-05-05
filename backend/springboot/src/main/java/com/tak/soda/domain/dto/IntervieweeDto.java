@@ -1,5 +1,6 @@
-package com.tak.soda.domain;
+package com.tak.soda.domain.dto;
 
+import com.tak.soda.domain.MeetingStatus;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,6 +1,5 @@
 package com.tak.soda.repository;
 
-import com.tak.soda.domain.MeetingAttendDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 

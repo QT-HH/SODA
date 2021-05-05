@@ -1,7 +1,6 @@
 package com.tak.soda.controller;
 
-import com.tak.soda.domain.IntervieweeDto;
-import com.tak.soda.domain.Meeting;
+import com.tak.soda.domain.dto.IntervieweeDto;
 import com.tak.soda.service.MeetingService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -52,12 +51,20 @@ public class MeetingController {
 			return new ResponseEntity("미팅코드 오류", HttpStatus.OK);
 		}
 
-		// 면접관이면?
-		if(meetingService.enterMeeting(email, inviteCode)) {
+
+		// 이메일, 미팅코드 일치 확인
+		Long u_id = meetingService.enterMeeting(email, inviteCode);
+		if(u_id != -1) {
+			// 면접관이면?
+			if(meetingService.isInterviewer(u_id))  {
+				return new ResponseEntity("면접관", HttpStatus.OK);
+			}
+
+			// 아니면 면접자
 			return new ResponseEntity("면접자", HttpStatus.OK);
 		}
 		// 면접자라면?
-		return new ResponseEntity("면접관", HttpStatus.OK);
+		return new ResponseEntity("초대받지 못함", HttpStatus.OK);
 	}
 
 	@DeleteMapping("del")
