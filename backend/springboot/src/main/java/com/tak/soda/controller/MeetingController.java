@@ -1,5 +1,7 @@
 package com.tak.soda.controller;
 
+import com.tak.soda.domain.MeetingMember;
+import com.tak.soda.domain.MeetingStatus;
 import com.tak.soda.domain.dto.IntervieweeDto;
 import com.tak.soda.service.MeetingService;
 import io.swagger.annotations.Api;
@@ -53,7 +55,11 @@ public class MeetingController {
 
 
 		// 이메일, 미팅코드 일치 확인
-		Long u_id = meetingService.enterMeeting(email, inviteCode);
+		List<Long> ids = meetingService.enterMeeting(email, inviteCode);
+
+		Long u_id = ids.get(0);
+		Long mm_id = ids.get(1);
+
 		if(u_id != -1) {
 			// 면접관이면?
 			if(meetingService.isInterviewer(u_id))  {
@@ -61,7 +67,8 @@ public class MeetingController {
 			}
 
 			// 아니면 면접자
-			return new ResponseEntity("면접자", HttpStatus.OK);
+			MeetingStatus status = meetingService.findStatus(mm_id);
+			return new ResponseEntity("면접자,"+ status, HttpStatus.OK);
 		}
 		// 면접자라면?
 		return new ResponseEntity("초대받지 못함", HttpStatus.OK);
