@@ -106,11 +106,11 @@ export default {
 			publicRoomIdentifier: 'sodasoda',
 		};
 	},
+	async mounted() {
+		this.openRoom(this.$store.state.meetingCode);
+	},
 	beforeDestroy() {
 		this.outRoom();
-	},
-	created() {
-		this.openRoom(this.$store.state.meetingCode);
 	},
 	methods: {
 		chatOnOff() {

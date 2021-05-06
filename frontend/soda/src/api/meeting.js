@@ -20,7 +20,12 @@ function getConfirmMeetingCode(cidentify) {
 // 	return instance.post(`company/auth?authCod=${authCode}`);
 // }
 function attendMeeting(email, inviteCode) {
-	return instance.get(`meeting/attend/${email}/${inviteCode}`);
+	return instance.get(`meeting/attend`, {
+		params: {
+			email: email,
+			inviteCode: inviteCode,
+		},
+	});
 }
 function delMeeting(inviteCode) {
 	return instance.delete(`meeting/del/${inviteCode}`);
