@@ -219,8 +219,9 @@ export default {
 				this.$store.state.meetingCode = '';
 				this.$router.push('/attend');
 				var el = document.getElementById('apdiv');
-				el.remove();
-				console.log('outroom');
+				if (!!el.remove) {
+					el.remove();
+				}
 			}
 		},
 		screenOff() {
