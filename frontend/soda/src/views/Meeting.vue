@@ -138,7 +138,6 @@ export default {
 		await this.openRoom(meetingCode);
 		await intervieweeOfMeeting(meetingCode)
 			.then(res => {
-				console.log(res.data);
 				this.participants = res.data;
 			})
 			.catch(err => {
@@ -219,7 +218,7 @@ export default {
 				this.$store.state.meetingCode = '';
 				this.$router.push('/attend');
 				var el = document.getElementById('apdiv');
-				if (!!el.remove) {
+				if (!!el) {
 					el.remove();
 				}
 			}
@@ -252,7 +251,6 @@ export default {
 			console.log(video);
 		},
 		inputChat() {
-			console.log(1);
 			const myChat = {
 				data: this.chatInfo,
 			};
@@ -274,16 +272,11 @@ export default {
 			document.getElementById('input-text-chat').focus();
 		},
 		async changeStatus(mm_id, status) {
-			await editStatus(mm_id, status)
-				.then(res => {
-					console.log(res.data);
-				})
-				.catch(err => {
-					console.log(err);
-				});
+			await editStatus(mm_id, status).catch(err => {
+				console.log(err);
+			});
 			await intervieweeOfMeeting(this.$store.state.meetingCode)
 				.then(res => {
-					console.log(res.data);
 					this.participants = res.data;
 				})
 				.catch(err => {
