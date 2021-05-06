@@ -1,56 +1,42 @@
 <template>
 	<div>
-		<v-footer padless absolute fixed color="#E3F2FD">
+		<v-footer padless absolute fixed color="#e0dcdd">
 			<v-row justify="center" no-gutters>
 				<v-col class="py-6 text-center white--text" cols="12">
-					<v-btn
-						color="rgb(204, 193, 243)"
-						style="margin-right: 15px"
-						@click="user"
-					>
-						<i class="fas fa-users">
-							{{ isUser ? '면접자리스트 OFF' : '면접자리스트 ON' }}
-						</i></v-btn
-					>
-					<v-btn
-						color="rgb(204, 193, 243)"
-						style="margin-left: 15px; margin-right: 15px"
-						@click="audio"
-					>
-						<i class="fas fa-volume-up">
-							{{ isAudio ? '오디오 OFF' : '오디오 ON' }}
-						</i></v-btn
-					>
-					<v-btn
-						color="rgb(204, 193, 243)"
-						style="margin-left: 15px; margin-right: 15px"
-						@click="video"
-						><i class="fas fa-video">
-							{{ isVideo ? '비디오 OFF' : '비디오 ON' }}
-						</i></v-btn
-					>
-					<v-btn
-						color="rgb(204, 193, 243)"
-						style="margin-left: 15px; margin-right: 15px"
-						@click="subtitle"
-						><i class="fas fa-remove-format">
-							{{ isSubtitle ? '자막 OFF' : '자막 ON' }}
-						</i></v-btn
-					>
-					<v-btn
-						color="rgb(204, 193, 243)"
-						style="margin-left: 15px; margin-right: 15px"
-						@click="chatting"
-						><i class="fas fa-comment-slash">
-							{{ isChatting ? '채팅 OFF' : '채팅 ON' }}
-						</i></v-btn
-					>
-					<v-btn
-						color="rgb(204, 193, 243)"
-						style="margin-left: 15px"
-						@click="outRoom"
-						><i class="fas fa-sign-out-alt"> 면접 종료</i></v-btn
-					>
+					<button class="btn1" @click="user">
+						<i class="fas fa-users"> </i>
+						<span id="font2">
+							{{ isUser ? '면접자리스트 끄기' : '면접자리스트 켜기' }}
+						</span>
+					</button>
+					<button class="btn1" @click="audio">
+						<i :class="this.audioIcon"> </i>
+						<span id="font2">
+							{{ isAudio ? '음소거' : '음소거 해제' }}
+						</span>
+					</button>
+					<button class="btn1" @click="video">
+						<i :class="this.videoIcon" :style="iconColorTrue"> </i>
+						<span id="font2">
+							{{ isVideo ? '비디오 끄기' : '비디오 켜기' }}
+						</span>
+					</button>
+					<button class="btn1" @click="subtitle">
+						<i :class="this.subtitleIcon"> </i>
+						<span id="font2">
+							{{ isSubtitle ? '자막 끄기' : '자막 켜기' }}
+						</span>
+					</button>
+					<button class="btn1" @click="chatting">
+						<i :class="this.chattingIcon"> </i>
+						<span id="font2">
+							{{ isChatting ? '채팅창 끄기' : '채팅창 열기' }}
+						</span>
+					</button>
+					<button class="btn2" @click="outRoom">
+						<i class="fas fa-sign-out-alt"></i>
+						<span id="font2">면접 종료</span>
+					</button>
 				</v-col>
 			</v-row>
 		</v-footer>
@@ -63,10 +49,14 @@ export default {
 	data() {
 		return {
 			isUser: false,
-			isAudio: true,
+			isAudio: false,
 			isVideo: true,
 			isSubtitle: true,
 			isChatting: false,
+			audioIcon: 'fas fa-volume-mute redColor',
+			videoIcon: 'fas fa-video greenColor',
+			subtitleIcon: 'fas fa-closed-captioning greenColor',
+			chattingIcon: 'fas fa-comment-slash redColor',
 		};
 	},
 	methods: {
@@ -77,35 +67,93 @@ export default {
 		audio() {
 			this.isAudio = !this.isAudio;
 			if (this.isAudio) {
+				this.audioIcon = 'fas fa-volume-up greenColor';
 				this.$emit('voiceOn');
 			} else {
+				this.audioIcon = 'fas fa-volume-mute redColor';
 				this.$emit('voiceOff');
 			}
 		},
 		video() {
 			this.isVideo = !this.isVideo;
 			if (this.isVideo) {
+				this.videoIcon = 'fas fa-video greenColor';
 				this.$emit('screenOn');
 			} else {
+				this.videoIcon = 'fas fa-video-slash redColor';
 				this.$emit('screenOff');
 			}
 		},
 		subtitle() {
 			this.isSubtitle = !this.isSubtitle;
+			if (this.isSubtitle) {
+				this.subtitleIcon = 'fas fa-closed-captioning greenColor';
+			} else {
+				this.subtitleIcon = 'far fa-closed-captioning redColor';
+			}
 		},
 		chatting() {
 			this.isChatting = !this.isChatting;
 			this.$emit('chatOnOff');
+			if (this.isChatting) {
+				this.chattingIcon = 'fas fa-comment greenColor';
+			} else {
+				this.chattingIcon = 'fas fa-comment-slash redColor';
+			}
 		},
 		outRoom() {
 			this.$emit('outRoom');
+		},
+	},
+	computed: {
+		divClasses: function () {
+			return {
+				'fas fa-volume-up': this.isAudio,
+				'fas fa-volume-mute': !this.isAudio,
+			};
 		},
 	},
 };
 </script>
 
 <style scoped>
-.asd {
-	background-color: rgb(204, 193, 243);
+.btn1:hover {
+	background-color: #bbbbbb;
+	color: black;
+	outline: 0;
+}
+.btn1:focus {
+	outline: none;
+}
+.btn1 {
+	background-color: white;
+	/* border: 2px solid black; */
+	border-radius: 30px;
+	color: black;
+	cursor: pointer;
+	font-size: 17px;
+	padding: 6px 20px;
+	transition: all 200ms;
+}
+.btn2:hover {
+	font-size: 20px;
+}
+.btn2:focus {
+	outline: none;
+}
+.btn2 {
+	background-color: #b71c1c;
+	border-radius: 30px;
+	color: white;
+	cursor: pointer;
+	font-size: 17px;
+	padding: 6px 20px;
+	transition: all 200ms;
+}
+.redColor {
+	color: #b71c1c;
+}
+.greenColor {
+	color: green;
 }
 </style>

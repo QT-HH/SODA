@@ -1,7 +1,9 @@
 package com.tak.soda.service;
 
 import com.tak.soda.domain.*;
+import com.tak.soda.domain.dto.MemberDto;
 import com.tak.soda.repository.CompanyRepository;
+import com.tak.soda.repository.MeetingMemberRepository;
 import com.tak.soda.repository.MeetingRepository;
 import com.tak.soda.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ public class MemberService {
 	private final CompanyRepository companyRepository;
 	private final MemberRepository memberRepository;
 	private final MeetingRepository meetingRepository;
+	private final MeetingMemberRepository meetingMemberRepository;
 	
 	/**
 	 * 신규 멤버 등록(기업 담당자)
@@ -62,33 +65,101 @@ public class MemberService {
 		return memberRepository.findById(id);
 	}
 
+	public Member findByEmail(String email) {
+		List<Member> res = memberRepository.findByEmail(email);
+		return res.get(0);
+	}
+
+	/**
+	 * 미팅 조회(미팅코드)
+	 * @param inviteCode
+	 */
+	public Meeting findMeetingByInviteCode(String inviteCode) {
+		Meeting meeting = meetingRepository.findByInviteCode(inviteCode);
+
+		return meeting;
+	}
+
+	/**
+	 * 멤버 검색(이메일)
+	 * @param email
+	 */
+	public boolean isMember(String email) {
+		List<Member> res = memberRepository.findByEmail(email);
+
+		if(res.isEmpty()) {
+			return false;
+		}
+
+		return true;
+	}
+
 	@Transactional
-	public void createInterviewee(String email, Company company) {
+	public void addToMeeting(Member member, Meeting meeting, String role) {
+		if(!isDuplicate(member.getId(), meeting.getId())) {
+			MeetingMember meetingMember = new MeetingMember();
+
+			meetingMember.setMember(member);
+			meetingMember.setMeeting(meeting);
+			if(role.matches("면접자"))
+				meetingMember.setStatus(MeetingStatus.PLAN);
+			else
+				meetingMember.setStatus(MeetingStatus.PROGRESS);
+
+			member.addMeeting(meetingMember);
+			meeting.addMember(meetingMember);
+
+		}else{
+			System.out.println("이미 초대됨");
+		}
+	}
+
+	private boolean isDuplicate(Long u_id, Long m_id) {
+		List<MeetingMember> res = meetingMemberRepository.checkDuplicate(m_id, u_id);
+
+		if(res.isEmpty()) {
+			return false;
+		}
+		return true;
+	}
+
+	@Transactional
+	public Member createInterviewer(String email, String name, Company company) {
 		Member member = new Member();
 
 		// 면접관 생성
 		member.setCompany(company);
-		member.setStatus(MemberStatus.PLAN);
+		//member.setStatus(MemberStatus.PLAN);
 		member.setEmail(email);
 		member.setRole("면접관");
-		member.setName(company.getName() + " 면접관");
+		if(name=="") {
+			member.setName(company.getName() + " 면접관");
+		}else{
+			member.setName("["+company.getName()+ "] " + name);
+		}
 
 		memberRepository.save(member);
 
+		return member;
 	}
 
 	@Transactional
-	public void createInterviewer(String email) {
+	public Member createInterviewee(String email, String name) {
 		Member member = new Member();
 
 		// 면접관 생성
-		member.setStatus(MemberStatus.PLAN);
+		//member.setStatus(MemberStatus.PLAN);
 		member.setEmail(email);
 		member.setRole("면접자");
-		member.setName(email.split("@")[0] + " 님");
+		if(name=="") {
+			member.setName(email.split("@")[0]);
+		}else{
+			member.setName(name);
+		}
 
-		System.out.println(member.getName());
 		memberRepository.save(member);
+
+		return member;
 	}
 
 	/**
@@ -101,6 +172,7 @@ public class MemberService {
 
 		for(Member member: res) {
 			MemberDto dto = new MemberDto();
+			MeetingMember mm = meetingMemberRepository.findByU_Id(member.getId());
 
 			dto.setU_id(member.getId());
 			if(member.getCompany() != null) {
@@ -110,7 +182,7 @@ public class MemberService {
 			dto.setPhone(member.getPhone());
 			dto.setRole(member.getRole());
 			dto.setEmail(member.getEmail());
-			dto.setStatus(member.getStatus());
+			dto.setStatus(mm.getStatus());
 
 			res_list.add(dto);
 		}
@@ -127,6 +199,7 @@ public class MemberService {
 
 		for(Member member: res) {
 			MemberDto dto = new MemberDto();
+			MeetingMember mm = meetingMemberRepository.findByU_Id(member.getId());
 
 			dto.setU_id(member.getId());
 			dto.setCName(member.getCompany().getName());
@@ -134,7 +207,7 @@ public class MemberService {
 			dto.setPhone(member.getPhone());
 			dto.setRole(member.getRole());
 			dto.setEmail(member.getEmail());
-			dto.setStatus(member.getStatus());
+			dto.setStatus(mm.getStatus());
 
 			res_list.add(dto);
 		}
@@ -146,11 +219,13 @@ public class MemberService {
 	 * @return member_id
 	 */
 	@Transactional
-	public Long updateStatus(Long u_id, MemberStatus status) {
-		Member member = memberRepository.findById(u_id);
+	public Long updateStatus(Long u_id, MeetingStatus status) {
+		//Member member = memberRepository.findById(u_id);
+		MeetingMember meetingMember = meetingMemberRepository.findByU_Id(u_id);
 
-		member.setStatus(status);
-		return member.getId();
+		meetingMember.setStatus(status);
+
+		return meetingMember.getId();
 	}
 	@Transactional
 	public Long updateEmail(Long u_id, String email) {

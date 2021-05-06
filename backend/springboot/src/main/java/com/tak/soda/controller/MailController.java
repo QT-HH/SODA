@@ -2,11 +2,9 @@ package com.tak.soda.controller;
 
 import javax.mail.MessagingException;
 
-import com.tak.soda.domain.Meeting;
-import com.tak.soda.domain.MemberDto;
+import com.tak.soda.domain.dto.MemberDto;
 import com.tak.soda.function.ApproveMail;
 import com.tak.soda.service.MeetingService;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.tak.soda.domain.Member;
 import com.tak.soda.function.RandomAccessToken;
 import com.tak.soda.function.RejectMail;
-import com.tak.soda.service.CompanyService;
 import com.tak.soda.service.MemberService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-
-import java.util.List;
 
 @Api(tags = {"이메일 컨트롤러"})
 @RestController

@@ -1,4 +1,4 @@
-package com.tak.soda.domain;
+package com.tak.soda.domain.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,5 +14,6 @@ public class InviteDto {
     private String cName;
     private String inviteCode;
     private List<String> emails;
+    private List<String> names;
 
 }

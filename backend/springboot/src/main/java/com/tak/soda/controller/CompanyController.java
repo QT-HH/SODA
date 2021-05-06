@@ -1,9 +1,9 @@
 package com.tak.soda.controller;
 
 import com.tak.soda.domain.Company;
-import com.tak.soda.domain.CompanyDto;
+import com.tak.soda.domain.dto.CompanyDto;
 import com.tak.soda.domain.Member;
-import com.tak.soda.domain.MemberDto;
+import com.tak.soda.domain.dto.MemberDto;
 import com.tak.soda.function.ApproveMail;
 import com.tak.soda.function.RejectMail;
 import com.tak.soda.service.CompanyService;
@@ -83,7 +83,6 @@ public class CompanyController {
 			dto.setU_id(member.getId());
 			dto.setUName(member.getName());
 			dto.setRole(member.getRole());
-			dto.setStatus(member.getStatus());
 			dto.setPhone(member.getPhone());
 			dto.setEmail(member.getEmail());
 
