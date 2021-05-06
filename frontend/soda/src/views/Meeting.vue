@@ -51,12 +51,7 @@
 				</v-list>
 			</v-container>
 		</div>
-		<div
-			v-show="isChat"
-			id="chat-container"
-			class="sticky-box"
-			style="border: 2px solid; color: #4527a0; float: right"
-		>
+		<div v-show="isChat" id="chat-container" class="chatBox">
 			<div class="chat-output"></div>
 			<div class="chat-input">
 				<input
@@ -78,7 +73,6 @@
 				>
 			</div>
 		</div>
-		<!-- <div style="margin: 50px"></div> -->
 		<input
 			v-if="!streaming"
 			v-model="roomid"
@@ -88,28 +82,25 @@
 		<div v-if="!streaming">
 			<v-btn depressed color="primary" @click="openRoom">open or join</v-btn>
 		</div>
-		<v-sheet
-			height="100%"
-			class="overflow-hidden bgcolor"
-			style="position: relative"
-		>
+		<v-sheet class="overflow-hidden bgcolor" style="position: relative">
 			<v-container class="fill-height bgcolor">
 				<v-row align="center" justify="center">
 					<div class="videos-container"></div>
 				</v-row>
 			</v-container>
 		</v-sheet>
-
-		<MeetingBottomBar
-			v-if="streaming"
-			@userlist="userlist"
-			@outRoom="outRoom"
-			@voiceOn="voiceOn"
-			@voiceOff="voiceOff"
-			@screenOn="screenOn"
-			@screenOff="screenOff"
-			@chatOnOff="chatOnOff"
-		></MeetingBottomBar>
+		<div class="footer">
+			<MeetingBottomBar
+				v-if="streaming"
+				@userlist="userlist"
+				@outRoom="outRoom"
+				@voiceOn="voiceOn"
+				@voiceOff="voiceOff"
+				@screenOn="screenOn"
+				@screenOff="screenOff"
+				@chatOnOff="chatOnOff"
+			></MeetingBottomBar>
+		</div>
 		<!-- <MeetingUser v-if="isUser"></MeetingUser> -->
 	</div>
 </template>
@@ -312,7 +303,6 @@ export default {
 	height: 570px;
 	float: left;
 	background-color: white;
-	border-radius: 10px;
 	padding: 100%, 0%;
 }
 .chat-output {
@@ -327,12 +317,29 @@ export default {
 	position: absolute;
 	bottom: 0px;
 }
-.bottom {
-	position: absolute;
-	bottom: 0;
-	width: 350px;
-}
 .bgcolor {
 	background-color: #e0dcdd;
+}
+.chatBox {
+	color: black;
+	float: right;
+	text-align: start;
+	padding: 10px;
+	width: 20vw;
+	height: 85vh;
+	top: 0;
+	background-color: white;
+}
+.footer {
+	position: absolute;
+	bottom: 0px;
+	height: 20vh;
+	display: flex;
+	justify-content: center;
+	width: 100vw;
+	height: 15%;
+}
+.contentBox {
+	height: 75%;
 }
 </style>
