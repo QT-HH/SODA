@@ -35,6 +35,11 @@ const routes = [
 		name: 'MeetingUser',
 		component: MeetingUser,
 	},
+	{
+		path: '/stttest2',
+		name: 'STTtest2',
+		component: () => import('../views/STTtest2.vue'),
+	},
 	// {
 	// 	path: '/meetingbottombar',
 	// 	name: 'MeetingBottomBar',
