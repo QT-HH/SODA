@@ -115,7 +115,7 @@ export default {
 	async mounted() {
 		const meetingCode = this.$store.state.meetingCode;
 		await this.openRoom(meetingCode);
-		await intervieweeOfMeeting(meetingcode)
+		await intervieweeOfMeeting(meetingCode)
 			.then(res => {
 				console.log(res.data);
 			})
@@ -136,6 +136,7 @@ export default {
 		async openRoom(code) {
 			await getConfirmMeetingCode(code)
 				.then(res => {
+					console.log(res.data);
 					if (res.data) {
 						this.roomid = code;
 						console.log(res.data);

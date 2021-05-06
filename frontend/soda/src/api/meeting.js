@@ -3,10 +3,10 @@ import { instance } from './index';
 // function getConfirmMeetingCode(cidentify) {
 // 	return instance.get(`meeting/inviteCode?cidentify=${cidentify}`);
 // }
-function getConfirmMeetingCode(cidentify) {
+function getConfirmMeetingCode(inviteCode) {
 	return instance.get('meeting/inviteCode', {
 		params: {
-			cidentify: cidentify,
+			inviteCode: inviteCode,
 		},
 	});
 }
