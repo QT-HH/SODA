@@ -172,7 +172,6 @@ public class MemberService {
 
 		for(Member member: res) {
 			MemberDto dto = new MemberDto();
-			MeetingMember mm = meetingMemberRepository.findByU_Id(member.getId());
 
 			dto.setU_id(member.getId());
 			if(member.getCompany() != null) {
@@ -182,7 +181,6 @@ public class MemberService {
 			dto.setPhone(member.getPhone());
 			dto.setRole(member.getRole());
 			dto.setEmail(member.getEmail());
-			dto.setStatus(mm.getStatus());
 
 			res_list.add(dto);
 		}
@@ -199,7 +197,6 @@ public class MemberService {
 
 		for(Member member: res) {
 			MemberDto dto = new MemberDto();
-			MeetingMember mm = meetingMemberRepository.findByU_Id(member.getId());
 
 			dto.setU_id(member.getId());
 			dto.setCName(member.getCompany().getName());
@@ -207,7 +204,6 @@ public class MemberService {
 			dto.setPhone(member.getPhone());
 			dto.setRole(member.getRole());
 			dto.setEmail(member.getEmail());
-			dto.setStatus(mm.getStatus());
 
 			res_list.add(dto);
 		}
@@ -219,9 +215,9 @@ public class MemberService {
 	 * @return member_id
 	 */
 	@Transactional
-	public Long updateStatus(Long u_id, MeetingStatus status) {
+	public Long updateStatus(Long mm_id, MeetingStatus status) {
 		//Member member = memberRepository.findById(u_id);
-		MeetingMember meetingMember = meetingMemberRepository.findByU_Id(u_id);
+		MeetingMember meetingMember = meetingMemberRepository.findById(mm_id);
 
 		meetingMember.setStatus(status);
 

@@ -91,8 +91,8 @@ public class MemberController {
 
 	@PutMapping("/edit/status")
 	@ApiOperation(value="멤버 정보 수정(상태)", notes="PLAN: 예정, PROGRESS: 진행, DONE: 완료")
-	public ResponseEntity updateMemberStatus(Long u_id, MeetingStatus status) {
-		Long saveId = memberService.updateStatus(u_id, status);
+	public ResponseEntity updateMemberStatus(Long mm_id, MeetingStatus status) {
+		Long saveId = memberService.updateStatus(mm_id, status);
 
 		return new ResponseEntity("성공", HttpStatus.OK);
 	}
