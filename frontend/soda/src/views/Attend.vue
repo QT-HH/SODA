@@ -60,6 +60,7 @@
 
 <script>
 import { mapActions, mapGetters, mapState } from 'vuex';
+import { attendMeeting } from '@/api/meeting.js';
 
 export default {
 	name: 'AttendPage',
@@ -82,7 +83,7 @@ export default {
 			'checkSessionId',
 			'changeMeetingDialog',
 		]),
-		guestbtn() {
+		async guestbtn() {
 			// 이메일&인증코드 유효성 확인
 			if (this.inputSessionId == '' || this.inputCertifycode == '') {
 				this.dialogOpen = true;
@@ -94,10 +95,17 @@ export default {
 				this.dialogOpen = true;
 				return false;
 			}
+			await attendMeeting(this.inputSessionId, this.inputCertifycode)
+				.then(res => {
+					console.log(res);
+				})
+				.catch(err => {
+					alert(err.message);
+				});
 			// 이메일이 초대된 이메일인지 판단하는 api 불러오기
 			// 인증코드의 미팅방으로 이동
-			this.$store.state.meetingCode = this.inputCertifycode;
-			this.$router.push('/meeting'); // 임시 routing
+			// this.$store.state.meetingCode = this.inputCertifycode;
+			// this.$router.push('/meeting'); // 임시 routing
 		},
 	},
 };
