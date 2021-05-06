@@ -85,6 +85,7 @@ export default {
 			// 이메일이 초대된 이메일인지 판단하는 api 불러오기
 			// 인증코드의 미팅방으로 이동
 			this.$store.state.meetingCode = this.inputCertifycode;
+			console.log(this.$store.state.meetingCode);
 			this.$router.push('/meeting'); // 임시 r outing
 		},
 	},

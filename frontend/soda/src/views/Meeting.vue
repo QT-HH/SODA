@@ -1,6 +1,6 @@
 <template>
 	<div class="bgcolor">
-		<div v-if="streaming && isUser">
+		<div v-if="streaming && isUser && !!connection.isInistiator">
 			<v-container
 				fluid
 				class="sticky-box"
@@ -90,7 +90,7 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
-import { getConfirmMeetingCode } from '@/api/meeting.js';
+import { getConfirmMeetingCode, intervieweeOfMeeting } from '@/api/meeting.js';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
 export default {
 	components: {
@@ -113,7 +113,15 @@ export default {
 		};
 	},
 	async mounted() {
-		this.openRoom(this.$store.state.meetingCode);
+		const meetingCode = this.$store.state.meetingCode;
+		await this.openRoom(meetingCode);
+		await intervieweeOfMeeting(meetingCode)
+			.then(res => {
+				console.log(res.data);
+			})
+			.err(err => {
+				console.log(err);
+			});
 	},
 	beforeDestroy() {
 		this.outRoom();
@@ -128,6 +136,7 @@ export default {
 		async openRoom(code) {
 			await getConfirmMeetingCode(code)
 				.then(res => {
+					console.log(res.data);
 					if (res.data) {
 						this.roomid = code;
 						console.log(res.data);
