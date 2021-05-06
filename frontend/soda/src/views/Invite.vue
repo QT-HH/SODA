@@ -174,12 +174,14 @@ export default {
 				cname: this.cname,
 				emails: this.emailsmg,
 				inviteCode: this.inviteCode,
+				names: this.emailsmg,
 				role: '면접관',
 			});
 			await sendMeetingCode({
 				cname: this.cname,
 				emails: this.emailsmj,
 				inviteCode: this.inviteCode,
+				names: this.emailsmj,
 				role: '면접자',
 			});
 			this.$store.state.meetingCode = this.inviteCode;

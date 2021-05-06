@@ -1,6 +1,6 @@
 <template>
 	<div class="bgcolor">
-		<div v-if="streaming && isUser && !!connection.isInistiator">
+		<div v-if="streaming && isUser && !!connection.isInitiator">
 			<v-container
 				fluid
 				class="sticky-box"
@@ -11,13 +11,41 @@
 					<v-list-item style="padding: 0px; text-align: center">
 						<div class="text-center">
 							<div class="text-center user">
-								<p style="margin: 2px">youlee602@hanmail.netsxdcvfgbhnjk</p>
+								<p
+									v-for="(item, idx) in participants"
+									:key="idx"
+									:user="item"
+									style="margin: 2px"
+								>
+									{{ item.u_name }}
+									<v-chip-group mandatory>
+										<v-chip
+											color="indigo darken-3"
+											outlined
+											small
+											@click="changeStatus(item.mm_id, 'PLAN')"
+										>
+											예정
+										</v-chip>
+										<v-chip
+											color="indigo darken-3"
+											outlined
+											small
+											@click="changeStatus(item.mm_id, 'PROGRESS')"
+										>
+											진행
+										</v-chip>
+										<v-chip
+											color="indigo darken-3"
+											outlined
+											small
+											@click="changeStatus(item.mm_id, 'DONE')"
+										>
+											완료
+										</v-chip>
+									</v-chip-group>
+								</p>
 							</div>
-							<v-chip-group mandatory>
-								<v-chip color="indigo darken-3" outlined small> 예정 </v-chip>
-								<v-chip color="indigo darken-3" outlined small> 진행 </v-chip>
-								<v-chip color="indigo darken-3" outlined small> 완료 </v-chip>
-							</v-chip-group>
 						</div>
 					</v-list-item>
 				</v-list>
@@ -90,7 +118,8 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
-import { getConfirmMeetingCode, intervieweeOfMeeting } from '@/api/meeting.js';
+import { intervieweeOfMeeting } from '@/api/meeting.js';
+import { editStatus } from '@/api/member.js';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
 export default {
 	components: {
@@ -109,6 +138,7 @@ export default {
 				data: '',
 				sender: null,
 			},
+			participants: Array,
 			publicRoomIdentifier: 'sodasoda',
 		};
 	},
@@ -118,8 +148,9 @@ export default {
 		await intervieweeOfMeeting(meetingCode)
 			.then(res => {
 				console.log(res.data);
+				this.participants = res.data;
 			})
-			.err(err => {
+			.catch(err => {
 				console.log(err);
 			});
 	},
@@ -134,45 +165,48 @@ export default {
 			this.isUser = !this.isUser;
 		},
 		async openRoom(code) {
-			await getConfirmMeetingCode(code)
-				.then(res => {
-					console.log(res.data);
-					if (res.data) {
-						this.roomid = code;
-						console.log(res.data);
-						this.meetingStart = !this.meetingStart;
-						this.streaming = !this.streaming;
-						this.$store.state.meetingOn = this.streaming;
-						this.connection = new RTCMultiConnection();
-						this.chatInfo.sender = this.connection.userid;
-						// this.connection.autoCloseEntireSession = true;
-						this.connection.socketMessageEvent = this.roomid;
-						this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
-						this.connection.session = {
-							audio: true,
-							video: true,
-							data: true,
-						};
+			if (!!code) {
+				this.roomid = code;
+				this.meetingStart = !this.meetingStart;
+				this.streaming = !this.streaming;
+				this.$store.state.meetingOn = this.streaming;
+				this.connection = new RTCMultiConnection();
+				this.chatInfo.sender = this.connection.userid;
+				// this.connection.autoCloseEntireSession = true;
+				this.connection.socketMessageEvent = this.roomid;
+				this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
+				this.connection.session = {
+					audio: true,
+					video: true,
+					data: true,
+				};
 
-						this.connection.onmessage = this.appendDIV;
-						this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
-						this.connection.sdpConstraints.mandatory = {
-							OfferToReceiveAudio: true,
-							OfferToReceiveVideo: true,
-						};
-						this.connection.openOrJoin(this.roomid);
-						this.connection.videosContainer = document.querySelector(
-							'.videos-container',
-						);
-						this.userlist();
-						this.chatOnOff();
-					} else {
-						alert('유효하지 않은 미팅코드입니다.');
-					}
-				})
-				.catch(err => {
-					console.log('에러');
-				});
+				this.connection.onmessage = this.appendDIV;
+				this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
+				this.connection.sdpConstraints.mandatory = {
+					OfferToReceiveAudio: true,
+					OfferToReceiveVideo: true,
+				};
+				this.connection.openOrJoin(this.roomid);
+				this.connection.videosContainer = document.querySelector(
+					'.videos-container',
+				);
+				this.userlist();
+				this.chatOnOff();
+			} else {
+				alert('미팅코드 입력해랑');
+			}
+			// await getConfirmMeetingCode(code)
+			// 	.then(res => {
+			// 		console.log(res.data);
+			// 		if (res.data) {
+			// 		} else {
+			// 			alert('유효하지 않은 미팅코드입니다.');
+			// 		}
+			// 	})
+			// 	.catch(err => {
+			// 		console.log('에러');
+			// 	});
 		},
 		outRoom() {
 			this.userlist();
@@ -246,6 +280,23 @@ export default {
 			div.focus();
 
 			document.getElementById('input-text-chat').focus();
+		},
+		async changeStatus(mm_id, status) {
+			await editStatus(mm_id, status)
+				.then(res => {
+					console.log(res.data);
+				})
+				.catch(err => {
+					console.log(err);
+				});
+			await intervieweeOfMeeting(this.$store.state.meetingCode)
+				.then(res => {
+					console.log(res.data);
+					this.participants = res.data;
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		},
 	},
 };
