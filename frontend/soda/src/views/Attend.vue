@@ -59,8 +59,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex';
-
 export default {
 	name: 'AttendPage',
 	components: {},
@@ -71,17 +69,7 @@ export default {
 			dialogOpen: false,
 		};
 	},
-	computed: {
-		...mapGetters(['getId']),
-		...mapState(['user']),
-		...mapState('meetingStore', ['mySessionId', 'meetingDialog']),
-	},
 	methods: {
-		...mapActions('meetingStore', [
-			'createSessionId',
-			'checkSessionId',
-			'changeMeetingDialog',
-		]),
 		guestbtn() {
 			// 이메일&인증코드 유효성 확인
 			if (this.inputSessionId == '' || this.inputCertifycode == '') {
@@ -97,7 +85,7 @@ export default {
 			// 이메일이 초대된 이메일인지 판단하는 api 불러오기
 			// 인증코드의 미팅방으로 이동
 			this.$store.state.meetingCode = this.inputCertifycode;
-			this.$router.push('/meeting'); // 임시 routing
+			this.$router.push('/meeting'); // 임시 r outing
 		},
 	},
 };

@@ -38,9 +38,10 @@ export default {
   }),
   mounted() {
     this.connection = new RTCMultiConnection();
+    console.log('connection : ' , this.connection)
     this.connection.socketURL = 'https://rtcmulticonnection.herokuapp.com:443/'
     this.connection.socketMessageEvent = 'video-conference-demo';
-
+    
     // this.connection.session = {
     //   audio: true,
     //   video: true,
