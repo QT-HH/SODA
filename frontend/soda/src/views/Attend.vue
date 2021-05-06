@@ -24,17 +24,6 @@
 			></v-text-field>
 			<button id="font3" @click="guestbtn">입장 하기</button>
 		</div>
-		<!-- <div>
-			<v-btn
-				rounded
-				color="primary"
-				dark
-				v-show="inputSessionId"
-				@click="guestbtn"
-			>
-				입장하기
-			</v-btn>
-		</div> -->
 		<div class="text-center">
 			<v-dialog v-model="dialogOpen" width="500">
 				<v-card>
