@@ -30,8 +30,17 @@ function attendMeeting(email, inviteCode) {
 function delMeeting(inviteCode) {
 	return instance.delete(`meeting/del/${inviteCode}`);
 }
-function meetingInviteCode(cidentify) {
-	return instance.get(`meeting/inviteCode/${cidentify}`);
+function intervieweeOfMeeting(inviteCode) {
+	return instance.get(`meeting/interviewee/list`, {
+		params: {
+			inviteCode: inviteCode,
+		},
+	});
 }
 
-export { getConfirmMeetingCode, attendMeeting, delMeeting, meetingInviteCode };
+export {
+	getConfirmMeetingCode,
+	attendMeeting,
+	delMeeting,
+	intervieweeOfMeeting,
+};
