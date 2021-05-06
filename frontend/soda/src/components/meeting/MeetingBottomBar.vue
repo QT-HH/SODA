@@ -14,7 +14,7 @@
 				</span>
 			</button>
 			<button class="btn1" @click="video">
-				<i :class="this.videoIcon" :style="iconColorTrue"> </i>
+				<i :class="this.videoIcon"> </i>
 				<span id="font2">
 					{{ isVideo ? '비디오 끄기' : '비디오 켜기' }}
 				</span>
