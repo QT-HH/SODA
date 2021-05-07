@@ -91,6 +91,7 @@
 				</v-row>
 			</v-container>
 		</v-sheet>
+		<STT></STT>
 		<div class="footer">
 			<MeetingBottomBar
 				v-if="streaming"

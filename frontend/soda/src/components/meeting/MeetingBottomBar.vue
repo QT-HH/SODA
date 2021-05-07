@@ -109,8 +109,12 @@ export default {
 			this.isSubtitle = !this.isSubtitle;
 			if (this.isSubtitle) {
 				this.subtitleIcon = 'fas fa-closed-captioning greenColor';
+				this.$store.state.sttOn = true;
+				console.log('켜기' + this.$store.state.sttOn);
 			} else {
 				this.subtitleIcon = 'far fa-closed-captioning redColor';
+				this.$store.state.sttOn = false;
+				console.log('끄기' + this.$store.state.sttOn);
 			}
 		},
 		chatting() {
