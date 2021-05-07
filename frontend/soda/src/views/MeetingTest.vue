@@ -25,8 +25,15 @@
 		<v-sheet class="overflow-hidden bgcolor" style="position: relative">
 			<v-container class="fill-height bgcolor">
 				<v-row align="center" justify="center">
-					<video autoplay loop controls muted src="@/assets/ssiikk.mp4"></video>
-					<div class="videos-container"></div>
+					<div class="videos-container">
+						<video
+							autoplay
+							loop
+							controls
+							muted
+							src="@/assets/ssiikk.mp4"
+						></video>
+					</div>
 				</v-row>
 			</v-container>
 		</v-sheet>
