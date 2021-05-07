@@ -1,7 +1,6 @@
 package com.tak.soda.controller;
 
-import com.tak.soda.domain.MeetingMember;
-import com.tak.soda.domain.MeetingStatus;
+import com.tak.soda.domain.MemberStatus;
 import com.tak.soda.domain.dto.IntervieweeDto;
 import com.tak.soda.service.MeetingService;
 import io.swagger.annotations.Api;
@@ -67,7 +66,7 @@ public class MeetingController {
 			}
 
 			// 아니면 면접자
-			MeetingStatus status = meetingService.findStatus(mm_id);
+			MemberStatus status = meetingService.findStatus(mm_id);
 			return new ResponseEntity("면접자,"+ status, HttpStatus.OK);
 		}
 		// 면접자라면?

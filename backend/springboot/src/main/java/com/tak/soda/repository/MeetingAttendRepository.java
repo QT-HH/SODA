@@ -1,6 +1,7 @@
 package com.tak.soda.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -8,10 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 public class MeetingAttendRepository {
 
-    private final EntityManager em;
+    @Autowired EntityManager em;
 
     public List<Long> findByEmailAndInviteCode(String email, String inviteCode) {
         String qlString = "select u.id, mm.id " +

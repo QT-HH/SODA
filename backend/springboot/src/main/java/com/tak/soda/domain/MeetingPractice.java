@@ -20,11 +20,7 @@ public class MeetingPractice {
     @Column(name = "mp_name", nullable = false)
     private String name;
 
-    @Column(name = "host_id", nullable = false)
-    private Long hostId;
-
-    public MeetingPractice(String name, Long hostId) {
+    public MeetingPractice(String name) {
         this.name = name;
-        this.hostId = hostId;
     }
 }

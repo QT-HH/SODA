@@ -102,9 +102,9 @@ public class MemberService {
 			meetingMember.setMember(member);
 			meetingMember.setMeeting(meeting);
 			if(role.matches("면접자"))
-				meetingMember.setStatus(MeetingStatus.PLAN);
+				meetingMember.setStatus(MemberStatus.PLAN);
 			else
-				meetingMember.setStatus(MeetingStatus.PROGRESS);
+				meetingMember.setStatus(MemberStatus.PROGRESS);
 
 			member.addMeeting(meetingMember);
 			meeting.addMember(meetingMember);
@@ -215,7 +215,7 @@ public class MemberService {
 	 * @return member_id
 	 */
 	@Transactional
-	public Long updateStatus(Long mm_id, MeetingStatus status) {
+	public Long updateStatus(Long mm_id, MemberStatus status) {
 		//Member member = memberRepository.findById(u_id);
 		MeetingMember meetingMember = meetingMemberRepository.findById(mm_id);
 
