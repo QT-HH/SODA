@@ -1,12 +1,6 @@
 <template>
 	<div class="footerBox">
 		<v-footer padless color="#e0dcdd">
-			<button class="btn1" @click="user">
-				<i class="fas fa-users"> </i>
-				<span id="font2">
-					{{ isUser ? '면접자리스트 끄기' : '면접자리스트 켜기' }}
-				</span>
-			</button>
 			<button class="btn1" @click="audio">
 				<i :class="this.audioIcon"> </i>
 				<span id="font2">
@@ -44,7 +38,6 @@ export default {
 	name: 'MeetingBottomBar',
 	data() {
 		return {
-			isUser: false,
 			isAudio: false,
 			isVideo: true,
 			isSubtitle: true,
@@ -56,10 +49,6 @@ export default {
 		};
 	},
 	methods: {
-		user() {
-			this.isUser = !this.isUser;
-			this.$emit('userlist', this.isUser);
-		},
 		audio() {
 			this.isAudio = !this.isAudio;
 			if (this.isAudio) {
