@@ -25,10 +25,18 @@ function intervieweeOfMeeting(inviteCode) {
 		},
 	});
 }
+function createTestMeeting() {
+	return instance.get(`practice/new`);
+}
+function deleteTestMeeting(mp_id) {
+	return instance.delete(`practice/del?mp_id=${mp_id}`);
+}
 
 export {
 	getConfirmMeetingCode,
 	attendMeeting,
 	delMeeting,
 	intervieweeOfMeeting,
+	createTestMeeting,
+	deleteTestMeeting,
 };

@@ -1,56 +1,5 @@
 <template>
 	<div class="bgcolor">
-		<div v-if="false">
-			<v-container
-				fluid
-				class="sticky-box"
-				style="border: 2px solid; color: #4527a0"
-			>
-				<p style="color: black">면접자리스트</p>
-				<v-list>
-					<v-list-item style="padding: 0px; text-align: center">
-						<div class="text-center">
-							<div class="text-center user">
-								<p
-									v-for="(item, idx) in participants"
-									:key="idx"
-									:user="item"
-									style="margin: 2px"
-								>
-									{{ item.u_name }}
-									<v-chip-group mandatory>
-										<v-chip
-											color="indigo darken-3"
-											outlined
-											small
-											@click="changeStatus(item.mm_id, 'PLAN')"
-										>
-											예정
-										</v-chip>
-										<v-chip
-											color="indigo darken-3"
-											outlined
-											small
-											@click="changeStatus(item.mm_id, 'PROGRESS')"
-										>
-											진행
-										</v-chip>
-										<v-chip
-											color="indigo darken-3"
-											outlined
-											small
-											@click="changeStatus(item.mm_id, 'DONE')"
-										>
-											완료
-										</v-chip>
-									</v-chip-group>
-								</p>
-							</div>
-						</div>
-					</v-list-item>
-				</v-list>
-			</v-container>
-		</div>
 		<div v-show="isChat" id="chat-container" class="chatBox">
 			<div class="chat-output"></div>
 			<div class="chat-input">
@@ -73,18 +22,10 @@
 				>
 			</div>
 		</div>
-		<input
-			v-if="!streaming"
-			v-model="roomid"
-			placeholder="Unique room ID"
-			@keyup.enter="openRoom"
-		/>
-		<div v-if="!streaming">
-			<v-btn depressed color="primary" @click="openRoom">open or join</v-btn>
-		</div>
 		<v-sheet class="overflow-hidden bgcolor" style="position: relative">
 			<v-container class="fill-height bgcolor">
 				<v-row align="center" justify="center">
+					<video autoplay loop controls muted src="@/assets/ssiikk.mp4"></video>
 					<div class="videos-container"></div>
 				</v-row>
 			</v-container>
@@ -109,6 +50,7 @@
 
 <script>
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
+import { createTestMeeting, deleteTestMeeting } from '@/api/meeting.js';
 
 export default {
 	components: {
@@ -119,7 +61,7 @@ export default {
 			isUser: false,
 			isChat: false,
 			roomid: '',
-			// connection: null,
+			connection: null,
 			streaming: false,
 			chatting: false,
 			chatInfo: {
@@ -128,41 +70,46 @@ export default {
 			},
 			participants: Array,
 			publicRoomIdentifier: 'sodasodatest',
-			rooms: Array,
+			room_id: null,
 		};
 	},
 	async mounted() {
-		this.connection = new RTCMultiConnection();
-		this.connection.session = {
-			audio: true,
-			video: true,
-			data: true,
-		};
-		this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
-		this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
-		await this.connection.connectSocket();
+		if (window.Notification) {
+			Notification.requestPermission();
+			createTestMeeting()
+				.then(res => {
+					// console.log(res.data);
+					this.room_id = res.data.id;
+					this.openRoom(res.data.name);
+				})
+				.catch(err => {
+					console.log(err.message);
+				});
+		}
 	},
-	// async mounted() {
-	// 	await this.checkRooms();
-	// 	const meetingCode = await this.createNewRoom();
-	// 	await this.openRoom(meetingCode);
-	// },
 	beforeDestroy() {
 		this.outRoom();
 	},
 	methods: {
-		chatOnOff() {
-			this.isChat = !this.isChat;
-		},
 		async openRoom(code) {
 			if (!!code) {
 				this.roomid = code;
+				this.meetingStart = !this.meetingStart;
 				this.streaming = !this.streaming;
 				this.$store.state.meetingOn = this.streaming;
+				this.connection = new RTCMultiConnection();
 				this.chatInfo.sender = this.connection.userid;
+				// this.connection.autoCloseEntireSession = true;
 				this.connection.socketMessageEvent = this.roomid;
+				this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
+				this.connection.session = {
+					audio: true,
+					video: true,
+					data: true,
+				};
 
 				this.connection.onmessage = this.appendDIV;
+				this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
 				this.connection.sdpConstraints.mandatory = {
 					OfferToReceiveAudio: true,
 					OfferToReceiveVideo: true,
@@ -172,33 +119,40 @@ export default {
 					'.videos-container',
 				);
 				this.chatOnOff();
-			} else {
-				alert('미팅코드 입력해랑');
+				this.notify('입장');
 			}
 		},
 		outRoom() {
-			this.chatOnOff();
-			if (!!this.connection) {
-				this.connection.getAllParticipants().forEach(participantId => {
-					this.connection.disconnectWith(participantId);
-				});
+			deleteTestMeeting(this.room_id)
+				.then(res => {
+					// console.log(res);
+					if (!!this.connection) {
+						this.chatOnOff();
+						this.connection.getAllParticipants().forEach(participantId => {
+							this.connection.disconnectWith(participantId);
+						});
 
-				this.connection.attachStreams.forEach(function (localStream) {
-					localStream.stop();
-				});
+						this.connection.attachStreams.forEach(function (localStream) {
+							localStream.stop();
+						});
 
-				this.connection.closeSocket();
-				this.connection = null;
-				this.streaming = !this.streaming;
-				this.roomid = '';
-				this.$store.state.meetingOn = this.streaming;
-				this.$store.state.meetingCode = '';
-				this.$router.push('/attend');
-				var el = document.getElementById('apdiv');
-				if (!!el) {
-					el.remove();
-				}
-			}
+						this.connection.closeSocket();
+						this.connection = null;
+						this.streaming = !this.streaming;
+						this.roomid = '';
+						this.$store.state.meetingOn = this.streaming;
+						this.$store.state.meetingCode = '';
+						this.$router.push('/attend');
+						var el = document.getElementById('apdiv');
+						if (!!el) {
+							el.remove();
+						}
+						this.notify('퇴장');
+					}
+				})
+				.catch(err => {
+					console.log(err.message);
+				});
 		},
 		screenOff() {
 			const event = this.findMyVideo();
@@ -223,6 +177,9 @@ export default {
 			});
 			return event;
 		},
+		chatOnOff() {
+			this.isChat = !this.isChat;
+		},
 		inputChat() {
 			const myChat = {
 				data: this.chatInfo,
@@ -244,41 +201,21 @@ export default {
 
 			document.getElementById('input-text-chat').focus();
 		},
-		async createNewRoom() {
-			let roomid = this.createRandomNumber();
-			let rooms = this.connection.socket.rooms;
-			console.log('aaaaaaaaaa', rooms);
-			if (!!rooms) {
-				console.log(1);
-				while (rooms.find(e => e.sessionid !== roomid)) {
-					roomid = this.createRandomNumber();
-				}
+		notify(mention) {
+			if (Notification.permission !== 'granted') {
+				alert('notification is disabled');
+			} else {
+				const notification = new Notification(`모의면접 ${mention}`, {
+					icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+					body: `모의면접을 ${mention}하셨습니다.`,
+				});
 			}
-			return roomid;
-		},
-		createRandomNumber() {
-			// return String(Math.random());
-			return 'aa';
-		},
-		checkRooms() {
-			this.connection.socket.emit(
-				'get-public-rooms',
-				this.publicRoomIdentifier,
-				function (listOfRooms) {
-					this.rooms = listOfRooms;
-				},
-			);
 		},
 	},
 };
 </script>
 
 <style scoped>
-.videos-container video {
-	width: 200px;
-
-	margin: 10px;
-}
 .sticky-box {
 	width: 200px;
 	height: 570px;
