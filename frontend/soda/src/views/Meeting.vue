@@ -72,6 +72,8 @@
 			</v-container>
 		</v-sheet>
 
+		<STT></STT>
+
 		<MeetingBottomBar
 			v-if="streaming"
 			@userlist="userlist"
@@ -92,9 +94,11 @@
 <script>
 import { getConfirmMeetingCode } from '@/api/meeting.js';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
+import STT from '@/components/meeting/STT.vue';
 export default {
 	components: {
 		MeetingBottomBar,
+		STT,
 	},
 	data() {
 		return {

@@ -36,7 +36,7 @@ const routes = [
 		component: MeetingUser,
 	},
 	{
-		path: '/stttest2',
+		path: '/STTtest2',
 		name: 'STTtest2',
 		component: () => import('../views/STTtest2.vue'),
 	},
