@@ -19,6 +19,9 @@ export default {
 
 	created() {
 		console.log('hi');
+		if (window.Notification) {
+			Notification.requestPermission();
+		}
 	},
 };
 </script>
