@@ -8,4 +8,11 @@ import org.springframework.stereotype.Repository;
 // @Repository 어노테이션 추가 안해도 됨
 public interface MeetingPracticeRepository extends JpaRepository<MeetingPractice, Integer> {
     // SpringBoot JpaRepository 인터페이스가 제공하는 Entity의 기본적인 CRUD 메소드를 사용
+
+    /**
+     * 방 이름으로 검색
+     * @param name
+     * @return
+     */
+    MeetingPractice findByName(String name);
 }
