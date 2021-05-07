@@ -1,18 +1,19 @@
 package com.tak.soda.repository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
-@RequiredArgsConstructor
 public class MeetingAttendRepository {
 
-    private final EntityManager em;
+    @Autowired EntityManager em;
 
-    public Long findByEmailAndInviteCode(String email, String inviteCode) {
+    public List<Long> findByEmailAndInviteCode(String email, String inviteCode) {
         String qlString = "select u.id, mm.id " +
                 "from Member u right join MeetingMember mm " +
                 "on u.id=mm.member.id " +
@@ -26,13 +27,18 @@ public class MeetingAttendRepository {
                 .setParameter("inviteCode", inviteCode)
                 .getResultList();
 
+
+        List<Long> ids = new ArrayList<>();
+
         Long u_id = -1L;
+        Long mm_id = -1L;
 
         for(Object[] row: results) {
             System.out.println(row[0]);
-            u_id = (Long) row[0];
+            ids.add((Long) row[0]);
+            ids.add((Long) row[1]);
         }
 
-        return u_id;
+        return ids;
     }
 }

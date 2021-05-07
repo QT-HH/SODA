@@ -19,6 +19,9 @@ export default {
 
 	created() {
 		console.log('hi');
+		if (window.Notification) {
+			Notification.requestPermission();
+		}
 	},
 };
 </script>
@@ -63,5 +66,10 @@ export default {
 }
 .bgcolor {
 	background-color: #e0dcdd;
+}
+video {
+	width: 400px;
+	height: 300px;
+	margin: 5px;
 }
 </style>
