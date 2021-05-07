@@ -1,12 +1,8 @@
 <template>
 	<div>
-		<br />
-		<br />
-		<br />
-		<br />
-		<v-btn class="btn-start" @click="startBtn">start recording</v-btn>
+		<!-- <v-btn class="btn-start" @click="startBtn">start recording</v-btn> -->
 		<!-- <v-btn class="btn-end">end recording</v-btn> -->
-		<v-text-field class="output"></v-text-field>
+		<p class="output"></p>
 	</div>
 </template>
 
@@ -32,27 +28,43 @@
 export default {
 	data() {
 		return {
-			f: false,
+			stt: this.$store.state.sttOn,
 		};
 	},
 	methods: {
-		startBtn() {
-			this.f = !this.f;
-			console.log(this.f);
-			if (this.f) {
-				this.speech.init();
-				console.log(this.f + '켜짐');
-			} else {
-				this.speech.stop();
-				console.log(this.f + '꺼짐');
-			}
-		},
+		// startBtn() {
+		// 	this.stt = !this.stt;
+		// 	console.log(this.stt);
+		// 	if (this.stt) {
+		// 		this.speech.init();
+		// 		console.log(this.stt + '켜짐');
+		// 	} else {
+		// 		this.speech.stop();
+		// 		console.log(this.stt + '꺼짐');
+		// 	}
+		// },
 	},
 	computed: {
 		speech() {
 			return new SpeechRecognitionApi({
 				output: document.querySelector('.output'),
 			});
+		},
+		sttcheck() {
+			return this.$store.state.sttOn;
+		},
+	},
+	watch: {
+		sttcheck(val) {
+			this.stt = val;
+			console.log('와치시작');
+			if (this.stt == true) {
+				this.speech.init();
+				console.log(this.stt + '켜짐');
+			} else {
+				this.speech.stop();
+				console.log(this.stt + '꺼짐');
+			}
 		},
 	},
 };
@@ -83,11 +95,4 @@ class SpeechRecognitionApi {
 }
 </script>
 
-<style>
-.output {
-	display: block;
-	width: 80%;
-	height: 400px;
-	margin: 50px auto;
-}
-</style>
+<style></style>

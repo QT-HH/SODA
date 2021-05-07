@@ -71,20 +71,19 @@
 				</v-row>
 			</v-container>
 		</v-sheet>
-
 		<STT></STT>
-
-		<MeetingBottomBar
-			v-if="streaming"
-			@userlist="userlist"
-			@outRoom="outRoom"
-			@voiceOn="voiceOn"
-			@voiceOff="voiceOff"
-			@screenOn="screenOn"
-			@screenOff="screenOff"
-			@chatOnOff="chatOnOff"
-		></MeetingBottomBar>
-		<!-- <MeetingUser v-if="isUser"></MeetingUser> -->
+		<div class="footer">
+			<MeetingBottomBar
+				v-if="streaming"
+				@userlist="userlist"
+				@outRoom="outRoom"
+				@voiceOn="voiceOn"
+				@voiceOff="voiceOff"
+				@screenOn="screenOn"
+				@screenOff="screenOff"
+				@chatOnOff="chatOnOff"
+			></MeetingBottomBar>
+		</div>
 	</div>
 </template>
 
