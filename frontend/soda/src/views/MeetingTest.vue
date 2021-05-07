@@ -118,10 +118,10 @@ export default {
 					OfferToReceiveAudio: true,
 					OfferToReceiveVideo: true,
 				};
-				this.connection.openOrJoin(this.roomid);
 				this.connection.videosContainer = document.querySelector(
 					'.videos-container',
 				);
+				this.connection.openOrJoin(this.roomid);
 				this.chatOnOff();
 				this.notify('입장');
 			}
@@ -146,7 +146,7 @@ export default {
 						this.roomid = '';
 						this.$store.state.meetingOn = this.streaming;
 						this.$store.state.meetingCode = '';
-						this.$router.push('/attend');
+						this.$router.push('/');
 						var el = document.getElementById('apdiv');
 						if (!!el) {
 							el.remove();
@@ -207,7 +207,7 @@ export default {
 		},
 		notify(mention) {
 			if (Notification.permission !== 'granted') {
-				alert('notification is disabled');
+				alert(`모의면접을 ${mention}하셨습니다.`);
 			} else {
 				const notification = new Notification(`모의면접 ${mention}`, {
 					icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
