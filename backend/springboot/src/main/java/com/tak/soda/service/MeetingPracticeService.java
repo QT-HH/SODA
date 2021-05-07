@@ -18,7 +18,7 @@ public class MeetingPracticeService {
      * 모의면접 방 생성
      * @return mp_id
      */
-    public Long createRoom() {
+    public MeetingPractice createRoom() {
         String room_name;
 
         while (true) {
@@ -31,7 +31,7 @@ public class MeetingPracticeService {
         MeetingPractice meetingPractice = new MeetingPractice(room_name);
         meetingPracticeRepository.save(meetingPractice);
 
-        return meetingPractice.getId();
+        return meetingPractice;
     }
 
     /**
