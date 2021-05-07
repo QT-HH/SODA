@@ -1,7 +1,5 @@
 package com.tak.soda.domain;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +22,7 @@ public class MeetingMember {
     @JoinColumn(name = "m_id")
     private Meeting meeting; // 미팅방
 
+    @Enumerated
     @Column(name = "mm_status")
-    private MeetingStatus status;
+    private MemberStatus status;
 }
