@@ -191,6 +191,7 @@ export default {
 						video,
 						this.videosContainer.firstChild,
 					);
+					notify('입장', event.userid);
 				};
 
 				this.connection.openOrJoin(this.roomid);
@@ -291,13 +292,15 @@ export default {
 		showSidebar() {
 			this.sideBar = 'page-wrapper sideBarTheme toggled';
 		},
-		notify(mention) {
+		notify(mention, user_id) {
+			console.log(mention, user_id);
+			let user = user_id;
 			if (Notification.permission !== 'granted') {
-				alert(`면접을 ${mention}하셨습니다.`);
+				alert(`${user}님께서 면접을 ${mention}하셨습니다.`);
 			} else {
 				const notification = new Notification(`면접 ${mention}`, {
 					icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
-					body: `면접을 ${mention}하셨습니다.`,
+					body: `${user}님께서 면접을 ${mention}하셨습니다.`,
 				});
 			}
 		},
