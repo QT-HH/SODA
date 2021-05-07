@@ -81,18 +81,15 @@ export default {
 		};
 	},
 	async mounted() {
-		if (window.Notification) {
-			Notification.requestPermission();
-			createTestMeeting()
-				.then(res => {
-					// console.log(res.data);
-					this.room_id = res.data.id;
-					this.openRoom(res.data.name);
-				})
-				.catch(err => {
-					console.log(err.message);
-				});
-		}
+		createTestMeeting()
+			.then(res => {
+				// console.log(res.data);
+				this.room_id = res.data.id;
+				this.openRoom(res.data.name);
+			})
+			.catch(err => {
+				console.log(err.message);
+			});
 	},
 	beforeDestroy() {
 		this.outRoom();
