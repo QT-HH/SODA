@@ -95,7 +95,7 @@ export default {
 					}
 				})
 				.catch(err => {
-					console.err(err.message);
+					console.log(err.message);
 				});
 		},
 		openOrJoin(meetingCode) {

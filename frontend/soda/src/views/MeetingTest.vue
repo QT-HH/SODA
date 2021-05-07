@@ -1,6 +1,6 @@
 <template>
 	<div class="bgcolor">
-		<div v-if="streaming && isUser && !!connection.isInitiator">
+		<div v-if="false">
 			<v-container
 				fluid
 				class="sticky-box"
@@ -92,7 +92,6 @@
 		<div class="footer">
 			<MeetingBottomBar
 				v-if="streaming"
-				@userlist="userlist"
 				@outRoom="outRoom"
 				@voiceOn="voiceOn"
 				@voiceOff="voiceOff"
@@ -109,9 +108,8 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
-import { intervieweeOfMeeting } from '@/api/meeting.js';
-import { editStatus } from '@/api/member.js';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
+
 export default {
 	components: {
 		MeetingBottomBar,
@@ -121,8 +119,7 @@ export default {
 			isUser: false,
 			isChat: false,
 			roomid: '',
-			meetingStart: false,
-			connection: null,
+			// connection: null,
 			streaming: false,
 			chatting: false,
 			chatInfo: {
@@ -130,20 +127,26 @@ export default {
 				sender: null,
 			},
 			participants: Array,
-			publicRoomIdentifier: 'sodasoda',
+			publicRoomIdentifier: 'sodasodatest',
+			rooms: Array,
 		};
 	},
 	async mounted() {
-		const meetingCode = this.$store.state.meetingCode;
-		await this.openRoom(meetingCode);
-		await intervieweeOfMeeting(meetingCode)
-			.then(res => {
-				this.participants = res.data;
-			})
-			.catch(err => {
-				console.log(err);
-			});
+		this.connection = new RTCMultiConnection();
+		this.connection.session = {
+			audio: true,
+			video: true,
+			data: true,
+		};
+		this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
+		this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
+		await this.connection.connectSocket();
 	},
+	// async mounted() {
+	// 	await this.checkRooms();
+	// 	const meetingCode = await this.createNewRoom();
+	// 	await this.openRoom(meetingCode);
+	// },
 	beforeDestroy() {
 		this.outRoom();
 	},
@@ -151,28 +154,15 @@ export default {
 		chatOnOff() {
 			this.isChat = !this.isChat;
 		},
-		userlist() {
-			this.isUser = !this.isUser;
-		},
 		async openRoom(code) {
 			if (!!code) {
 				this.roomid = code;
-				this.meetingStart = !this.meetingStart;
 				this.streaming = !this.streaming;
 				this.$store.state.meetingOn = this.streaming;
-				this.connection = new RTCMultiConnection();
 				this.chatInfo.sender = this.connection.userid;
-				// this.connection.autoCloseEntireSession = true;
 				this.connection.socketMessageEvent = this.roomid;
-				this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
-				this.connection.session = {
-					audio: true,
-					video: true,
-					data: true,
-				};
 
 				this.connection.onmessage = this.appendDIV;
-				this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
 				this.connection.sdpConstraints.mandatory = {
 					OfferToReceiveAudio: true,
 					OfferToReceiveVideo: true,
@@ -181,25 +171,12 @@ export default {
 				this.connection.videosContainer = document.querySelector(
 					'.videos-container',
 				);
-				this.userlist();
 				this.chatOnOff();
 			} else {
 				alert('미팅코드 입력해랑');
 			}
-			// await getConfirmMeetingCode(code)
-			// 	.then(res => {
-			// 		console.log(res.data);
-			// 		if (res.data) {
-			// 		} else {
-			// 			alert('유효하지 않은 미팅코드입니다.');
-			// 		}
-			// 	})
-			// 	.catch(err => {
-			// 		console.log('에러');
-			// 	});
 		},
 		outRoom() {
-			this.userlist();
 			this.chatOnOff();
 			if (!!this.connection) {
 				this.connection.getAllParticipants().forEach(participantId => {
@@ -246,10 +223,6 @@ export default {
 			});
 			return event;
 		},
-		checkVideo() {
-			let video = this.connection.streamEvents.selectAll();
-			console.log(video);
-		},
 		inputChat() {
 			const myChat = {
 				data: this.chatInfo,
@@ -271,17 +244,30 @@ export default {
 
 			document.getElementById('input-text-chat').focus();
 		},
-		async changeStatus(mm_id, status) {
-			await editStatus(mm_id, status).catch(err => {
-				console.log(err);
-			});
-			await intervieweeOfMeeting(this.$store.state.meetingCode)
-				.then(res => {
-					this.participants = res.data;
-				})
-				.catch(err => {
-					console.log(err);
-				});
+		async createNewRoom() {
+			let roomid = this.createRandomNumber();
+			let rooms = this.connection.socket.rooms;
+			console.log('aaaaaaaaaa', rooms);
+			if (!!rooms) {
+				console.log(1);
+				while (rooms.find(e => e.sessionid !== roomid)) {
+					roomid = this.createRandomNumber();
+				}
+			}
+			return roomid;
+		},
+		createRandomNumber() {
+			// return String(Math.random());
+			return 'aa';
+		},
+		checkRooms() {
+			this.connection.socket.emit(
+				'get-public-rooms',
+				this.publicRoomIdentifier,
+				function (listOfRooms) {
+					this.rooms = listOfRooms;
+				},
+			);
 		},
 	},
 };
