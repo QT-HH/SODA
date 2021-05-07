@@ -1,7 +1,7 @@
 package com.tak.soda.repository;
 
 import com.tak.soda.domain.dto.IntervieweeDto;
-import com.tak.soda.domain.MeetingStatus;
+import com.tak.soda.domain.MemberStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -43,7 +43,7 @@ public class IntervieweeRepository {
             dto.setU_email((String) row[5]);
             dto.setU_phone((String) row[6]);
             dto.setU_role((String) row[7]);
-            dto.setStatus((MeetingStatus) row[8]);
+            dto.setStatus((MemberStatus) row[8]);
 
             intervieweeDtoList.add(dto);
         }

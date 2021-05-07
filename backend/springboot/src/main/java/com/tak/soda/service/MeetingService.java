@@ -1,7 +1,7 @@
 package com.tak.soda.service;
 
 import com.tak.soda.domain.MeetingMember;
-import com.tak.soda.domain.MeetingStatus;
+import com.tak.soda.domain.MemberStatus;
 import com.tak.soda.domain.dto.IntervieweeDto;
 import com.tak.soda.domain.Meeting;
 import com.tak.soda.domain.Member;
@@ -74,7 +74,7 @@ public class MeetingService {
 		return false;
 	}
 
-	public MeetingStatus findStatus(Long mm_id) {
+	public MemberStatus findStatus(Long mm_id) {
 		MeetingMember mm = meetingMemberRepository.findById(mm_id);
 
 		return mm.getStatus();

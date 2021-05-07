@@ -1,6 +1,6 @@
 package com.tak.soda.domain.dto;
 
-import com.tak.soda.domain.MeetingStatus;
+import com.tak.soda.domain.MemberStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,5 +18,5 @@ public class IntervieweeDto {
     private String u_name;
     private String u_phone;
     private String u_role;
-    private MeetingStatus status;
+    private MemberStatus status;
 }
