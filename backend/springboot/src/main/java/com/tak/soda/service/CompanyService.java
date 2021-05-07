@@ -81,7 +81,7 @@ public class CompanyService {
 		MeetingMember mm = new MeetingMember();
 		mm.setMeeting(meeting);
 		mm.setMember(member);
-		mm.setStatus(MeetingStatus.PROGRESS);
+		mm.setStatus(MemberStatus.PROGRESS);
 
 		meeting.addMember(mm);
 		member.addMeeting(mm);

@@ -24,17 +24,6 @@
 			></v-text-field>
 			<button id="font3" @click="guestbtn">입장 하기</button>
 		</div>
-		<!-- <div>
-			<v-btn
-				rounded
-				color="primary"
-				dark
-				v-show="inputSessionId"
-				@click="guestbtn"
-			>
-				입장하기
-			</v-btn>
-		</div> -->
 		<div class="text-center">
 			<v-dialog v-model="dialogOpen" width="500">
 				<v-card>
@@ -59,6 +48,8 @@
 </template>
 
 <script>
+import { attendMeeting } from '@/api/meeting.js';
+
 export default {
 	name: 'AttendPage',
 	components: {},
@@ -84,9 +75,32 @@ export default {
 			}
 			// 이메일이 초대된 이메일인지 판단하는 api 불러오기
 			// 인증코드의 미팅방으로 이동
-			this.$store.state.meetingCode = this.inputCertifycode;
-			console.log(this.$store.state.meetingCode);
-			this.$router.push('/meeting'); // 임시 r outing
+			attendMeeting(this.inputSessionId, this.inputCertifycode)
+				.then(res => {
+					const stat = res.data.split(',');
+					if (stat[0] === '면접자') {
+						switch (stat[1]) {
+							case 'PLAN':
+								alert('순서를 기다려주세요.');
+								break;
+							case 'PROGRESS':
+								this.openOrJoin(this.inputCertifycode);
+								break;
+							case 'DONE':
+								alert('종료된 면접입니다.');
+								break;
+						}
+					} else {
+						this.openOrJoin(this.inputCertifycode);
+					}
+				})
+				.catch(err => {
+					console.log(err.message);
+				});
+		},
+		openOrJoin(meetingCode) {
+			this.$store.state.meetingCode = meetingCode;
+			this.$router.push('/meeting');
 		},
 	},
 };

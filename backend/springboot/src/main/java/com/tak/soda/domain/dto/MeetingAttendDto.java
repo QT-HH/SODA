@@ -1,6 +1,6 @@
 package com.tak.soda.domain.dto;
 
-import com.tak.soda.domain.MeetingStatus;
+import com.tak.soda.domain.MemberStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,7 +19,7 @@ public class MeetingAttendDto {
     //private Long c_id;
 
     private Long mu_id;
-    private MeetingStatus mm_status;
+    private MemberStatus mm_status;
 
     private Long room_id;
     //private LocalDateTime start_time;

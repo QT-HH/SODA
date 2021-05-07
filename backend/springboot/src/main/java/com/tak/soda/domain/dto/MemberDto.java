@@ -1,7 +1,6 @@
 package com.tak.soda.domain.dto;
 
-import com.tak.soda.domain.MeetingStatus;
-import lombok.AllArgsConstructor;
+import com.tak.soda.domain.MemberStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,7 +18,7 @@ public class MemberDto {
     private String email;
     private String role;
     private String phone;
-    private MeetingStatus status;
+    private MemberStatus status;
     private String cName;
     private List<String> meetings;
 

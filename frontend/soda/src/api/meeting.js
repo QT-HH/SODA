@@ -1,8 +1,5 @@
 import { instance } from './index';
 
-// function getConfirmMeetingCode(cidentify) {
-// 	return instance.get(`meeting/inviteCode?cidentify=${cidentify}`);
-// }
 function getConfirmMeetingCode(inviteCode) {
 	return instance.get('meeting/inviteCode', {
 		params: {
@@ -10,15 +7,6 @@ function getConfirmMeetingCode(inviteCode) {
 		},
 	});
 }
-// function getConfirmMeetingCode(authCode) {
-// 	return instance.post('company/auth', authCode);
-// }
-// function getConfirmMeetingCode(authCode) {
-// 	return instance.post(`company/auth?authCod=${authCode}`);
-// }
-// function getConfirmMeetingCode(authCode) {
-// 	return instance.post(`company/auth?authCod=${authCode}`);
-// }
 function attendMeeting(email, inviteCode) {
 	return instance.get(`meeting/attend`, {
 		params: {
@@ -37,10 +25,18 @@ function intervieweeOfMeeting(inviteCode) {
 		},
 	});
 }
+function createTestMeeting() {
+	return instance.get(`practice/new`);
+}
+function deleteTestMeeting(mp_id) {
+	return instance.delete(`practice/del?mp_id=${mp_id}`);
+}
 
 export {
 	getConfirmMeetingCode,
 	attendMeeting,
 	delMeeting,
 	intervieweeOfMeeting,
+	createTestMeeting,
+	deleteTestMeeting,
 };

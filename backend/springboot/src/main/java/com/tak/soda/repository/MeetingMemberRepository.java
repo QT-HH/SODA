@@ -27,9 +27,9 @@ public class MeetingMemberRepository {
                 .getResultList();
     }
 
-    public MeetingMember findByU_Id(Long u_id) {
-        return em.createQuery("SELECT mm FROM MeetingMember mm WHERE mm.member.id=:u_id", MeetingMember.class)
-                .setParameter("u_id", u_id)
+    public MeetingMember findById(Long mm_id) {
+        return em.createQuery("SELECT mm FROM MeetingMember mm WHERE mm.id=:mm_id", MeetingMember.class)
+                .setParameter("mm_id", mm_id)
                 .getSingleResult();
     }
 

@@ -9,14 +9,26 @@ function editCompany(member) {
 function editEmail(member) {
 	return instance.put('member/edit/email', member);
 }
-function editStatus(member) {
-	return instance.put('member/edit/status', member);
+function editStatus(mm_id, status) {
+	return instance.put(`member/edit/status?mm_id=${mm_id}&status=${status}`);
 }
+// function editStatus(mm_id, status) {
+// 	return instance.put('member/edit/status', {
+// 		params: {
+// 			mm_id: mm_id,
+// 			status: status,
+// 		},
+// 	});
+// }
 function sendMeetingCode(dto) {
 	return instance.post('member/invite', dto);
 }
-function memberList() {
-	return instance.get('member/list');
+function memberList(inviteCode) {
+	return instance.get('member/list', {
+		params: {
+			inviteCode: inviteCode,
+		},
+	});
 }
 function searchMember(uName) {
 	return instance.get(`member/search/${uName}`);

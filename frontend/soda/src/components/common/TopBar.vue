@@ -31,19 +31,29 @@ export default {
 	},
 	methods: {
 		createMeeting() {
-			this.$router.push({ name: 'Certify' });
+			if (this.$route.path !== '/certify') {
+				this.$router.push({ name: 'Certify' });
+			}
 		},
 		attendMeeting() {
-			this.$router.push({ name: 'Attend' });
+			if (this.$route.path !== '/attend') {
+				this.$router.push({ name: 'Attend' });
+			}
 		},
 		goSimulatedMeeting() {
-			this.$router.push({ name: 'Meeting' });
+			if (this.$route.path !== '/meetingtest') {
+				this.$router.push({ name: 'MeetingTest' });
+			}
 		},
 		goRegister() {
-			this.$router.push({ name: 'Register' });
+			if (this.$route.path !== '/register') {
+				this.$router.push({ name: 'Register' });
+			}
 		},
 		goMain() {
-			this.$router.push({ name: 'Home' });
+			if (this.$route.path !== '/') {
+				this.$router.push({ name: 'Home' });
+			}
 		},
 		changeColor() {
 			if (
