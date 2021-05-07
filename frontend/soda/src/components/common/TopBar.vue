@@ -41,8 +41,8 @@ export default {
 			}
 		},
 		goSimulatedMeeting() {
-			if (this.$route.path !== '/meeting') {
-				this.$router.push({ name: 'Meeting' });
+			if (this.$route.path !== '/meetingtest') {
+				this.$router.push({ name: 'MeetingTest' });
 			}
 		},
 		goRegister() {
