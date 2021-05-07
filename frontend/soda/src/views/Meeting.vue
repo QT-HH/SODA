@@ -72,6 +72,8 @@
 			</v-container>
 		</v-sheet>
 
+		<STTtext></STTtext>
+
 		<MeetingBottomBar
 			v-if="streaming"
 			@userlist="userlist"
@@ -91,10 +93,12 @@
 
 <script>
 import { getConfirmMeetingCode, intervieweeOfMeeting } from '@/api/meeting.js';
+import STTtext from '@/components/meeting/stttext.vue';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
 export default {
 	components: {
 		MeetingBottomBar,
+		STTtext,
 	},
 	data() {
 		return {
@@ -149,8 +153,8 @@ export default {
 						this.connection.socketMessageEvent = this.roomid;
 						this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 						this.connection.session = {
-							audio: true,
-							video: true,
+							audio: false,
+							video: false,
 							data: true,
 						};
 
