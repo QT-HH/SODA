@@ -122,9 +122,11 @@
 import { intervieweeOfMeeting } from '@/api/meeting.js';
 import { editStatus } from '@/api/member.js';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
+import STT from '@/components/meeting/STT.vue';
 export default {
 	components: {
 		MeetingBottomBar,
+		STT,
 	},
 	data() {
 		return {
