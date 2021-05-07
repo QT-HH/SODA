@@ -84,15 +84,6 @@
 				>
 			</div>
 		</div>
-		<input
-			v-if="!streaming"
-			v-model="roomid"
-			placeholder="Unique room ID"
-			@keyup.enter="openRoom"
-		/>
-		<div v-if="!streaming">
-			<v-btn depressed color="primary" @click="openRoom">open or join</v-btn>
-		</div>
 		<v-sheet class="overflow-hidden bgcolor" style="position: relative">
 			<v-container class="fill-height bgcolor">
 				<v-row align="center" justify="center">
@@ -144,6 +135,7 @@ export default {
 			participants: Array,
 			publicRoomIdentifier: 'sodasoda',
 			sideBar: 'page-wrapper sideBarTheme',
+			mention: String,
 		};
 	},
 	async mounted() {
@@ -190,14 +182,23 @@ export default {
 					OfferToReceiveAudio: true,
 					OfferToReceiveVideo: true,
 				};
-				this.connection.openOrJoin(this.roomid);
 				this.connection.videosContainer = document.querySelector(
 					'.videos-container',
 				);
+				this.connection.onstream = function (event) {
+					let video = event.mediaElement;
+					video.id = event.streamid;
+					video.controls = false;
+					this.videosContainer.insertBefore(
+						video,
+						this.videosContainer.firstChild,
+					);
+				};
+
+				this.connection.openOrJoin(this.roomid);
 				this.userlist();
 				this.chatOnOff();
-			} else {
-				alert('미팅코드 입력해랑');
+				this.notify('입장');
 			}
 		},
 		outRoom() {
@@ -223,6 +224,7 @@ export default {
 				if (!!el) {
 					el.remove();
 				}
+				this.notify('퇴장');
 			}
 		},
 		screenOff() {
@@ -291,16 +293,21 @@ export default {
 		showSidebar() {
 			this.sideBar = 'page-wrapper sideBarTheme toggled';
 		},
+		notify(mention) {
+			if (Notification.permission !== 'granted') {
+				alert(`면접을 ${mention}하셨습니다.`);
+			} else {
+				const notification = new Notification(`면접 ${mention}`, {
+					icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+					body: `면접을 ${mention}하셨습니다.`,
+				});
+			}
+		},
 	},
 };
 </script>
 
 <style scoped>
-.videos-container video {
-	width: 200px;
-
-	margin: 10px;
-}
 .sticky-box {
 	width: 200px;
 	height: 570px;
