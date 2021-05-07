@@ -1,5 +1,6 @@
 package com.tak.soda.controller;
 
+import com.tak.soda.domain.MeetingPractice;
 import com.tak.soda.service.MeetingPracticeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,9 +21,9 @@ public class MeetingPracticeController {
     @ApiOperation(value = "모의면접 방 생성")
     @GetMapping("new")
     public ResponseEntity newMeetingPractice() {
-        Long mp_id = meetingPracticeService.createRoom();
+        MeetingPractice meetingPractice = meetingPracticeService.createRoom();
 
-        return new ResponseEntity(mp_id, HttpStatus.OK);
+        return new ResponseEntity(meetingPractice, HttpStatus.OK);
     }
 
     @ApiOperation(value = "모의면접 방 삭제")
