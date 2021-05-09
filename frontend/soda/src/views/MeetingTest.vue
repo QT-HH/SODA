@@ -31,7 +31,7 @@
 							loop
 							controls
 							muted
-							src="@/assets/ssiikk.mp4"
+							src="https://ifh.cc/v/CA0iFG.mp4"
 						></video>
 					</div>
 				</v-row>
