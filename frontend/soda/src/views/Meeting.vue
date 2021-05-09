@@ -186,21 +186,12 @@ export default {
 				this.connection.videosContainer = document.querySelector(
 					'.videos-container',
 				);
-				this.connection.onstream = function (event) {
-					let video = event.mediaElement;
-					video.id = event.streamid;
-					video.controls = false;
-					this.videosContainer.insertBefore(
-						video,
-						this.videosContainer.firstChild,
-					);
-					notify('입장', event.userid);
-				};
+				this.connection.onstream = this.onStream;
+				this.connection.onstreamended = this.onStreamEnded;
 
 				this.connection.openOrJoin(this.roomid);
 				this.userlist();
 				this.chatOnOff();
-				this.notify('입장');
 			}
 		},
 		outRoom() {
@@ -226,7 +217,6 @@ export default {
 				if (!!el) {
 					el.remove();
 				}
-				this.notify('퇴장');
 			}
 		},
 		screenOff() {
@@ -294,6 +284,24 @@ export default {
 		},
 		showSidebar() {
 			this.sideBar = 'page-wrapper sideBarTheme toggled';
+		},
+		onStream(event) {
+			let video = event.mediaElement;
+			video.id = event.streamid;
+			video.controls = false;
+			this.connection.videosContainer.insertBefore(
+				video,
+				this.connection.videosContainer.firstChild,
+			);
+			this.notify('입장', event.userid);
+			// console.log('qqqqqqqqqqqqqqqqqqqqqqqqq', event);
+		},
+		onStreamEnded(event) {
+			let video = document.getElementById(event.streamid);
+			if (video && video.parentNode) {
+				video.parentNode.removeChild(video);
+			}
+			this.notify('퇴장', event.userid);
 		},
 		notify(mention, user_id) {
 			console.log(mention, user_id);
