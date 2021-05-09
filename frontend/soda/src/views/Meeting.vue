@@ -1,67 +1,8 @@
 <template>
 	<div class="bgcolor">
-		<div v-if="streaming && isUser && !!connection.isInitiator">
-			<div :class="sideBar" ref="pageWrapper">
-				<div
-					id="font2"
-					class="btn btn-sm btn-dark showside"
-					href="#"
-					@click="showSidebar"
-				>
-					<p class="ma-0">면접자 리스트</p>
-				</div>
-				<nav id="sidebar" class="sidebar-wrapper">
-					<div class="sidebar-content">
-						<div class="sidebar-brand">
-							<p>면접자 리스트</p>
-							<div id="close-sidebar" @click="closeSidebar">
-								<i class="fas fa-times"></i>
-							</div>
-						</div>
-						<v-list class="listBox">
-							<v-list-item style="padding: 0px">
-								<div class="user">
-									<p
-										v-for="(item, idx) in participants"
-										:key="idx"
-										:user="item"
-										class="listName"
-									>
-										{{ item.u_name }}
-										<v-chip-group mandatory>
-											<v-chip
-												color="#dddddd"
-												outlined
-												small
-												@click="changeStatus(item.mm_id, 'PLAN')"
-											>
-												예정
-											</v-chip>
-											<v-chip
-												color="#dddddd"
-												outlined
-												small
-												@click="changeStatus(item.mm_id, 'PROGRESS')"
-											>
-												진행
-											</v-chip>
-											<v-chip
-												color="#dddddd"
-												outlined
-												small
-												@click="changeStatus(item.mm_id, 'DONE')"
-											>
-												완료
-											</v-chip>
-										</v-chip-group>
-									</p>
-								</div>
-							</v-list-item>
-						</v-list>
-					</div>
-				</nav>
-			</div>
-		</div>
+		<IntervieweeList
+			v-if="streaming && isUser && !!connection.isInitiator"
+		></IntervieweeList>
 
 		<Chatting
 			v-show="isChat"
@@ -99,15 +40,15 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
-import { intervieweeOfMeeting } from '@/api/meeting.js';
-import { editStatus } from '@/api/member.js';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
 import Chatting from '@/components/meeting/Chatting.vue';
+import IntervieweeList from '@/components/meeting/IntervieweeList.vue';
 import STT from '@/components/meeting/STT.vue';
 export default {
 	components: {
 		MeetingBottomBar,
 		Chatting,
+		IntervieweeList,
 		STT,
 	},
 	data() {
@@ -118,14 +59,11 @@ export default {
 			meetingStart: false,
 			connection: null,
 			streaming: false,
-			chatting: false,
 			chatInfo: {
 				data: '',
 				sender: null,
 			},
-			participants: Array,
 			publicRoomIdentifier: 'sodasoda',
-			sideBar: 'page-wrapper sideBarTheme',
 			mention: String,
 		};
 	},
@@ -133,15 +71,8 @@ export default {
 		const meetingCode = this.$store.state.meetingCode;
 		this.setRoom(meetingCode);
 	},
-	async mounted() {
-		await this.openRoom(this.roomid);
-		await intervieweeOfMeeting(this.roomid)
-			.then(res => {
-				this.participants = res.data;
-			})
-			.catch(err => {
-				console.log(err);
-			});
+	mounted() {
+		this.openRoom(this.roomid);
 	},
 	beforeDestroy() {
 		this.outRoom();
@@ -239,44 +170,6 @@ export default {
 			});
 			return event;
 		},
-		// inputChat(chatInfo) {
-		// 	const myChat = {
-		// 		data: chatInfo,
-		// 	};
-		// 	if (!!myChat.data.data) {
-		// 		this.connection.send(myChat.data);
-		// 		this.appendDIV(myChat);
-		// 	}
-		// },
-		// appendDIV(event) {
-		// 	const chatContainer = document.querySelector('.chat-output');
-		// 	let div = document.createElement('div');
-		// 	div.setAttribute('id', 'apdiv');
-		// 	div.innerHTML = `${event.data.sender} : ${event.data.data}`;
-		// 	chatContainer.insertBefore(div, chatContainer.firstchild);
-		// 	div.tabIndex = 0;
-		// 	div.focus();
-
-		// 	document.getElementById('input-text-chat').focus();
-		// },
-		async changeStatus(mm_id, status) {
-			await editStatus(mm_id, status).catch(err => {
-				console.log(err);
-			});
-			await intervieweeOfMeeting(this.$store.state.meetingCode)
-				.then(res => {
-					this.participants = res.data;
-				})
-				.catch(err => {
-					console.log(err);
-				});
-		},
-		closeSidebar() {
-			this.sideBar = 'page-wrapper sideBarTheme';
-		},
-		showSidebar() {
-			this.sideBar = 'page-wrapper sideBarTheme toggled';
-		},
 		onStream(event) {
 			let video = event.mediaElement;
 			video.id = event.streamid;
@@ -317,18 +210,6 @@ export default {
 	background-color: white;
 	padding: 100%, 0%;
 }
-/* .chat-output {
-	height: 95%;
-	overflow-y: auto;
-}
-.chat-input {
-	position: relative;
-	height: 5%;
-}
-.chat-input .comp {
-	position: absolute;
-	bottom: 0px;
-} */
 .bgcolor {
 	background-color: #e0dcdd;
 }
@@ -356,81 +237,5 @@ export default {
 }
 .divLocation {
 	top: 100px;
-}
-.page-wrapper .sidebar-wrapper,
-/* .sidebar-wrapper .sidebar-brand > a, */
-/* .page-wrapper .page-content, */
-#show-sidebar,
-#close-sidebar {
-	-webkit-transition: all 0.3s ease;
-	-moz-transition: all 0.3s ease;
-	-ms-transition: all 0.3s ease;
-	-o-transition: all 0.3s ease;
-	transition: all 0.3s ease;
-}
-.page-wrapper.toggled .sidebar-wrapper {
-	left: 0px;
-}
-.showside {
-	position: fixed;
-	left: 0;
-	top: 10px;
-	border-radius: 0 4px 4px 0px;
-	width: 50px;
-	height: 50px;
-	transition-delay: 0.3s;
-	background-color: #31353d;
-	color: white;
-	font-size: 13px;
-	z-index: 999;
-}
-.page-wrapper.toggled .showside {
-	left: -50px;
-}
-.sidebar-wrapper {
-	width: 260px;
-	height: 100%;
-	max-height: 100%;
-	position: fixed;
-	top: 0;
-	left: -300px;
-	float: left;
-	z-index: 999;
-}
-.sidebar-wrapper .sidebar-brand {
-	padding: 10px 20px;
-	display: flex;
-	align-items: center;
-}
-.sidebar-wrapper .sidebar-brand > p {
-	text-transform: uppercase;
-	font-weight: bold;
-	flex-grow: 1;
-	color: white;
-}
-.sidebar-wrapper .sidebar-brand #close-sidebar {
-	cursor: pointer;
-	font-size: 20px;
-}
-
-.sideBarTheme .sidebar-wrapper {
-	background: #31353d;
-}
-
-.page-wrapper.sideBarTheme.toggled #close-sidebar {
-	color: #bdbdbd;
-}
-
-.page-wrapper.sideBarTheme.toggled #close-sidebar:hover {
-	color: #ffffff;
-}
-.listBox {
-	background-color: transparent;
-	text-align: start;
-	padding-left: 15px;
-}
-.listName {
-	margin: 2px;
-	color: #dddddd;
 }
 </style>
