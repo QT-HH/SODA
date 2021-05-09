@@ -3,26 +3,26 @@
 		{{ interviewee.u_name }}
 		<v-chip-group mandatory>
 			<v-chip
-				color="#dddddd"
 				outlined
 				small
 				@click="changeStatus(interviewee.mm_id, 'PLAN')"
+				:class="plan"
 			>
 				예정
 			</v-chip>
 			<v-chip
-				color="#dddddd"
 				outlined
 				small
 				@click="changeStatus(interviewee.mm_id, 'PROGRESS')"
+				:class="progress"
 			>
 				진행
 			</v-chip>
 			<v-chip
-				color="#dddddd"
 				outlined
 				small
 				@click="changeStatus(interviewee.mm_id, 'DONE')"
+				:class="done"
 			>
 				완료
 			</v-chip>
@@ -37,14 +37,39 @@ export default {
 	props: {
 		interviewee: Object,
 	},
+	computed: {
+		plan() {
+			return {
+				PLAN: this.interviewee.status === 'PLAN',
+			};
+		},
+		progress() {
+			return {
+				PROGRESS: this.interviewee.status === 'PROGRESS',
+			};
+		},
+		done() {
+			return {
+				DONE: this.interviewee.status === 'DONE',
+			};
+		},
+	},
 	methods: {
 		async changeStatus(mm_id, status) {
-			await editStatus(mm_id, status).catch(err => {
-				console.log(err);
-			});
+			await editStatus(mm_id, status)
+				.then(() => {
+					this.interviewee.status = status;
+				})
+				.catch(err => {
+					console.log(err);
+				});
 		},
 	},
 };
 </script>
 
-<style></style>
+<style>
+.DONE {
+	color: red;
+}
+</style>

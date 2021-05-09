@@ -104,7 +104,7 @@ export default {
 }
 .sidebar-wrapper {
 	width: 260px;
-	height: 100%;
+	height: 100%; /* 사이드바 높이 설정 */
 	max-height: 100%;
 	position: fixed;
 	top: 0;
