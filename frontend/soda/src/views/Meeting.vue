@@ -1,7 +1,7 @@
 <template>
 	<div class="bgcolor">
 		<IntervieweeList
-			v-if="streaming && isUser && !!connection.isInitiator"
+			v-if="isUser && !!connection.isInitiator"
 		></IntervieweeList>
 
 		<Chatting
@@ -23,7 +23,6 @@
 
 		<div class="footer">
 			<MeetingBottomBar
-				v-if="streaming"
 				@userlist="userlist"
 				@outRoom="outRoom"
 				@voiceOn="voiceOn"
@@ -58,7 +57,6 @@ export default {
 			roomid: '',
 			meetingStart: false,
 			connection: null,
-			streaming: false,
 			chatInfo: {
 				data: '',
 				sender: null,
@@ -82,8 +80,7 @@ export default {
 			if (!!code) {
 				this.roomid = code;
 				this.meetingStart = !this.meetingStart;
-				this.streaming = !this.streaming;
-				this.$store.state.meetingOn = this.streaming;
+				this.$store.state.meetingOn = true;
 				this.connection = new RTCMultiConnection();
 				this.chatInfo.sender = this.connection.userid;
 				// this.connection.autoCloseEntireSession = true;
@@ -130,9 +127,8 @@ export default {
 
 				this.connection.closeSocket();
 				this.connection = null;
-				this.streaming = !this.streaming;
 				this.roomid = '';
-				this.$store.state.meetingOn = this.streaming;
+				this.$store.state.meetingOn = false;
 				this.$store.state.meetingCode = '';
 				this.$router.push('/attend');
 				var el = document.getElementById('apdiv');
