@@ -62,28 +62,14 @@
 				</nav>
 			</div>
 		</div>
-		<div v-show="isChat" id="chat-container" class="chatBox">
-			<div class="chat-output"></div>
-			<div class="chat-input">
-				<input
-					type="text"
-					id="input-text-chat"
-					class="comp"
-					placeholder="Enter Text Chat"
-					v-model="chatInfo.data"
-					@keyup.enter="inputChat"
-					style="width: 70%; left: 0px"
-				/>
-				<v-btn
-					depressed
-					small
-					class="comp"
-					@click="inputChat"
-					style="width: 30%; right: 0px"
-					>입력</v-btn
-				>
-			</div>
-		</div>
+
+		<Chatting
+			v-show="isChat"
+			id="chat-container"
+			class="chatBox"
+			:connection="connection"
+		></Chatting>
+
 		<v-sheet class="overflow-hidden bgcolor" style="position: relative">
 			<v-container class="fill-height bgcolor">
 				<v-row align="center" justify="center">
@@ -91,7 +77,9 @@
 				</v-row>
 			</v-container>
 		</v-sheet>
+
 		<STT></STT>
+
 		<div class="footer">
 			<MeetingBottomBar
 				v-if="streaming"
@@ -114,10 +102,12 @@
 import { intervieweeOfMeeting } from '@/api/meeting.js';
 import { editStatus } from '@/api/member.js';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
+import Chatting from '@/components/meeting/Chatting.vue';
 import STT from '@/components/meeting/STT.vue';
 export default {
 	components: {
 		MeetingBottomBar,
+		Chatting,
 		STT,
 	},
 	data() {
@@ -139,10 +129,13 @@ export default {
 			mention: String,
 		};
 	},
-	async mounted() {
+	created() {
 		const meetingCode = this.$store.state.meetingCode;
-		await this.openRoom(meetingCode);
-		await intervieweeOfMeeting(meetingCode)
+		this.setRoom(meetingCode);
+	},
+	async mounted() {
+		await this.openRoom(this.roomid);
+		await intervieweeOfMeeting(this.roomid)
 			.then(res => {
 				this.participants = res.data;
 			})
@@ -154,13 +147,7 @@ export default {
 		this.outRoom();
 	},
 	methods: {
-		chatOnOff() {
-			this.isChat = !this.isChat;
-		},
-		userlist() {
-			this.isUser = !this.isUser;
-		},
-		async openRoom(code) {
+		setRoom(code) {
 			if (!!code) {
 				this.roomid = code;
 				this.meetingStart = !this.meetingStart;
@@ -177,18 +164,21 @@ export default {
 					data: true,
 				};
 
-				this.connection.onmessage = this.appendDIV;
+				// this.connection.onmessage = this.appendDIV;
 				this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
 				this.connection.sdpConstraints.mandatory = {
 					OfferToReceiveAudio: true,
 					OfferToReceiveVideo: true,
 				};
+				this.connection.onstream = this.onStream;
+				this.connection.onstreamended = this.onStreamEnded;
+			}
+		},
+		openRoom(code) {
+			if (!!code) {
 				this.connection.videosContainer = document.querySelector(
 					'.videos-container',
 				);
-				this.connection.onstream = this.onStream;
-				this.connection.onstreamended = this.onStreamEnded;
-
 				this.connection.openOrJoin(this.roomid);
 				this.userlist();
 				this.chatOnOff();
@@ -198,6 +188,7 @@ export default {
 			this.userlist();
 			this.chatOnOff();
 			if (!!this.connection) {
+				this.connection.onstreamended = null;
 				this.connection.getAllParticipants().forEach(participantId => {
 					this.connection.disconnectWith(participantId);
 				});
@@ -235,6 +226,12 @@ export default {
 			const event = this.findMyVideo();
 			event.stream.unmute('audio');
 		},
+		chatOnOff() {
+			this.isChat = !this.isChat;
+		},
+		userlist() {
+			this.isUser = !this.isUser;
+		},
 		findMyVideo() {
 			let events = this.connection.streamEvents.selectAll();
 			let event = events.find(event => {
@@ -242,31 +239,26 @@ export default {
 			});
 			return event;
 		},
-		checkVideo() {
-			let video = this.connection.streamEvents.selectAll();
-			console.log(video);
-		},
-		inputChat() {
-			const myChat = {
-				data: this.chatInfo,
-			};
-			if (!!myChat.data.data) {
-				this.connection.send(myChat.data);
-				this.appendDIV(myChat);
-				this.chatInfo.data = '';
-			}
-		},
-		appendDIV(event) {
-			const chatContainer = document.querySelector('.chat-output');
-			let div = document.createElement('div');
-			div.setAttribute('id', 'apdiv');
-			div.innerHTML = `${event.data.sender} : ${event.data.data}`;
-			chatContainer.insertBefore(div, chatContainer.firstchild);
-			div.tabIndex = 0;
-			div.focus();
+		// inputChat(chatInfo) {
+		// 	const myChat = {
+		// 		data: chatInfo,
+		// 	};
+		// 	if (!!myChat.data.data) {
+		// 		this.connection.send(myChat.data);
+		// 		this.appendDIV(myChat);
+		// 	}
+		// },
+		// appendDIV(event) {
+		// 	const chatContainer = document.querySelector('.chat-output');
+		// 	let div = document.createElement('div');
+		// 	div.setAttribute('id', 'apdiv');
+		// 	div.innerHTML = `${event.data.sender} : ${event.data.data}`;
+		// 	chatContainer.insertBefore(div, chatContainer.firstchild);
+		// 	div.tabIndex = 0;
+		// 	div.focus();
 
-			document.getElementById('input-text-chat').focus();
-		},
+		// 	document.getElementById('input-text-chat').focus();
+		// },
 		async changeStatus(mm_id, status) {
 			await editStatus(mm_id, status).catch(err => {
 				console.log(err);
@@ -294,7 +286,6 @@ export default {
 				this.connection.videosContainer.firstChild,
 			);
 			this.notify('입장', event.userid);
-			// console.log('qqqqqqqqqqqqqqqqqqqqqqqqq', event);
 		},
 		onStreamEnded(event) {
 			let video = document.getElementById(event.streamid);
@@ -304,7 +295,6 @@ export default {
 			this.notify('퇴장', event.userid);
 		},
 		notify(mention, user_id) {
-			console.log(mention, user_id);
 			let user = user_id;
 			if (Notification.permission !== 'granted') {
 				alert(`${user}님께서 면접을 ${mention}하셨습니다.`);
@@ -327,7 +317,7 @@ export default {
 	background-color: white;
 	padding: 100%, 0%;
 }
-.chat-output {
+/* .chat-output {
 	height: 95%;
 	overflow-y: auto;
 }
@@ -338,7 +328,7 @@ export default {
 .chat-input .comp {
 	position: absolute;
 	bottom: 0px;
-}
+} */
 .bgcolor {
 	background-color: #e0dcdd;
 }
