@@ -91,7 +91,7 @@ class SpeechRecognitionApi {
 		this.speechApi.onresult = event => {
 			var resultIndex = event.resultIndex;
 			var transcript = event.results[resultIndex][0].transcript;
-			console.log(transcript);
+			// console.log(transcript);
 			let chatInfo = {
 				type: 'STT',
 				sender: connection.userid,
@@ -108,12 +108,10 @@ class SpeechRecognitionApi {
 		this.speechApi.stop();
 	}
 	inputChat(connection, chatInfo) {
-		console.log(chatInfo);
 		const myChat = {
 			data: chatInfo,
 		};
 		if (myChat.data.data) {
-			// console.log(myChat.data.data);
 			connection.send(myChat.data);
 			this.output.textContent = `${myChat.data.sender} : ${myChat.data.data}`;
 		}
