@@ -3,7 +3,7 @@
 		<ul class="pointWrap">
 			<p>SODA</p>
 			<p>서비스 소개</p>
-			<p>주요 기능</p>
+			<p>주요 기술</p>
 			<p>사용 가이드</p>
 		</ul>
 		<!-- <p v-show="scroll0" class="arrow"><span></span></p> -->
@@ -37,37 +37,77 @@
 				<button id="font3" class="mr-3" @click="goMeeting">면접 참가</button>
 			</div>
 		</section>
-		<section class="bgcolor">
+		<section class="bgcolor" style="margin-top: 100px">
 			<div>
-				<h1 style="margin-bottom: 40px" class="content">간단 소개</h1>
+				<h1 style="margin-bottom: 50px" class="content">
+					<span class="highlight">간단 소개</span>
+				</h1>
 				<img
-					style="width: 70%; margin-bottom: 20px"
+					style="width: 70%; margin-bottom: 30px"
 					src="@/assets/intro.png"
 					alt=""
 				/>
-				<p class="content">
-					소다는 청각장애인을 위한 면접 플랫폼입니다. 면접관의 발언을 자막으로
-					제공함으로써 좀 더 편리한 면접 환경을 제공합니다.
+				<p class="content" style="font-size: x-large">
+					<span style="color: navy; font-weight: bold">소다</span>는
+					<span style="font-weight: bold">청각장애인</span>을 위한
+					<span style="font-weight: bold">면접 플랫폼</span>입니다.
+				</p>
+				<p class="content" style="font-size: x-large">
+					면접관의 발언을 자막으로 보여줌으로써 좀 더 편리한 면접 환경을
+					제공합니다.
 				</p>
 			</div>
 		</section>
 		<section class="bgcolor">
-			<h1 style="margin-bottom: 40px">기능</h1>
+			<h1 style="margin-bottom: 50px">
+				<span class="highlight">기술</span>
+			</h1>
 			<div style="margin-bottom: 20px">
-				<img
-					style="width: 400px; margin-right: 100px; margin-top: 20px"
-					src="@/assets/webrtc4.png"
-					alt=""
-				/>
-				<img
-					style="width: 400px; margin-left: 100px"
-					src="@/assets/stt2.png"
-					alt=""
-				/>
+				<v-row>
+					<v-col style="margin-left: 70px">
+						<img
+							style="width: 400px; margin-bottom: 20px"
+							src="@/assets/webrtc.png"
+							alt=""
+						/>
+						<p style="margin: 0px 80px">
+							<span style="font-weight: bold; font-size: 120%"
+								>WebRTC(Web Real-Time Communication)은</span
+							>
+							중간자 없이 <span><br /></span> 브라우저 간에 오디오나 영상
+							미디어를 마음대로 스트림 할 뿐 아니라, <span><br /></span> 임의의
+							데이터도 교환할 수 있도록 하는 기술입니다.
+						</p>
+					</v-col>
+					<v-col style="margin-right: 70px">
+						<img
+							style="width: 400px; margin-bottom: 20px"
+							src="@/assets/stt.png"
+							alt=""
+						/>
+						<p style="margin-left: 70px; margin-right: 70px">
+							<span style="font-weight: bold; font-size: 120%"
+								>STT(Sppech-to-Text)는</span
+							>
+							사람이 말하는 음성 언어를 컴퓨터가 해석하여
+							<span><br /></span>
+							그 내용을 문자 데이터로 전환하여 처리하는 것을 말하며
+							<span><br /></span> 음성인식 (Speech Recognition)이라고도
+							부릅니다.
+						</p>
+					</v-col>
+				</v-row>
 			</div>
-			<h1>webrtc + stt</h1>
+
+			<p class="content" style="font-size: xx-large">WebRTC + STT</p>
+			<p class="content" style="font-size: x-large">
+				SODA는 WebRTC와 STT 기능을 사용하여 화상면접에 자막기능을
+				추가하였습니다. ~~~~~~~
+			</p>
 		</section>
-		<section class="bgcolor"><h1>사용 방법</h1></section>
+		<section class="bgcolor">
+			<h1><span class="highlight">사용 방법</span></h1>
+		</section>
 	</div>
 </template>
 
@@ -308,6 +348,18 @@ button:focus {
 	-webkit-animation: sdb 1.5s infinite;
 	animation: sdb 1.5s infinite;
 	box-sizing: border-box;
+}
+.highlight {
+	border-bottom: 3px solid #0b0072;
+	padding: 0px 15px;
+	/* filter: alpha(opacity= 40); 투명도 조절*/
+
+	/* 원래코드
+      background-color: #ffca28;
+     width: 50%;
+     margin-left: 0.1px;
+     text-align: center;
+      */
 }
 @-webkit-keyframes sdb {
 	0% {

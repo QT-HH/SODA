@@ -29,7 +29,14 @@ export default {
 	data() {
 		return {
 			stt: this.$store.state.sttOn,
+			chatInfo: {
+				sender: 'STT',
+				data: '',
+			},
 		};
+	},
+	props: {
+		connection: Object,
 	},
 	methods: {
 		// startBtn() {
@@ -48,6 +55,7 @@ export default {
 		speech() {
 			return new SpeechRecognitionApi({
 				output: document.querySelector('.output'),
+				connection: this.connection,
 			});
 		},
 		sttcheck() {
@@ -71,6 +79,7 @@ export default {
 
 class SpeechRecognitionApi {
 	constructor(options) {
+		const connection = options.connection;
 		const SpeechToText =
 			window.speechRecognition || window.webkitSpeechRecognition;
 		this.speechApi = new SpeechToText();
@@ -82,8 +91,14 @@ class SpeechRecognitionApi {
 		this.speechApi.onresult = event => {
 			var resultIndex = event.resultIndex;
 			var transcript = event.results[resultIndex][0].transcript;
-			console.log(transcript);
-			this.output.textContent = transcript;
+			// console.log(transcript);
+			let chatInfo = {
+				type: 'STT',
+				sender: connection.userid,
+				data: transcript,
+			};
+			this.inputChat(connection, chatInfo);
+			// this.output.textContent = transcript;
 		};
 	}
 	init() {
@@ -91,6 +106,15 @@ class SpeechRecognitionApi {
 	}
 	stop() {
 		this.speechApi.stop();
+	}
+	inputChat(connection, chatInfo) {
+		const myChat = {
+			data: chatInfo,
+		};
+		if (myChat.data.data) {
+			connection.send(myChat.data);
+			this.output.textContent = `${myChat.data.sender} : ${myChat.data.data}`;
+		}
 	}
 }
 </script>

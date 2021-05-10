@@ -19,7 +19,7 @@
 			</v-container>
 		</v-sheet>
 
-		<STT></STT>
+		<STT :connection="connection"></STT>
 
 		<div class="footer">
 			<MeetingBottomBar
@@ -189,7 +189,7 @@ export default {
 				alert(`${user}님께서 면접을 ${mention}하셨습니다.`);
 			} else {
 				const notification = new Notification(`면접 ${mention}`, {
-					icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+					icon: 'https://i.ibb.co/wypPBQx/sodalogo.png',
 					body: `${user}님께서 면접을 ${mention}하셨습니다.`,
 				});
 			}

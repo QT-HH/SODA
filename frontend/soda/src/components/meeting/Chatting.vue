@@ -32,6 +32,7 @@ export default {
 	data() {
 		return {
 			chatInfo: {
+				type: 'chat',
 				sender: '',
 				data: '',
 			},
@@ -47,20 +48,29 @@ export default {
 				data: this.chatInfo,
 			};
 			if (myChat.data.data) {
+				// console.log(myChat.data.data);
 				this.connection.send(myChat.data);
 				this.appendDIV(myChat);
 			}
 			this.chatInfo.data = '';
 		},
 		appendDIV(event) {
-			const chatContainer = document.querySelector('.chat-output');
-			let div = document.createElement('div');
-			div.setAttribute('id', 'apdiv');
-			div.innerHTML = `${event.data.sender} : ${event.data.data}`;
-			chatContainer.insertBefore(div, chatContainer.firstchild);
-			div.tabIndex = 0;
-			div.focus();
-			document.getElementsByClassName('input-text-chat')[0].focus();
+			// console.log(event.data);
+			if (event.data.type === 'chat') {
+				const chatContainer = document.querySelector('.chat-output');
+				let div = document.createElement('div');
+				div.setAttribute('id', 'apdiv');
+				div.innerHTML = `${event.data.sender} : ${event.data.data}`;
+				chatContainer.insertBefore(div, chatContainer.firstchild);
+				div.tabIndex = 0;
+				div.focus();
+
+				document.getElementsByClassName('input-text-chat')[0].focus();
+			} else {
+				let output = document.querySelector('.output');
+				output.textContent = `${event.data.sender} : ${event.data.data}`;
+			}
+>>>>>>> frontend/soda/src/components/meeting/Chatting.vue
 		},
 	},
 };
