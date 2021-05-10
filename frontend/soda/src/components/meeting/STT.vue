@@ -29,7 +29,14 @@ export default {
 	data() {
 		return {
 			stt: this.$store.state.sttOn,
+			chatInfo: {
+				sender: 'STT',
+				data: '',
+			},
 		};
+	},
+	props: {
+		connection: Object,
 	},
 	methods: {
 		// startBtn() {
@@ -48,6 +55,7 @@ export default {
 		speech() {
 			return new SpeechRecognitionApi({
 				output: document.querySelector('.output'),
+				connection: this.connection,
 			});
 		},
 		sttcheck() {
@@ -71,6 +79,7 @@ export default {
 
 class SpeechRecognitionApi {
 	constructor(options) {
+		const connection = options.connection;
 		const SpeechToText =
 			window.speechRecognition || window.webkitSpeechRecognition;
 		this.speechApi = new SpeechToText();
@@ -83,6 +92,11 @@ class SpeechRecognitionApi {
 			var resultIndex = event.resultIndex;
 			var transcript = event.results[resultIndex][0].transcript;
 			console.log(transcript);
+			let chatInfo = {
+				sender: 'STT',
+				data: transcript,
+			};
+			this.inputChat(connection, chatInfo);
 			this.output.textContent = transcript;
 		};
 	}
@@ -91,6 +105,30 @@ class SpeechRecognitionApi {
 	}
 	stop() {
 		this.speechApi.stop();
+	}
+	inputChat(connection, chatInfo) {
+		console.log(chatInfo);
+		const myChat = {
+			data: chatInfo,
+		};
+		if (myChat.data.data) {
+			console.log(myChat.data.data);
+			connection.send(myChat.data);
+			this.appendDIV(myChat);
+		}
+		// this.chatInfo.data = '';
+	}
+	appendDIV(event) {
+		this.output.textContent = event.data.data;
+		// const chatContainer = document.querySelector('.chat-output');
+		// let div = document.createElement('div');
+		// div.setAttribute('id', 'apdiv');
+		// div.innerHTML = `${event.data.sender} : ${event.data.data}`;
+		// chatContainer.insertBefore(div, chatContainer.firstchild);
+		// div.tabIndex = 0;
+		// div.focus();
+
+		// document.getElementById('input-text-chat').focus();
 	}
 }
 </script>
