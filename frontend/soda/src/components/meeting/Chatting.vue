@@ -4,21 +4,21 @@
 		<div class="chat-input">
 			<input
 				type="text"
-				id="input-text-chat"
-				class="comp"
-				placeholder="Enter Text Chat"
+				id="font2"
+				class="comp input-text-chat"
+				placeholder="채팅메세지를 입력하세요."
 				v-model="chatInfo.data"
 				@keyup.enter="inputChat"
 				style="width: 70%; left: 0px"
 			/>
-			<v-btn
-				depressed
-				small
-				class="comp"
+			<button
 				@click="inputChat"
-				style="width: 30%; right: 0px"
-				>입력</v-btn
+				class="inputBtn comp"
+				id="font3"
+				style="right: 0px"
 			>
+				입력
+			</button>
 		</div>
 	</div>
 </template>
@@ -65,11 +65,12 @@ export default {
 				div.tabIndex = 0;
 				div.focus();
 
-				document.getElementById('input-text-chat').focus();
+				document.getElementsByClassName('input-text-chat')[0].focus();
 			} else {
 				let output = document.querySelector('.output');
 				output.textContent = `${event.data.sender} : ${event.data.data}`;
 			}
+>>>>>>> frontend/soda/src/components/meeting/Chatting.vue
 		},
 	},
 };
@@ -87,5 +88,24 @@ export default {
 .chat-input .comp {
 	position: absolute;
 	bottom: 0px;
+	outline: none;
+}
+.inputBtn:hover {
+	background-color: #bbbbbb;
+	color: black;
+	outline: 0;
+}
+.inputBtn:focus {
+	outline: none;
+}
+.inputBtn {
+	background-color: #cccccc;
+	/* border: 2px solid black; */
+	/* border-radius: 30px; */
+	color: black;
+	cursor: pointer;
+	font-size: 13px;
+	padding: 4px 15px;
+	transition: all 200ms;
 }
 </style>
