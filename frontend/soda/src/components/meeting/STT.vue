@@ -113,23 +113,10 @@ class SpeechRecognitionApi {
 			data: chatInfo,
 		};
 		if (myChat.data.data) {
-			console.log(myChat.data.data);
+			// console.log(myChat.data.data);
 			connection.send(myChat.data);
-			this.appendDIV(myChat);
+			this.output.textContent = `${myChat.data.sender} : ${myChat.data.data}`;
 		}
-		// this.chatInfo.data = '';
-	}
-	appendDIV(event) {
-		this.output.textContent = `${event.data.sender} : ${event.data.data}`;
-		// const chatContainer = document.querySelector('.chat-output');
-		// let div = document.createElement('div');
-		// div.setAttribute('id', 'apdiv');
-		// div.innerHTML = `${event.data.sender} : ${event.data.data}`;
-		// chatContainer.insertBefore(div, chatContainer.firstchild);
-		// div.tabIndex = 0;
-		// div.focus();
-
-		// document.getElementById('input-text-chat').focus();
 	}
 }
 </script>
