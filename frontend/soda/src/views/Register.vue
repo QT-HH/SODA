@@ -51,14 +51,17 @@
 			></v-text-field>
 			<button id="font3" @click="submit">등록</button>
 			<v-dialog v-model="dialog" max-width="290">
-				<v-card>
-					<v-card-title class="headline"> 기업등록 완료! </v-card-title>
-					<v-card-text>
-						승인 후 이메일로 기업코드를 보내드리겠습니다. (약 2일 소요)
+				<v-card class="pa-5">
+					<p class="titleFont" id="font3">기업등록 완료!</p>
+					<v-card-text id="font2" class="pa-0">
+						승인 후 이메일로 기업코드를
+					</v-card-text>
+					<v-card-text id="font2" class="pa-0">
+						보내드리겠습니다. (약 2일 소요)
 					</v-card-text>
 					<v-card-actions>
 						<v-spacer></v-spacer>
-						<v-btn color="green darken-1" text @click="close"> 확인 </v-btn>
+						<button class="confirmBtn" @click="close" id="font3">확인</button>
 					</v-card-actions>
 				</v-card>
 			</v-dialog>
@@ -130,6 +133,16 @@ button:hover {
 button:focus {
 	outline: none;
 }
+.confirmBtn {
+	background-color: transparent;
+	border: 2px solid #b71c1c;
+	border-radius: 30px;
+	color: #b71c1c;
+	cursor: pointer;
+	font-size: 15px;
+	padding: 6px 20px;
+	transition: all 200ms;
+}
 .bgcolor {
 	position: relative;
 	width: 100vw;
@@ -144,5 +157,8 @@ button:focus {
 }
 .content {
 	font-size: 13px;
+}
+.titleFont {
+	font-size: 30px;
 }
 </style>

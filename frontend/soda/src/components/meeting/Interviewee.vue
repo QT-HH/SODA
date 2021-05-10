@@ -1,33 +1,33 @@
 <template>
-	<p>
-		{{ interviewee.u_name }}
-		<v-chip-group mandatory>
-			<v-chip
-				outlined
-				small
+	<div>
+		<p>
+			{{ interviewee.u_name }}
+		</p>
+		<div class="pb-5 interviewItem">
+			<button
 				@click="changeStatus(interviewee.mm_id, 'PLAN')"
 				:class="plan"
+				id="font3"
 			>
 				예정
-			</v-chip>
-			<v-chip
-				outlined
-				small
+			</button>
+			<button
 				@click="changeStatus(interviewee.mm_id, 'PROGRESS')"
 				:class="progress"
+				id="font3"
 			>
 				진행
-			</v-chip>
-			<v-chip
-				outlined
-				small
+			</button>
+			<button
 				@click="changeStatus(interviewee.mm_id, 'DONE')"
 				:class="done"
+				id="font3"
 			>
 				완료
-			</v-chip>
-		</v-chip-group>
-	</p>
+			</button>
+		</div>
+		<hr class="devider" />
+	</div>
 </template>
 
 <script>
@@ -40,17 +40,20 @@ export default {
 	computed: {
 		plan() {
 			return {
-				PLAN: this.interviewee.status === 'PLAN',
+				plan: this.interviewee.status === 'PLAN',
+				defaultBtn: this.interviewee.status !== 'PLAN',
 			};
 		},
 		progress() {
 			return {
-				PROGRESS: this.interviewee.status === 'PROGRESS',
+				progress: this.interviewee.status === 'PROGRESS',
+				defaultBtn: this.interviewee.status !== 'PROGRESS',
 			};
 		},
 		done() {
 			return {
-				DONE: this.interviewee.status === 'DONE',
+				done: this.interviewee.status === 'DONE',
+				defaultBtn: this.interviewee.status !== 'DONE',
 			};
 		},
 	},
@@ -69,7 +72,85 @@ export default {
 </script>
 
 <style>
-.DONE {
-	color: red;
+.defaultBtn:hover {
+	background-color: #bbbbbb;
+	color: black;
+	outline: 0;
+}
+.defaultBtn:focus {
+	outline: none;
+}
+.defaultBtn {
+	background-color: white;
+	/* border: 2px solid black; */
+	/* border-radius: 30px; */
+	color: black;
+	cursor: pointer;
+	font-size: 15px;
+	padding: 6px 20px;
+	transition: all 200ms;
+	margin-right: 5px;
+}
+.done:hover {
+	background-color: #bbbbbb;
+	color: black;
+	outline: 0;
+}
+.done:focus {
+	outline: none;
+}
+.done {
+	background-color: #616161;
+	/* border: 2px solid black; */
+	/* border-radius: 30px; */
+	color: white;
+	cursor: pointer;
+	font-size: 15px;
+	padding: 6px 20px;
+	transition: all 200ms;
+	margin-right: 5px;
+}
+.plan:hover {
+	background-color: #bbbbbb;
+	color: black;
+	outline: 0;
+}
+.plan:focus {
+	outline: none;
+}
+.plan {
+	background-color: #f9a825;
+	/* border: 2px solid black; */
+	/* border-radius: 30px; */
+	color: white;
+	cursor: pointer;
+	font-size: 15px;
+	padding: 6px 20px;
+	transition: all 200ms;
+	margin-right: 5px;
+}
+.progress:hover {
+	background-color: #bbbbbb;
+	color: black;
+	outline: 0;
+}
+.progress:focus {
+	outline: none;
+}
+.progress {
+	background-color: #388e3c;
+	/* border: 2px solid black; */
+	/* border-radius: 30px; */
+	color: white;
+	cursor: pointer;
+	font-size: 15px;
+	padding: 6px 20px;
+	transition: all 200ms;
+	margin-right: 5px;
+}
+.devider {
+	border-color: #dddddd;
+	width: 220px;
+	margin-bottom: 10px;
 }
 </style>

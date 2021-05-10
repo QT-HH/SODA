@@ -1,37 +1,29 @@
 <template>
-	<div>
-		<div :class="sideBar" ref="pageWrapper">
-			<div
-				id="font2"
-				class="btn btn-sm btn-dark showside"
-				href="#"
-				@click="showSidebar"
-			>
-				<p class="ma-0">면접자 리스트</p>
-			</div>
-			<nav id="sidebar" class="sidebar-wrapper">
-				<div class="sidebar-content">
-					<div class="sidebar-brand">
-						<p>면접자 리스트</p>
-						<div id="close-sidebar" @click="closeSidebar">
-							<i class="fas fa-times"></i>
-						</div>
-					</div>
-					<v-list class="listBox">
-						<v-list-item style="padding: 0px">
-							<div class="user">
-								<Interviewee
-									v-for="(item, idx) in intervieweeList"
-									:key="idx"
-									:interviewee="item"
-									class="listName"
-								></Interviewee>
-							</div>
-						</v-list-item>
-					</v-list>
-				</div>
-			</nav>
+	<div :class="sideBar" ref="pageWrapper">
+		<div
+			id="font2"
+			class="btn btn-sm btn-dark showside d-flex align-content-center flex-wrap"
+			href="#"
+			@click="showSidebar"
+		>
+			<p class="ma-0" id="font2">면접자 리스트</p>
 		</div>
+		<nav id="sidebar" class="sidebar-wrapper">
+			<div class="sidebar-content sidebar-brand">
+				<p class="mb-0" id="font3">면접자 리스트</p>
+				<div id="close-sidebar" @click="closeSidebar">
+					<i class="fas fa-times"></i>
+				</div>
+			</div>
+			<div class="listBox">
+				<Interviewee
+					v-for="(item, idx) in intervieweeList"
+					:key="idx"
+					:interviewee="item"
+					class="listName"
+				></Interviewee>
+			</div>
+		</nav>
 	</div>
 </template>
 
@@ -73,8 +65,6 @@ export default {
 
 <style>
 .page-wrapper .sidebar-wrapper,
-/* .sidebar-wrapper .sidebar-brand > a, */
-/* .page-wrapper .page-content, */
 #show-sidebar,
 #close-sidebar {
 	-webkit-transition: all 0.3s ease;
@@ -98,22 +88,25 @@ export default {
 	color: white;
 	font-size: 13px;
 	z-index: 999;
+	justify-content: center;
+	cursor: pointer;
 }
 .page-wrapper.toggled .showside {
 	left: -50px;
 }
 .sidebar-wrapper {
-	width: 260px;
-	height: 100%; /* 사이드바 높이 설정 */
+	width: 265px;
+	height: 85vh; /* 사이드바 높이 설정 */
 	max-height: 100%;
 	position: fixed;
 	top: 0;
 	left: -300px;
 	float: left;
 	z-index: 999;
+	background-color: transparent;
 }
 .sidebar-wrapper .sidebar-brand {
-	padding: 10px 20px;
+	padding: 10px 20px 20px 20px;
 	display: flex;
 	align-items: center;
 }
@@ -143,6 +136,8 @@ export default {
 	background-color: transparent;
 	text-align: start;
 	padding-left: 15px;
+	overflow-y: auto;
+	height: 75vh;
 }
 .listName {
 	margin: 2px;
