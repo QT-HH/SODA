@@ -13,13 +13,24 @@
 				<span id="font3" style="font-size: 20px">면접관 </span>
 				<span id="font2" style="font-size: 15px">최대 2명</span>
 				<v-row cols="12" class="pt-3">
-					<v-col cols="11">
+					<v-col cols="5">
 						<v-text-field
 							v-model="firemailmg"
 							solo
 							flat
-							rounded
 							dense
+							class="px-2"
+							placeholder="이메일"
+						></v-text-field>
+					</v-col>
+					<v-col cols="5">
+						<v-text-field
+							v-model="namemg"
+							solo
+							flat
+							dense
+							class="px-2"
+							placeholder="이름"
 						></v-text-field>
 					</v-col>
 					<v-col cols="1">
@@ -28,7 +39,7 @@
 							plain
 							fab
 							x-small
-							@click="addMG(firemailmg)"
+							@click="addMG()"
 							v-show="inviteok"
 							class="plusbtn"
 						>
@@ -47,7 +58,7 @@
 							close
 							@click:close="deletemg(index)"
 							class="mb-1"
-							>{{ item }}</v-chip
+							>{{ item }} / {{ namesmg[index] }}</v-chip
 						>
 					</v-chip-group>
 				</div>
@@ -56,13 +67,24 @@
 				<span id="font3" style="font-size: 20px">면접자</span>
 				<span id="font2" style="font-size: 15px">(필수) 최대 30명</span>
 				<v-row cols="12" class="pt-3">
-					<v-col cols="11">
+					<v-col cols="5">
 						<v-text-field
 							v-model="firemailmj"
 							solo
 							flat
-							rounded
 							dense
+							class="px-2"
+							placeholder="이메일"
+						></v-text-field>
+					</v-col>
+					<v-col cols="5">
+						<v-text-field
+							v-model="namemj"
+							solo
+							flat
+							dense
+							class="px-2"
+							placeholder="이름"
 						></v-text-field>
 					</v-col>
 					<v-col cols="1">
@@ -71,7 +93,7 @@
 							plain
 							fab
 							x-small
-							@click="addMJ(firemailmj)"
+							@click="addMJ()"
 							v-show="inviteok2"
 							class="plusbtn"
 						>
@@ -90,7 +112,7 @@
 							close
 							@click:close="deletemj(index)"
 							class="mb-1"
-							>{{ item }}</v-chip
+							>{{ item }} / {{ namesmj[index] }}</v-chip
 						>
 					</v-chip-group>
 				</div>
@@ -103,7 +125,6 @@
 </template>
 
 <script>
-import { mapActions, mapGetters, mapState } from 'vuex';
 import { authCompany } from '@/api/company.js';
 import { sendMeetingCode } from '@/api/member.js';
 export default {
@@ -116,45 +137,49 @@ export default {
 			inviteok2: true,
 			firemailmj: '',
 			firemailmg: '',
+			namemj: '',
+			namemg: '',
 			emailsmg: [],
 			emailsmj: [],
+			namesmg: [],
+			namesmj: [],
 			cname: '',
 			inviteCode: '',
 		};
-	},
-	computed: {
-		...mapGetters(['getId']),
-		...mapState(['user']),
-		...mapState('meetingStore', ['mySessionId', 'meetingDialog']),
 	},
 	created() {
 		this.getCompanyInfo(this.$store.state.auth_code);
 	},
 	methods: {
-		...mapActions('meetingStore', [
-			'createSessionId',
-			'checkSessionId',
-			'changeMeetingDialog',
-		]),
-		addMG(email) {
-			if (email !== '') {
+		addMG() {
+			const email = this.firemailmg;
+			const name = this.namemg;
+			if (!!email && !!name) {
 				this.emailsmg.push(email);
+				this.namesmg.push(name);
 				if (this.emailsmg.length >= 2) this.inviteok = false;
 				this.firemailmg = '';
+				this.namemg = '';
 			}
 		},
-		addMJ(email) {
-			if (email !== '') {
+		addMJ() {
+			const email = this.firemailmj;
+			const name = this.namemj;
+			if (!!email && !!name) {
 				this.emailsmj.push(email);
+				this.namesmj.push(name);
 				if (this.emailsmj.length >= 30) this.inviteok2 = false;
 				this.firemailmj = '';
+				this.namemj = '';
 			}
 		},
 		deletemg(idx) {
 			this.emailsmg.splice(idx, 1);
+			this.namesmg.splice(idx, 1);
 		},
 		deletemj(idx) {
 			this.emailsmj.splice(idx, 1);
+			this.namesmj.splice(idx, 1);
 		},
 		startMeeting() {
 			if (this.emailsmj.length == 0) {
@@ -174,14 +199,14 @@ export default {
 				cname: this.cname,
 				emails: this.emailsmg,
 				inviteCode: this.inviteCode,
-				names: this.emailsmg,
+				names: this.namesmg,
 				role: '면접관',
 			});
 			await sendMeetingCode({
 				cname: this.cname,
 				emails: this.emailsmj,
 				inviteCode: this.inviteCode,
-				names: this.emailsmj,
+				names: this.namesmj,
 				role: '면접자',
 			});
 			this.$store.state.meetingCode = this.inviteCode;
