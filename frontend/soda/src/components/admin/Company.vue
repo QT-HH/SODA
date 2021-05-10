@@ -66,19 +66,19 @@ export default {
 		close() {
 			this.dialog = false;
 		},
-		approve() {
+		async approve() {
 			const companyInfo = this.company;
 			const email = companyInfo.email;
 			const u_id = companyInfo.u_id;
 			// console.log(companyInfo);
-			approveEmail(email, u_id);
+			await approveEmail(email, u_id);
 			this.dialog = false;
 		},
-		reject() {
+		async reject() {
 			const companyInfo = this.company;
 			const email = companyInfo.email;
 			// console.log(email);
-			rejectEmail(email);
+			await rejectEmail(email);
 			this.dialog = false;
 		},
 	},
