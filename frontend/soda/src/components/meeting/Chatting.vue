@@ -32,6 +32,7 @@ export default {
 	data() {
 		return {
 			chatInfo: {
+				type: 'chat',
 				sender: '',
 				data: '',
 			},
@@ -54,15 +55,21 @@ export default {
 			this.chatInfo.data = '';
 		},
 		appendDIV(event) {
-			const chatContainer = document.querySelector('.chat-output');
-			let div = document.createElement('div');
-			div.setAttribute('id', 'apdiv');
-			div.innerHTML = `${event.data.sender} : ${event.data.data}`;
-			chatContainer.insertBefore(div, chatContainer.firstchild);
-			div.tabIndex = 0;
-			div.focus();
+			console.log(event.data);
+			if (event.data.type === 'chat') {
+				const chatContainer = document.querySelector('.chat-output');
+				let div = document.createElement('div');
+				div.setAttribute('id', 'apdiv');
+				div.innerHTML = `${event.data.sender} : ${event.data.data}`;
+				chatContainer.insertBefore(div, chatContainer.firstchild);
+				div.tabIndex = 0;
+				div.focus();
 
-			document.getElementById('input-text-chat').focus();
+				document.getElementById('input-text-chat').focus();
+			} else {
+				let output = document.querySelector('.output');
+				output.textContent = `${event.data.sender} : ${event.data.data}`;
+			}
 		},
 	},
 };

@@ -93,11 +93,12 @@ class SpeechRecognitionApi {
 			var transcript = event.results[resultIndex][0].transcript;
 			console.log(transcript);
 			let chatInfo = {
-				sender: 'STT',
+				type: 'STT',
+				sender: connection.userid,
 				data: transcript,
 			};
 			this.inputChat(connection, chatInfo);
-			this.output.textContent = transcript;
+			// this.output.textContent = transcript;
 		};
 	}
 	init() {
@@ -119,7 +120,7 @@ class SpeechRecognitionApi {
 		// this.chatInfo.data = '';
 	}
 	appendDIV(event) {
-		this.output.textContent = event.data.data;
+		this.output.textContent = `${event.data.sender} : ${event.data.data}`;
 		// const chatContainer = document.querySelector('.chat-output');
 		// let div = document.createElement('div');
 		// div.setAttribute('id', 'apdiv');
