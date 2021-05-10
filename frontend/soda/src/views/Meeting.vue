@@ -1,66 +1,7 @@
 <template>
 	<div class="bgcolor">
 		<div v-if="streaming && isUser && !!connection.isInitiator">
-			<div :class="sideBar" ref="pageWrapper">
-				<div
-					id="font2"
-					class="btn btn-sm btn-dark showside"
-					href="#"
-					@click="showSidebar"
-				>
-					<p class="ma-0">면접자 리스트</p>
-				</div>
-				<nav id="sidebar" class="sidebar-wrapper">
-					<div class="sidebar-content">
-						<div class="sidebar-brand">
-							<p>면접자 리스트</p>
-							<div id="close-sidebar" @click="closeSidebar">
-								<i class="fas fa-times"></i>
-							</div>
-						</div>
-						<v-list class="listBox">
-							<v-list-item style="padding: 0px">
-								<div class="user">
-									<p
-										v-for="(item, idx) in participants"
-										:key="idx"
-										:user="item"
-										class="listName"
-									>
-										{{ item.u_name }}
-										<v-chip-group mandatory>
-											<v-chip
-												color="#dddddd"
-												outlined
-												small
-												@click="changeStatus(item.mm_id, 'PLAN')"
-											>
-												예정
-											</v-chip>
-											<v-chip
-												color="#dddddd"
-												outlined
-												small
-												@click="changeStatus(item.mm_id, 'PROGRESS')"
-											>
-												진행
-											</v-chip>
-											<v-chip
-												color="#dddddd"
-												outlined
-												small
-												@click="changeStatus(item.mm_id, 'DONE')"
-											>
-												완료
-											</v-chip>
-										</v-chip-group>
-									</p>
-								</div>
-							</v-list-item>
-						</v-list>
-					</div>
-				</nav>
-			</div>
+			<InterviewListContainer></InterviewListContainer>
 		</div>
 		<div v-show="isChat" id="chat-container" class="chatBox">
 			<div class="chat-output"></div>
@@ -122,9 +63,11 @@
 import { intervieweeOfMeeting } from '@/api/meeting.js';
 import { editStatus } from '@/api/member.js';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
+import InterviewListContainer from '../components/meeting/InterviewListContainer.vue';
 export default {
 	components: {
 		MeetingBottomBar,
+		InterviewListContainer,
 	},
 	data() {
 		return {
@@ -142,6 +85,9 @@ export default {
 			participants: Array,
 			publicRoomIdentifier: 'sodasoda',
 			sideBar: 'page-wrapper sideBarTheme',
+			pre_toggle: true,
+			ing_toggle: false,
+			done_toggle: false,
 		};
 	},
 	async mounted() {
@@ -150,6 +96,7 @@ export default {
 		await intervieweeOfMeeting(meetingCode)
 			.then(res => {
 				this.participants = res.data;
+				console.log(this.participants);
 			})
 			.catch(err => {
 				console.log(err);
@@ -289,7 +236,44 @@ export default {
 		showSidebar() {
 			this.sideBar = 'page-wrapper sideBarTheme toggled';
 		},
+		viewStatus(status) {
+			let now = String;
+			switch (status) {
+				case 'PLAN':
+					now = 'PLAN';
+					break;
+				case 'PROGRESS':
+					now = 'PROGRESS';
+					break;
+				case 'DONE':
+					now = 'DONE';
+					break;
+				default:
+					now = '';
+			}
+			return now;
+		},
 	},
+	// computed: {
+	// 	preStatus(status) {
+	// 		return {
+	// 			basicBtn: status !== 'PLAN',
+	// 			preActive: status === 'PLAN',
+	// 		};
+	// 	},
+	// 	ingStatus(status) {
+	// 		return {
+	// 			basicBtn: status !== 'PROGRESS',
+	// 			ingActive: status === 'PROGRESS',
+	// 		};
+	// 	},
+	// 	doneStatus(status) {
+	// 		return {
+	// 			basicBtn: status !== 'DONE',
+	// 			doneActive: status === 'DONE',
+	// 		};
+	// 	},
+	// },
 };
 </script>
 
@@ -326,21 +310,20 @@ export default {
 	text-align: start;
 	padding: 10px;
 	width: 20vw;
-	height: 85vh;
+	height: 90vh;
 	top: 0;
 	background-color: white;
 }
 .footer {
 	position: absolute;
 	bottom: 0px;
-	height: 20vh;
 	display: flex;
 	justify-content: center;
 	width: 100vw;
-	height: 15%;
+	height: 10vh;
 }
 .contentBox {
-	height: 75%;
+	height: 90%;
 }
 .divLocation {
 	top: 100px;
@@ -377,7 +360,7 @@ export default {
 }
 .sidebar-wrapper {
 	width: 260px;
-	height: 100%;
+	height: 90vh;
 	max-height: 100%;
 	position: fixed;
 	top: 0;
@@ -420,5 +403,73 @@ export default {
 .listName {
 	margin: 2px;
 	color: #dddddd;
+}
+.basicBtn:hover {
+	background-color: #b71c1c;
+	color: white;
+	outline: 0;
+}
+.basicBtn:focus {
+	outline: none;
+}
+.basicBtn {
+	background-color: transparent;
+	border: 2px solid white;
+	color: black;
+	cursor: pointer;
+	font-size: 13px;
+	padding: 4px 15px;
+	transition: all 200ms;
+}
+.prebtn:hover {
+	background-color: #b71c1c;
+	color: white;
+	outline: 0;
+}
+.prebtn:focus {
+	outline: none;
+}
+.prebtn {
+	background-color: transparent;
+	border: 2px solid #b71c1c;
+	color: #b71c1c;
+	cursor: pointer;
+	font-size: 13px;
+	padding: 4px 15px;
+	transition: all 200ms;
+}
+.ingbtn:hover {
+	background-color: #b71c1c;
+	color: white;
+	outline: 0;
+}
+.ingbtn:focus {
+	outline: none;
+}
+.ingbtn {
+	background-color: transparent;
+	border: 2px solid #b71c1c;
+	color: #b71c1c;
+	cursor: pointer;
+	font-size: 13px;
+	padding: 4px 15px;
+	transition: all 200ms;
+}
+.donebtn:hover {
+	background-color: #b71c1c;
+	color: white;
+	outline: 0;
+}
+.donebtn:focus {
+	outline: none;
+}
+.donebtn {
+	background-color: transparent;
+	border: 2px solid #b71c1c;
+	color: #b71c1c;
+	cursor: pointer;
+	font-size: 13px;
+	padding: 4px 15px;
+	transition: all 200ms;
 }
 </style>
