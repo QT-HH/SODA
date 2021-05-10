@@ -70,7 +70,6 @@ export default {
 				let output = document.querySelector('.output');
 				output.textContent = `${event.data.sender} : ${event.data.data}`;
 			}
->>>>>>> frontend/soda/src/components/meeting/Chatting.vue
 		},
 	},
 };
