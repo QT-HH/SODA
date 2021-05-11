@@ -68,7 +68,7 @@ export default {
 				data: '',
 				sender: null,
 			},
-			publicRoomIdentifier: 'sodasoda',
+			publicRoomIdentifier: 'sodasodaTest',
 			mention: String,
 		};
 	},

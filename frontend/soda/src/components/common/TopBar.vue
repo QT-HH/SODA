@@ -46,8 +46,8 @@ export default {
 			createTestMeeting()
 				.then(res => {
 					console.log(res.data);
-					this.$store.state.meetingCode = res.data.id;
-					this.$store.state.testMeetingId = res.data.name;
+					this.$store.state.meetingCode = res.data.name;
+					this.$store.state.testMeetingId = res.data.id;
 					this.$router.push({ name: 'MeetingTest' });
 				})
 				.catch(err => {
