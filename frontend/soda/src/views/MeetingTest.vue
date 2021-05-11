@@ -74,7 +74,7 @@ export default {
 	},
 	created() {
 		this.roomid = this.$store.state.meetingCode;
-		this.roomDbid = this.$store.state.testMeetingId;
+		this.roomDBid = this.$store.state.testMeetingId;
 		this.setRoom(this.roomid);
 	},
 	mounted() {

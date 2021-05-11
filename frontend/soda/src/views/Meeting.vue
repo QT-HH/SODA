@@ -116,7 +116,7 @@ export default {
 			this.userlist();
 			this.chatOnOff();
 			if (!!this.connection) {
-				this.connection.onstreamended = null;
+				// this.connection.onstreamended = null;
 				this.connection.getAllParticipants().forEach(participantId => {
 					this.connection.disconnectWith(participantId);
 				});
