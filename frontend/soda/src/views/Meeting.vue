@@ -79,7 +79,7 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions(['meetingOnOff', 'setMeetingCode']),
+		...mapActions(['meetingOnOff', 'setMeetingCode', 'setIsSuperUser']),
 		setRoom(code) {
 			if (!!code) {
 				this.meetingOnOff();
@@ -119,6 +119,7 @@ export default {
 		outRoom() {
 			this.userlist();
 			this.chatOnOff();
+			this.setIsSuperUser(false);
 			if (!!this.connection) {
 				// this.connection.onstreamended = null;
 				this.connection.getAllParticipants().forEach(participantId => {

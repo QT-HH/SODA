@@ -8,8 +8,8 @@ export default {
 	setMeetingName({ commit }, value) {
 		commit('SET_MEETING_NAME', value);
 	},
-	setIsSuperUser({ commit }) {
-		commit('SET_IS_SUPER_USER');
+	setIsSuperUser({ commit }, value) {
+		commit('SET_IS_SUPER_USER', value);
 	},
 	setAuthCode({ commit }, value) {
 		commit('SET_AUTH_CODE', value);
