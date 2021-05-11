@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { createTestMeeting } from '@/api/meeting.js';
 
 export default {
@@ -32,6 +33,7 @@ export default {
 		};
 	},
 	methods: {
+		...mapActions(['setMeetingCode', 'setTestMeetingId']),
 		createMeeting() {
 			if (this.$route.path !== '/certify') {
 				this.$router.push({ name: 'Certify' });
@@ -42,17 +44,18 @@ export default {
 				this.$router.push({ name: 'Attend' });
 			}
 		},
-		goSimulatedMeeting() {
-			createTestMeeting()
+		async goSimulatedMeeting() {
+			await createTestMeeting()
 				.then(res => {
-					console.log(res.data);
-					this.$store.state.meetingCode = res.data.name;
-					this.$store.state.testMeetingId = res.data.id;
+					this.setMeetingCode(res.data.name);
+					this.setTestMeetingId(res.data.id);
 					this.$router.push({ name: 'MeetingTest' });
 				})
 				.catch(err => {
 					console.log(err.message);
 				});
+			// setTimeout(() => {
+			// }, 200);
 		},
 		goRegister() {
 			if (this.$route.path !== '/register') {

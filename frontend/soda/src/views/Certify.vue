@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { authCompany } from '@/api/company.js';
 
 export default {
@@ -43,6 +44,7 @@ export default {
 		dialogOpen: false,
 	}),
 	methods: {
+		...mapActions(['setAuthCode']),
 		async certify() {
 			console.log(this.code);
 			const authCode = this.code;
@@ -51,7 +53,7 @@ export default {
 			} else {
 				await authCompany(authCode)
 					.then(res => {
-						this.$store.state.auth_code = authCode;
+						this.setAuthCode(authCode);
 						if (res.data) this.$router.push('/invite');
 						else this.dialogOpen = true;
 					})

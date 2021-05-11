@@ -24,11 +24,37 @@
 // 		}
 // 	});
 // };
+import { mapState } from 'vuex';
 
 export default {
+	computed: {
+		...mapState(['sttOn']),
+		speech() {
+			return new SpeechRecognitionApi({
+				output: document.querySelector('.output'),
+				connection: this.connection,
+			});
+		},
+		sttcheck() {
+			return this.sttOn;
+		},
+	},
+	watch: {
+		sttcheck(val) {
+			this.stt = val;
+			console.log('와치시작');
+			if (this.stt == true) {
+				this.speech.init();
+				console.log(this.stt + '켜짐');
+			} else {
+				this.speech.stop();
+				console.log(this.stt + '꺼짐');
+			}
+		},
+	},
 	data() {
 		return {
-			stt: this.$store.state.sttOn,
+			stt: this.sttOn,
 			chatInfo: {
 				sender: 'STT',
 				data: '',
@@ -50,30 +76,6 @@ export default {
 		// 		console.log(this.stt + '꺼짐');
 		// 	}
 		// },
-	},
-	computed: {
-		speech() {
-			return new SpeechRecognitionApi({
-				output: document.querySelector('.output'),
-				connection: this.connection,
-			});
-		},
-		sttcheck() {
-			return this.$store.state.sttOn;
-		},
-	},
-	watch: {
-		sttcheck(val) {
-			this.stt = val;
-			console.log('와치시작');
-			if (this.stt == true) {
-				this.speech.init();
-				console.log(this.stt + '켜짐');
-			} else {
-				this.speech.stop();
-				console.log(this.stt + '꺼짐');
-			}
-		},
 	},
 };
 

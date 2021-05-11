@@ -19,15 +19,7 @@
 							src="https://ifh.cc/v/CA0iFG.mp4"
 							controlsList="nodownload"
 							class="videoExample"
-						>
-							<track
-								default
-								kind="subtitles"
-								srclang="en"
-								src="@/assets/vttTest.vtt"
-							/>
-							Sorry, your browser doesn't support embedded videos.
-						</video>
+						></video>
 					</div>
 				</v-row>
 			</v-container>
@@ -53,6 +45,7 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
 import Chatting from '@/components/meeting/Chatting.vue';
 import IntervieweeList from '@/components/meeting/IntervieweeList.vue';
@@ -69,43 +62,39 @@ export default {
 		return {
 			isUser: false,
 			isChat: false,
-			roomid: '',
-			roomDBid: '',
 			meetingStart: false,
 			connection: null,
 			chatInfo: {
 				data: '',
-				sender: null,
+				sender: '',
 			},
 			publicRoomIdentifier: 'sodasodaTest',
 			mention: String,
 		};
 	},
-	// computed: {
-	// 	vttsrc() {
-	// 		return require('@/assets/vttTest.vtt');
-	// 	},
-	// },
+	computed: {
+		...mapState(['meetingOn', 'meetingCode', 'meetingName', 'testMeetingId']),
+	},
 	created() {
-		this.roomid = this.$store.state.meetingCode;
-		this.roomDBid = this.$store.state.testMeetingId;
-		this.setRoom(this.roomid);
+		this.setRoom(this.meetingCode);
 	},
 	mounted() {
-		this.openRoom(this.roomid);
+		this.openRoom(this.meetingCode);
 	},
 	beforeDestroy() {
 		this.outRoom();
 	},
 	methods: {
+		...mapActions(['meetingOnOff', 'setMeetingCode']),
 		setRoom(code) {
 			if (!!code) {
+				this.meetingOnOff();
 				this.meetingStart = !this.meetingStart;
-				this.$store.state.meetingOn = true;
 				this.connection = new RTCMultiConnection();
-				this.chatInfo.sender = this.connection.userid;
+				this.connection.userid = this.meetingName;
+				this.chatInfo.sender = this.meetingName;
 				// this.connection.autoCloseEntireSession = true;
-				this.connection.socketMessageEvent = this.roomid;
+				this.connection.socketMessageEvent = code;
 				this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 				this.connection.session = {
 					audio: true,
@@ -128,13 +117,13 @@ export default {
 				this.connection.videosContainer = document.querySelector(
 					'.videos-container',
 				);
-				this.connection.openOrJoin(this.roomid);
+				this.connection.openOrJoin(this.meetingCode);
 				this.userlist();
 				this.chatOnOff();
 			}
 		},
 		outRoom() {
-			deleteTestMeeting(this.roomDBid)
+			deleteTestMeeting(this.testMeetingId)
 				.then(() => {
 					this.userlist();
 					this.chatOnOff();
@@ -150,9 +139,8 @@ export default {
 
 						this.connection.closeSocket();
 						this.connection = null;
-						this.roomid = '';
-						this.$store.state.meetingOn = false;
-						this.$store.state.meetingCode = '';
+						this.meetingOnOff();
+						this.setMeetingCode('');
 						this.$router.push('/attend');
 						let el = document.getElementById('apdiv');
 						if (!!el) {
@@ -201,17 +189,16 @@ export default {
 				video,
 				this.connection.videosContainer.firstChild,
 			);
-			this.notify('입장', event.userid);
+			this.notify('입장');
 		},
 		onStreamEnded(event) {
 			let video = document.getElementById(event.streamid);
 			if (video && video.parentNode) {
 				video.parentNode.removeChild(video);
 			}
-			this.notify('퇴장', event.userid);
+			this.notify('퇴장');
 		},
-		notify(mention, user_id) {
-			let user = user_id;
+		notify(mention) {
 			if (Notification.permission !== 'granted') {
 				alert(`모의면접을 ${mention}하셨습니다.`);
 			} else {
