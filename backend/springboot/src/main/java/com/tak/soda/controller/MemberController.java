@@ -30,63 +30,15 @@ public class MemberController {
 	private final MemberService memberService;
 	private final CompanyService companyService;
 
-	@PostMapping("/invite")
-	@ApiOperation(value="미팅 인증코드 전송", notes="role 통해 면접자/면접관 구분, 면접관이다 면접자이다 적어주면 됨. ex) role='면접관'")
-	public ResponseEntity inviteInterviewee(@RequestBody InviteDto dto) throws MessagingException {
-		Meeting meeting = memberService.findMeetingByInviteCode(dto.getInviteCode());
 
-		List<String> emails = dto.getEmails();
-		List<String> names = dto.getNames();
-
-		for(int i=0; i<dto.getEmails().size(); i++) {
-			String email = emails.get(i);
-			String name = names.get(i);
-			String pattern = "면접자";
-
-			Member member;
-
-			// 멤버가 DB에 없으면
-			if (!memberService.isMember(email)) {
-				// 면접관/면접자 생성
-
-
-				if (pattern.matches(dto.getRole())) {
-					member = memberService.createInterviewee(email, name);
-				} else {
-					Company company = companyService.findByName(dto.getCName()).get(0);
-					member = memberService.createInterviewer(email, name, company);
-				}
-			} else {
-				member = memberService.findByEmail(email);
-			}
-
-			// 미팅방에 초대
-			if (pattern.matches(dto.getRole())) {
-				memberService.addToMeeting(member, meeting, "면접자");
-			} else {
-				memberService.addToMeeting(member, meeting, "면접관");
-			}
-			// 메일 보내기
-			meetingMail.sendMail(dto.getInviteCode(), email);
-
+	@DeleteMapping("/del/{id}")
+	@ApiOperation(value="멤버 삭제", notes="멤버 id로 삭제")
+	public ResponseEntity delMember(@PathVariable("id")Long id) {
+		if(memberService.deleteMember(id)) {
+			return new ResponseEntity("삭제 성공", HttpStatus.OK);
 		}
 
-		return new ResponseEntity("전송 완료", HttpStatus.OK);
-	}
-
-	@GetMapping("/list")
-	@ApiOperation(value="전체 멤버 조회", notes="멤버 리스트 반환")
-	public ResponseEntity showAllMember() {
-		List<MemberDto> res = memberService.showAll();
-		return new ResponseEntity(res, HttpStatus.OK);
-	}
-
-	@GetMapping("/search/{uName}")
-	@ApiOperation(value="특정 멤버 조회(이름)", notes="멤버 이름으로 검색")
-	public ResponseEntity searchByName(@PathVariable("uName")String name) {
-		List<MemberDto> res = memberService.findByName(name);
-
-		return new ResponseEntity(res, HttpStatus.OK);
+		return new ResponseEntity("삭제 실패", HttpStatus.OK);
 	}
 
 	@PutMapping("/edit/status")
@@ -121,13 +73,62 @@ public class MemberController {
 //		return new ResponseEntity("성공", HttpStatus.OK);
 //	}
 
-	@DeleteMapping("/del/{id}")
-	@ApiOperation(value="멤버 삭제", notes="멤버 id로 삭제")
-	public ResponseEntity delMember(@PathVariable("id")Long id) {
-		if(memberService.deleteMember(id)) {
-			return new ResponseEntity("삭제 성공", HttpStatus.OK);
+	@PostMapping("/invite")
+	@ApiOperation(value="미팅 인증코드 전송", notes="role 통해 면접자/면접관 구분, 면접관이다 면접자이다 적어주면 됨. ex) role='면접관'")
+	public ResponseEntity inviteInterviewee(@RequestBody InviteDto dto) throws MessagingException {
+		Meeting meeting = memberService.findMeetingByInviteCode(dto.getInviteCode());
+
+		List<String> emails = dto.getEmails();
+		List<String> names = dto.getNames();
+
+		for(int i=0; i<dto.getEmails().size(); i++) {
+			String email = emails.get(i);
+			String name = names.get(i);
+			String pattern = "면접자";
+
+			Member member;
+
+			// 멤버가 DB에 없으면
+			if (!memberService.isMember(email)) {
+				// 면접관/면접자 생성
+				if (pattern.matches(dto.getRole())) {
+					member = memberService.createInterviewee(email, name);
+				} else {
+					Company company = companyService.findByName(dto.getCName()).get(0);
+					member = memberService.createInterviewer(email, name, company);
+				}
+			} else {
+				member = memberService.findByEmail(email);
+			}
+
+			// 미팅방에 초대
+			if (pattern.matches(dto.getRole())) {
+				memberService.addToMeeting(member, meeting, "면접자");
+			} else {
+				memberService.addToMeeting(member, meeting, "면접관");
+			}
+			// 메일 보내기
+			meetingMail.sendMail(dto.getInviteCode(), email);
+
 		}
 
-		return new ResponseEntity("삭제 실패", HttpStatus.OK);
+		return new ResponseEntity("전송 완료", HttpStatus.OK);
 	}
+
+
+	@GetMapping("/list")
+	@ApiOperation(value="전체 멤버 조회", notes="멤버 리스트 반환")
+	public ResponseEntity showAllMember() {
+		List<MemberDto> res = memberService.showAll();
+		return new ResponseEntity(res, HttpStatus.OK);
+	}
+
+	@GetMapping("/search/{uName}")
+	@ApiOperation(value="특정 멤버 조회(이름)", notes="멤버 이름으로 검색")
+	public ResponseEntity searchByName(@PathVariable("uName")String name) {
+		List<MemberDto> res = memberService.findByName(name);
+
+		return new ResponseEntity(res, HttpStatus.OK);
+	}
+
 }

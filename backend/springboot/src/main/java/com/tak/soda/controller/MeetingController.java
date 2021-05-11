@@ -1,8 +1,10 @@
 package com.tak.soda.controller;
 
+import com.tak.soda.domain.Member;
 import com.tak.soda.domain.MemberStatus;
 import com.tak.soda.domain.dto.IntervieweeDto;
 import com.tak.soda.service.MeetingService;
+import com.tak.soda.service.MemberService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +19,8 @@ import java.util.List;
 @Api(tags = {"미팅 컨트롤러"})
 @RequestMapping("meeting")
 public class MeetingController {
-	@Autowired
-	MeetingService meetingService;
+	@Autowired MeetingService meetingService;
+	@Autowired MemberService memberService;
 
 	@GetMapping("inviteCode")
 	@ApiOperation(value = "미팅 코드", notes = "미팅 코드 유효성", response = String.class)
@@ -60,24 +62,43 @@ public class MeetingController {
 		Long mm_id = ids.get(1);
 
 		if(u_id != -1) {
+			Member member = memberService.findById(u_id);
+
 			// 면접관이면?
 			if(meetingService.isInterviewer(u_id))  {
-				return new ResponseEntity("면접관", HttpStatus.OK);
+				return new ResponseEntity("면접관," + member.getName(), HttpStatus.OK);
 			}
 
 			// 아니면 면접자
 			MemberStatus status = meetingService.findStatus(mm_id);
-			return new ResponseEntity("면접자,"+ status, HttpStatus.OK);
+			return new ResponseEntity("면접자,"+ status + "," +member.getName(), HttpStatus.OK);
 		}
 		// 면접자라면?
 		return new ResponseEntity("초대받지 못함", HttpStatus.OK);
 	}
 
-	@DeleteMapping("del")
-	@ApiOperation(value = "미팅 삭제(종료)", notes = "")
-	public ResponseEntity<String> delMeeting(String inviteCode) {
-		meetingService.removeMeeting(inviteCode);
+	@DeleteMapping("/interviewee/del")
+	@ApiOperation(value = "면접자 삭제(면접 종료)", notes = "리스트에서 삭제함")
+	public ResponseEntity<String> delMeeting(Long u_id) {
+		meetingService.removeInterviewee(u_id);
 
 		return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
 	}
+
+	@DeleteMapping("/interviewee/list/del")
+	@ApiOperation(value = "면접자 전체 리스트 삭제(면접 종료)", notes = "면접방 아이디(m_id)를 보내면 해당 방에 초대된 면접자들을 삭제함으로 그날 면접이 종료됨")
+	public ResponseEntity<String> deleteAllMeeting(String inviteCode) {
+		meetingService.removeAllInterviewees(inviteCode);
+
+		return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
+	}
+
+//
+//	@DeleteMapping("del")
+//	@ApiOperation(value = "미팅 삭제(종료)", notes = "")
+//	public ResponseEntity<String> delMeeting(String inviteCode) {
+//		meetingService.removeMeeting(inviteCode);
+//
+//		return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
+//	}
 }

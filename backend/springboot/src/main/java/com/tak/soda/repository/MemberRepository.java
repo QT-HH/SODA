@@ -37,12 +37,6 @@ public class MemberRepository{
 				.getResultList();
 	}
 
-	public List<Member> findByInviteCode(String inviteCode) {
-		return em.createQuery("SELECT m FROM Member m WHERE m.name=:uname", Member.class)
-				.setParameter("inviteCode", inviteCode)
-				.getResultList();
-	}
-
 	public List<Member> findByEmailAndInviteCode(String email, String inviteCode) {
 		String qlString = "";
 
