@@ -93,7 +93,6 @@ export default {
 	},
 	mounted() {
 		this.openRoom(this.roomid);
-		this.setVideo();
 	},
 	beforeDestroy() {
 		this.outRoom();
@@ -221,15 +220,6 @@ export default {
 					body: `모의면접을 ${mention}하셨습니다.`,
 				});
 			}
-		},
-		setVideo() {
-			const videoContainer = document.querySelector('.videoExample');
-			console.log(videoContainer);
-			// let div = document.createElement('div');
-			// div.setAttribute('id', 'apdiv');
-			// div.innerHTML = `${event.data.sender} : ${event.data.data}`;
-			// chatContainer.insertBefore(div, chatContainer.firstchild);
-			// div.tabIndex = 0;
 		},
 	},
 };
