@@ -18,7 +18,16 @@
 							muted
 							src="https://ifh.cc/v/CA0iFG.mp4"
 							controlsList="nodownload"
-						></video>
+							class="videoExample"
+						>
+							<track
+								default
+								kind="subtitles"
+								srclang="en"
+								src="@/assets/vttTest.vtt"
+							/>
+							Sorry, your browser doesn't support embedded videos.
+						</video>
 					</div>
 				</v-row>
 			</v-container>
@@ -72,6 +81,11 @@ export default {
 			mention: String,
 		};
 	},
+	// computed: {
+	// 	vttsrc() {
+	// 		return require('@/assets/vttTest.vtt');
+	// 	},
+	// },
 	created() {
 		this.roomid = this.$store.state.meetingCode;
 		this.roomDBid = this.$store.state.testMeetingId;
@@ -79,6 +93,7 @@ export default {
 	},
 	mounted() {
 		this.openRoom(this.roomid);
+		this.setVideo();
 	},
 	beforeDestroy() {
 		this.outRoom();
@@ -206,6 +221,15 @@ export default {
 					body: `모의면접을 ${mention}하셨습니다.`,
 				});
 			}
+		},
+		setVideo() {
+			const videoContainer = document.querySelector('.videoExample');
+			console.log(videoContainer);
+			// let div = document.createElement('div');
+			// div.setAttribute('id', 'apdiv');
+			// div.innerHTML = `${event.data.sender} : ${event.data.data}`;
+			// chatContainer.insertBefore(div, chatContainer.firstchild);
+			// div.tabIndex = 0;
 		},
 	},
 };
