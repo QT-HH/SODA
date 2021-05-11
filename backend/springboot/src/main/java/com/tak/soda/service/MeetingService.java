@@ -85,14 +85,14 @@ public class MeetingService {
 	 * @param u_id
 	 */
 	public void removeInterviewee(Long u_id) {
-		meetingMemberRepository.deleteByU_Id(u_id);
+		meetingMemberRepository.deleteById(u_id);
 	}
 
 	public void removeAllInterviewees(String inviteCode) {
 		List<IntervieweeDto> members = intervieweeRepository.findMemberByInviteCode(inviteCode);
 
 		for(IntervieweeDto member: members) {
-			removeInterviewee(member.getU_id());
+			removeInterviewee(member.getMm_id());
 		}
 	}
 }

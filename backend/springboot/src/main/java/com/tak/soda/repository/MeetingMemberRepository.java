@@ -36,16 +36,16 @@ public class MeetingMemberRepository {
     }
 
     @Transactional
-    public void deleteByU_Id(Long u_id) {
-        String qlString = "DELETE FROM MeetingMember mm where mm.member.id=:u_id";
+    public void deleteById(Long mu_id) {
+        String qlString = "DELETE FROM MeetingMember mm where mm.id=:mu_id";
 
         em.createQuery(qlString)
-                .setParameter("u_id", u_id)
+                .setParameter("mu_id", mu_id)
                 .executeUpdate();
 
-        em.createQuery("DELETE FROM Member m where m.id=:u_id")
-                .setParameter("u_id", u_id)
-                .executeUpdate();
+//        em.createQuery("DELETE FROM Member m where m.id=:u_id")
+//                .setParameter("u_id", u_id)
+//                .executeUpdate();
 
     }
 }
