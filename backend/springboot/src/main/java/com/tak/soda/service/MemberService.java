@@ -151,6 +151,9 @@ public class MemberService {
 		//member.setStatus(MemberStatus.PLAN);
 		member.setEmail(email);
 		member.setRole("면접자");
+		System.out.println(email);
+		System.out.println(name);
+
 		if(name=="") {
 			member.setName(email.split("@")[0]);
 		}else{
@@ -159,6 +162,7 @@ public class MemberService {
 
 		memberRepository.save(member);
 
+		System.out.println(member.toString());
 		return member;
 	}
 
