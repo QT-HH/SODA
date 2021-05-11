@@ -39,6 +39,7 @@ export default {
 		};
 	},
 	mounted() {
+		console.log('chatting mounted');
 		this.chatInfo.sender = this.connection.userid;
 		this.connection.onmessage = this.appendDIV;
 	},

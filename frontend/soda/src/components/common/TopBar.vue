@@ -22,6 +22,8 @@
 </template>
 
 <script>
+import { createTestMeeting } from '@/api/meeting.js';
+
 export default {
 	name: 'TopBar',
 	data() {
@@ -41,9 +43,16 @@ export default {
 			}
 		},
 		goSimulatedMeeting() {
-			if (this.$route.path !== '/meetingtest') {
-				this.$router.push({ name: 'MeetingTest' });
-			}
+			createTestMeeting()
+				.then(res => {
+					console.log(res.data);
+					this.$store.state.meetingCode = res.data.id;
+					this.$store.state.testMeetingId = res.data.name;
+					this.$router.push({ name: 'MeetingTest' });
+				})
+				.catch(err => {
+					console.log(err.message);
+				});
 		},
 		goRegister() {
 			if (this.$route.path !== '/register') {

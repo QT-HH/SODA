@@ -10,8 +10,9 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		meetingOn: false,
-		meetingCode: '',
-		auth_code: '',
+		meetingCode: String,
+		testMeetingId: String,
+		auth_code: String,
 		sttOn: false,
 	},
 	mutations,
