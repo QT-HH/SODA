@@ -131,7 +131,7 @@ export default {
 				this.$store.state.meetingOn = false;
 				this.$store.state.meetingCode = '';
 				this.$router.push('/attend');
-				var el = document.getElementById('apdiv');
+				let el = document.getElementById('apdiv');
 				if (!!el) {
 					el.remove();
 				}
