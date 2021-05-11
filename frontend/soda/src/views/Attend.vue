@@ -92,6 +92,7 @@ export default {
 								break;
 						}
 					} else {
+						this.$store.state.isSuperUser = true;
 						this.$store.state.meetingName = stat[1];
 						this.openOrJoin(this.inputCertifycode);
 					}

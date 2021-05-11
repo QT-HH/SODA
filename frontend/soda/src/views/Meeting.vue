@@ -1,7 +1,7 @@
 <template>
 	<div class="bgcolor">
 		<IntervieweeList
-			v-if="isUser && !!connection.isInitiator"
+			v-if="this.$store.state.isSuperUser && isUser && !!connection.isInitiator"
 		></IntervieweeList>
 
 		<Chatting
