@@ -84,6 +84,7 @@ export default {
 								alert('순서를 기다려주세요.');
 								break;
 							case 'PROGRESS':
+								this.$store.state.meetingName = stat[2];
 								this.openOrJoin(this.inputCertifycode);
 								break;
 							case 'DONE':
@@ -91,6 +92,7 @@ export default {
 								break;
 						}
 					} else {
+						this.$store.state.meetingName = stat[1];
 						this.openOrJoin(this.inputCertifycode);
 					}
 				})

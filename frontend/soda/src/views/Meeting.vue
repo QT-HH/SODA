@@ -78,10 +78,12 @@ export default {
 	methods: {
 		setRoom(code) {
 			if (!!code) {
+				console.log(this.$store.state.meetingName);
 				this.roomid = code;
 				this.meetingStart = !this.meetingStart;
 				this.$store.state.meetingOn = true;
 				this.connection = new RTCMultiConnection();
+				this.connection.userid = this.$store.state.meetingName;
 				this.chatInfo.sender = this.connection.userid;
 				// this.connection.autoCloseEntireSession = true;
 				this.connection.socketMessageEvent = this.roomid;
