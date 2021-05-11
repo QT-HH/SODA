@@ -53,26 +53,26 @@
 					<span style="font-weight: bold">면접 플랫폼</span>입니다.
 				</p>
 				<p class="content" style="font-size: x-large">
-					면접관의 발언을 자막으로 보여줌으로써 좀 더 편리한 면접 환경을
-					제공합니다.
+					면접관의 발언을 <span style="font-weight: bold">실시간 자막</span>으로
+					보여줌으로써 좀 더 편리한 면접 환경을 제공합니다.
 				</p>
 			</div>
 		</section>
 		<section class="bgcolor">
-			<h1 style="margin-bottom: 50px">
+			<h1 style="margin-bottom: 70px">
 				<span class="highlight">기술</span>
 			</h1>
 			<div style="margin-bottom: 20px">
 				<v-row>
 					<v-col style="margin-left: 70px">
 						<img
-							style="width: 400px; margin-bottom: 20px"
+							style="width: 55%; margin-bottom: 20px"
 							src="@/assets/webrtc.png"
 							alt=""
 						/>
 						<p style="margin: 0px 80px">
 							<span style="font-weight: bold; font-size: 120%"
-								>WebRTC(Web Real-Time Communication)은</span
+								>WebRTC(Web Real-Time Communication)는</span
 							>
 							중간자 없이 <span><br /></span> 브라우저 간에 오디오나 영상
 							미디어를 마음대로 스트림 할 뿐 아니라, <span><br /></span> 임의의
@@ -81,7 +81,7 @@
 					</v-col>
 					<v-col style="margin-right: 70px">
 						<img
-							style="width: 400px; margin-bottom: 20px"
+							style="width: 55%; margin-bottom: 20px"
 							src="@/assets/stt.png"
 							alt=""
 						/>
@@ -99,14 +99,28 @@
 				</v-row>
 			</div>
 
-			<p class="content" style="font-size: xx-large">WebRTC + STT</p>
+			<p class="content important" style="font-size: xx-large">WebRTC + STT</p>
 			<p class="content" style="font-size: x-large">
-				SODA는 WebRTC와 STT 기능을 사용하여 화상면접에 자막기능을
-				추가하였습니다. ~~~~~~~
+				<span style="color: navy; font-weight: bold">SODA</span>는 WebRTC와 STT
+				기능을 사용하여 화상면접에 자막기능을 추가하였습니다. ~~~~~~~
 			</p>
 		</section>
 		<section class="bgcolor">
-			<h1><span class="highlight">사용 방법</span></h1>
+			<h1 style="margin-bottom: 70px">
+				<span class="highlight">사용 방법</span>
+			</h1>
+			<v-row>
+				<v-col style="padding: 0px">
+					<div class="interviewer">
+						<h1 style="padding-top: 20px">면접관</h1>
+					</div>
+				</v-col>
+				<v-col style="padding: 0px">
+					<div class="interviewee">
+						<h1 style="padding-top: 20px">면접자</h1>
+					</div>
+				</v-col>
+			</v-row>
 		</section>
 	</div>
 </template>
@@ -352,14 +366,20 @@ button:focus {
 .highlight {
 	border-bottom: 3px solid #0b0072;
 	padding: 0px 15px;
-	/* filter: alpha(opacity= 40); 투명도 조절*/
-
-	/* 원래코드
-      background-color: #ffca28;
-     width: 50%;
-     margin-left: 0.1px;
-     text-align: center;
-      */
+}
+.interviewer {
+	background-color: rgb(187, 187, 187);
+	height: 100vh;
+}
+.interviewee {
+	background-color: rgb(149, 150, 218);
+	height: 100vh;
+}
+.important {
+	display: inline;
+	box-shadow: inset 0 -40px 0 #fff2ab;
+	margin: 0px;
+	padding: 3px;
 }
 @-webkit-keyframes sdb {
 	0% {
