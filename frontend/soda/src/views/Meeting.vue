@@ -1,7 +1,7 @@
 <template>
 	<div class="bgcolor">
 		<IntervieweeList
-			v-if="this.$store.state.isSuperUser && isUser && !!connection.isInitiator"
+			v-if="this.isSuperUser && isUser && !!connection.isInitiator"
 		></IntervieweeList>
 
 		<Chatting
@@ -39,22 +39,35 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
 import Chatting from '@/components/meeting/Chatting.vue';
 import IntervieweeList from '@/components/meeting/IntervieweeList.vue';
 import STT from '@/components/meeting/STT.vue';
 export default {
+	name: 'Meeting',
 	components: {
 		MeetingBottomBar,
 		Chatting,
 		IntervieweeList,
 		STT,
 	},
+	computed: {
+		...mapState(['meetingOn', 'meetingCode', 'meetingName', 'isSuperUser']),
+	},
+	created() {
+		this.setRoom(this.meetingCode);
+	},
+	mounted() {
+		this.openRoom(this.meetingCode);
+	},
+	beforeDestroy() {
+		this.outRoom();
+	},
 	data() {
 		return {
 			isUser: false,
 			isChat: false,
-			roomid: '',
 			meetingStart: false,
 			connection: null,
 			chatInfo: {
@@ -65,28 +78,17 @@ export default {
 			mention: String,
 		};
 	},
-	created() {
-		const meetingCode = this.$store.state.meetingCode;
-		this.setRoom(meetingCode);
-	},
-	mounted() {
-		this.openRoom(this.roomid);
-	},
-	beforeDestroy() {
-		this.outRoom();
-	},
 	methods: {
+		...mapActions(['meetingOnOff', 'setMeetingCode']),
 		setRoom(code) {
 			if (!!code) {
-				console.log(this.$store.state.meetingName);
-				this.roomid = code;
+				this.meetingOnOff();
 				this.meetingStart = !this.meetingStart;
-				this.$store.state.meetingOn = true;
 				this.connection = new RTCMultiConnection();
-				this.connection.userid = this.$store.state.meetingName;
-				this.chatInfo.sender = this.connection.userid;
+				this.connection.userid = this.meetingName;
+				this.chatInfo.sender = this.meetingName;
 				// this.connection.autoCloseEntireSession = true;
-				this.connection.socketMessageEvent = this.roomid;
+				this.connection.socketMessageEvent = code;
 				this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 				this.connection.session = {
 					audio: true,
@@ -109,7 +111,7 @@ export default {
 				this.connection.videosContainer = document.querySelector(
 					'.videos-container',
 				);
-				this.connection.openOrJoin(this.roomid);
+				this.connection.openOrJoin(code);
 				this.userlist();
 				this.chatOnOff();
 			}
@@ -129,9 +131,8 @@ export default {
 
 				this.connection.closeSocket();
 				this.connection = null;
-				this.roomid = '';
-				this.$store.state.meetingOn = false;
-				this.$store.state.meetingCode = '';
+				this.meetingOnOff();
+				this.setMeetingCode('');
 				this.$router.push('/attend');
 				let el = document.getElementById('apdiv');
 				if (!!el) {

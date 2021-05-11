@@ -39,7 +39,6 @@ export default {
 		};
 	},
 	mounted() {
-		console.log('chatting mounted');
 		this.chatInfo.sender = this.connection.userid;
 		this.connection.onmessage = this.appendDIV;
 	},
@@ -49,14 +48,12 @@ export default {
 				data: this.chatInfo,
 			};
 			if (myChat.data.data) {
-				// console.log(myChat.data.data);
 				this.connection.send(myChat.data);
 				this.appendDIV(myChat);
 			}
 			this.chatInfo.data = '';
 		},
 		appendDIV(event) {
-			// console.log(event.data);
 			if (event.data.type === 'chat') {
 				const chatContainer = document.querySelector('.chat-output');
 				let div = document.createElement('div');

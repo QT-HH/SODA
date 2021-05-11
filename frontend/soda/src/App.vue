@@ -1,6 +1,6 @@
 <template>
 	<v-app>
-		<TopBar v-show="!$store.state.meetingOn"></TopBar>
+		<TopBar v-show="!meetingOn"></TopBar>
 		<v-main class="bgcolor">
 			<router-view />
 		</v-main>
@@ -8,6 +8,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import TopBar from './components/common/TopBar.vue';
 
 export default {
@@ -15,6 +16,9 @@ export default {
 
 	components: {
 		TopBar,
+	},
+	computed: {
+		...mapState(['meetingOn']),
 	},
 
 	created() {
