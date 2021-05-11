@@ -155,7 +155,7 @@ export default {
 		this.getCompanyInfo(this.auth_code);
 	},
 	methods: {
-		...mapActions(['setMeetingCode']),
+		...mapActions(['setMeetingCode', 'setIsSuperUser']),
 		addMG() {
 			const email = this.firemailmg;
 			const name = this.namemg;
@@ -215,6 +215,7 @@ export default {
 				role: '면접자',
 			});
 			this.setMeetingCode(this.inviteCode);
+			this.setIsSuperUser(true);
 			this.$router.push('/meeting');
 		},
 	},

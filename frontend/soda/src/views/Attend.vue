@@ -95,7 +95,7 @@ export default {
 						}
 					} else {
 						this.setMeetingName(stat[1]);
-						this.setIsSuperUser();
+						this.setIsSuperUser(true);
 						this.openOrJoin(this.inputCertifycode);
 					}
 				})

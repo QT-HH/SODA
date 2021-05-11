@@ -8,8 +8,8 @@ export default {
 	SET_MEETING_NAME(state, value) {
 		state.meetingName = value;
 	},
-	SET_IS_SUPER_USER(state) {
-		state.isSuperUser = !state.isSuperUser;
+	SET_IS_SUPER_USER(state, value) {
+		state.isSuperUser = value;
 	},
 	SET_AUTH_CODE(state, value) {
 		state.auth_code = value;
