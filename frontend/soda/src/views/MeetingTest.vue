@@ -25,7 +25,7 @@
 			</v-container>
 		</v-sheet>
 
-		<STT :connection="connection"></STT>
+		<STT :connection="connection" v-show="isStt"></STT>
 
 		<div class="footer">
 			<TestMeetingBottomBar
@@ -36,6 +36,7 @@
 				@screenOn="screenOn"
 				@screenOff="screenOff"
 				@chatOnOff="chatOnOff"
+				@sttOnOff="sttOnOff"
 			></TestMeetingBottomBar>
 		</div>
 	</div>
@@ -72,6 +73,7 @@ export default {
 			},
 			publicRoomIdentifier: 'sodasodaTest',
 			mention: String,
+			isStt: true,
 		};
 	},
 	computed: {
@@ -205,6 +207,9 @@ export default {
 					body: `모의면접을 ${mention}하셨습니다.`,
 				});
 			}
+		},
+		sttOnOff() {
+			this.isStt = !this.isStt;
 		},
 	},
 };
