@@ -14,7 +14,9 @@
 		<v-sheet class="overflow-hidden bgcolor" style="position: relative">
 			<v-container class="fill-height bgcolor">
 				<v-row align="center" justify="center">
-					<div class="videos-container"></div>
+					<div
+						class="videos-container vContainer d-flex flex-wrap align-center justify-center"
+					></div>
 				</v-row>
 			</v-container>
 		</v-sheet>
@@ -238,5 +240,9 @@ export default {
 }
 .divLocation {
 	top: 100px;
+}
+.vContainer {
+	height: 85vh;
+	width: 90vw;
 }
 </style>
