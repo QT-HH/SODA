@@ -71,8 +71,7 @@ export default {
 	background-color: #e0dcdd;
 }
 video {
-	width: 400px;
-	height: 300px;
+	height: 40vh;
 	margin: 5px;
 }
 </style>
