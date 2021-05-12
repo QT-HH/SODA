@@ -88,7 +88,7 @@ export default {
 				this.meetingOnOff();
 				this.meetingStart = !this.meetingStart;
 				this.connection = new RTCMultiConnection();
-				this.connection.userid = this.meetingName;
+				this.connection.username = this.meetingName;
 				this.chatInfo.sender = this.meetingName;
 				this.connection.socketMessageEvent = code;
 				this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
@@ -177,14 +177,14 @@ export default {
 				video,
 				this.connection.videosContainer.firstChild,
 			);
-			this.notify('입장', event.userid);
+			// this.notify('입장', event.username);
 		},
 		onStreamEnded(event) {
 			let video = document.getElementById(event.streamid);
 			if (video && video.parentNode) {
 				video.parentNode.removeChild(video);
 			}
-			this.notify('퇴장', event.userid);
+			// this.notify('퇴장', event.username);
 		},
 		notify(mention, user_id) {
 			let user = user_id;

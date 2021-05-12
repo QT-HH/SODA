@@ -39,7 +39,7 @@ export default {
 		};
 	},
 	mounted() {
-		this.chatInfo.sender = this.connection.userid;
+		this.chatInfo.sender = this.connection.username;
 		this.connection.onmessage = this.appendDIV;
 	},
 	methods: {

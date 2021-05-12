@@ -1,31 +1,31 @@
 <template>
 	<div class="footerBox">
 		<v-footer padless color="#e0dcdd">
-			<button class="btn1" @click="audio" v-bind="attrs" v-on="on">
+			<button class="btn1" @click="audio">
 				<i :class="audioIcon"> </i>
 				<span id="font2">
 					{{ isAudio ? '음소거' : '음소거 해제' }}
 				</span>
 			</button>
-			<button class="btn1" @click="video" v-bind="attrs" v-on="on">
+			<button class="btn1" @click="video">
 				<i :class="videoIcon"> </i>
 				<span id="font2">
 					{{ isVideo ? '비디오 끄기' : '비디오 켜기' }}
 				</span>
 			</button>
-			<button class="btn1" @click="subtitle" v-bind="attrs" v-on="on">
+			<button class="btn1" @click="subtitle">
 				<i :class="subtitleIcon"> </i>
 				<span id="font2">
 					{{ isSubtitle ? '자막 끄기' : '자막 켜기' }}
 				</span>
 			</button>
-			<button class="btn1" @click="chatting" v-bind="attrs" v-on="on">
+			<button class="btn1" @click="chatting">
 				<i :class="chattingIcon"> </i>
 				<span id="font2">
 					{{ isChatting ? '채팅창 끄기' : '채팅창 열기' }}
 				</span>
 			</button>
-			<button class="btn2" @click="outRoom" v-bind="attrs" v-on="on">
+			<button class="btn2" @click="outRoom">
 				<i class="fas fa-sign-out-alt"></i>
 				<span id="font2">면접 종료</span>
 			</button>
