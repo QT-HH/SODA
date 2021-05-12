@@ -49,7 +49,7 @@ export default {
 				.then(res => {
 					this.setMeetingCode(res.data.name);
 					this.setTestMeetingId(res.data.id);
-					this.setMeetingName('면접자');
+					this.setMeetingName('탁소다 (면접자)');
 					this.$router.push({ name: 'MeetingTest' });
 				})
 				.catch(err => {

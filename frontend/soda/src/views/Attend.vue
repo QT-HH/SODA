@@ -85,7 +85,7 @@ export default {
 							alert('순서를 기다려주세요.');
 							break;
 						case 'PROGRESS':
-							this.setMeetingName(stat[2]);
+							this.setMeetingName(`${stat[2]} (면접자)`);
 							this.openOrJoin(this.inputCertifycode);
 							break;
 						case 'DONE':
@@ -93,7 +93,7 @@ export default {
 							break;
 					}
 				} else {
-					this.setMeetingName(stat[1]);
+					this.setMeetingName(`${stat[1]} (면접관)`);
 					this.setIsSuperUser(true);
 					this.openOrJoin(this.inputCertifycode);
 				}
