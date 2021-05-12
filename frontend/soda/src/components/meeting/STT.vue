@@ -49,27 +49,6 @@ export default {
 		connection: Object,
 	},
 	methods: {},
-	computed: {
-		speech() {
-			return new SpeechRecognitionApi({
-				output: document.querySelector('.output'),
-				connection: this.connection,
-			});
-		},
-		sttcheck() {
-			return this.$store.state.sttOn;
-		},
-	},
-	watch: {
-		sttcheck(val) {
-			this.stt = val;
-			if (this.stt == true) {
-				this.speech.init();
-			} else {
-				this.speech.stop();
-			}
-		},
-	},
 };
 
 class SpeechRecognitionApi {
