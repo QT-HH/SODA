@@ -51,12 +51,14 @@ import Chatting from '@/components/meeting/Chatting.vue';
 import IntervieweeList from '@/components/meeting/IntervieweeList.vue';
 import STT from '@/components/meeting/STT.vue';
 import { deleteTestMeeting } from '@/api/meeting.js';
+import TestMeetingBottomBar from '@/components/meeting/TestMeetingBottomBar.vue';
 export default {
 	components: {
 		MeetingBottomBar,
 		Chatting,
 		IntervieweeList,
 		STT,
+		TestMeetingBottomBar,
 	},
 	data() {
 		return {
