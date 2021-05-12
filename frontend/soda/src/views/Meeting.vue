@@ -19,7 +19,7 @@
 			</v-container>
 		</v-sheet>
 
-		<STT :connection="connection"></STT>
+		<STT :connection="connection" v-show="isStt"></STT>
 
 		<div class="footer">
 			<MeetingBottomBar
@@ -30,6 +30,7 @@
 				@screenOn="screenOn"
 				@screenOff="screenOff"
 				@chatOnOff="chatOnOff"
+				@sttOnOff="sttOnOff"
 			></MeetingBottomBar>
 		</div>
 	</div>
@@ -63,6 +64,7 @@ export default {
 			},
 			publicRoomIdentifier: 'sodasoda',
 			mention: String,
+			isStt: true,
 		};
 	},
 	created() {
@@ -193,6 +195,10 @@ export default {
 					body: `${user}님께서 면접을 ${mention}하셨습니다.`,
 				});
 			}
+		},
+		sttOnOff() {
+			this.isStt = !this.isStt;
+			console.log('123412341241234', this.isStt);
 		},
 	},
 };

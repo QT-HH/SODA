@@ -38,7 +38,7 @@
 			</v-container>
 		</v-sheet>
 		<div class="footer">
-			<MeetingBottomBar
+			<TestMeetingBottomBar
 				v-if="streaming"
 				@outRoom="outRoom"
 				@voiceOn="voiceOn"
@@ -46,7 +46,7 @@
 				@screenOn="screenOn"
 				@screenOff="screenOff"
 				@chatOnOff="chatOnOff"
-			></MeetingBottomBar>
+			></TestMeetingBottomBar>
 		</div>
 		<!-- <MeetingUser v-if="isUser"></MeetingUser> -->
 	</div>
@@ -56,12 +56,12 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
-import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
+import TestMeetingBottomBar from '@/components/meeting/TestMeetingBottomBar.vue';
 import { createTestMeeting, deleteTestMeeting } from '@/api/meeting.js';
 
 export default {
 	components: {
-		MeetingBottomBar,
+		TestMeetingBottomBar,
 	},
 	data() {
 		return {

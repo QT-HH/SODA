@@ -1,41 +1,76 @@
 <template>
 	<div class="footerBox">
 		<v-footer padless color="#e0dcdd">
-			<button class="btn1" @click="audio" v-bind="attrs" v-on="on">
-				<i :class="audioIcon"> </i>
-				<span id="font2">
-					{{ isAudio ? '음소거' : '음소거 해제' }}
-				</span>
-			</button>
-			<button class="btn1" @click="video" v-bind="attrs" v-on="on">
-				<i :class="videoIcon"> </i>
-				<span id="font2">
-					{{ isVideo ? '비디오 끄기' : '비디오 켜기' }}
-				</span>
-			</button>
-			<button class="btn1" @click="subtitle" v-bind="attrs" v-on="on">
-				<i :class="subtitleIcon"> </i>
-				<span id="font2">
-					{{ isSubtitle ? '자막 끄기' : '자막 켜기' }}
-				</span>
-			</button>
-			<button class="btn1" @click="chatting" v-bind="attrs" v-on="on">
-				<i :class="chattingIcon"> </i>
-				<span id="font2">
-					{{ isChatting ? '채팅창 끄기' : '채팅창 열기' }}
-				</span>
-			</button>
-			<button class="btn2" @click="outRoom" v-bind="attrs" v-on="on">
-				<i class="fas fa-sign-out-alt"></i>
-				<span id="font2">면접 종료</span>
-			</button>
+			<v-tooltip top>
+				<template v-slot:activator="{ on, attrs }">
+					<button class="btn1" @click="audio" v-bind="attrs" v-on="on">
+						<i :class="audioIcon"> </i>
+						<span id="font2">
+							{{ isAudio ? '음소거' : '음소거 해제' }}
+						</span>
+					</button>
+				</template>
+				<span>{{
+					isAudio ? '나의 오디오를 음소거' : '나의 오디오 음소거 해제'
+				}}</span>
+			</v-tooltip>
+			<v-tooltip top>
+				<template v-slot:activator="{ on, attrs }">
+					<button class="btn1" @click="video" v-bind="attrs" v-on="on">
+						<i :class="videoIcon"> </i>
+						<span id="font2">
+							{{ isVideo ? '비디오 끄기' : '비디오 켜기' }}
+						</span>
+					</button>
+				</template>
+				<span>{{
+					isVideo ? '나의 화상 비디오를 송출 중지' : '나의 화상 비디오를 송출'
+				}}</span>
+			</v-tooltip>
+			<v-tooltip top>
+				<template v-slot:activator="{ on, attrs }">
+					<button class="btn1" @click="subtitle" v-bind="attrs" v-on="on">
+						<i :class="subtitleIcon"> </i>
+						<span id="font2">
+							{{ isSubtitle ? '자막 끄기' : '자막 켜기' }}
+						</span>
+					</button>
+				</template>
+				<span>{{
+					isSubtitle
+						? '면접관에게 나의 말을 자막으로 제공'
+						: '면접관에게 자막 송출을 중지'
+				}}</span>
+			</v-tooltip>
+			<v-tooltip top>
+				<template v-slot:activator="{ on, attrs }">
+					<button class="btn1" @click="chatting" v-bind="attrs" v-on="on">
+						<i :class="chattingIcon"> </i>
+						<span id="font2">
+							{{ isChatting ? '채팅창 끄기' : '채팅창 열기' }}
+						</span>
+					</button>
+				</template>
+				<span>{{
+					isChatting ? '채팅창 닫기' : '화면 우측에 채팅창 활성화'
+				}}</span>
+			</v-tooltip>
+			<v-tooltip top>
+				<template v-slot:activator="{ on, attrs }">
+					<button class="btn2" @click="outRoom" v-bind="attrs" v-on="on">
+						<i class="fas fa-sign-out-alt"></i>
+						<span id="font2"> 모의 면접 종료</span>
+					</button>
+				</template>
+				<span>면접방 퇴장</span>
+			</v-tooltip>
 		</v-footer>
 	</div>
 </template>
 
 <script>
 export default {
-	name: 'MeetingBottomBar',
+	name: 'TestMeetingBottomBar',
 	data() {
 		return {
 			isAudio: false,
