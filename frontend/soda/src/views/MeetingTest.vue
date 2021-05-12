@@ -123,34 +123,30 @@ export default {
 			}
 		},
 		outRoom() {
-			deleteTestMeeting(this.testMeetingId)
-				.then(() => {
-					this.userlist();
-					this.chatOnOff();
-					if (!!this.connection) {
-						// this.connection.onstreamended = null;
-						this.connection.getAllParticipants().forEach(participantId => {
-							this.connection.disconnectWith(participantId);
-						});
+			deleteTestMeeting(this.testMeetingId).then(() => {
+				this.userlist();
+				this.chatOnOff();
+				if (!!this.connection) {
+					// this.connection.onstreamended = null;
+					this.connection.getAllParticipants().forEach(participantId => {
+						this.connection.disconnectWith(participantId);
+					});
 
-						this.connection.attachStreams.forEach(function (localStream) {
-							localStream.stop();
-						});
+					this.connection.attachStreams.forEach(function (localStream) {
+						localStream.stop();
+					});
 
-						this.connection.closeSocket();
-						this.connection = null;
-						this.meetingOnOff();
-						this.setMeetingCode('');
-						this.$router.push('/attend');
-						let el = document.getElementById('apdiv');
-						if (!!el) {
-							el.remove();
-						}
+					this.connection.closeSocket();
+					this.connection = null;
+					this.meetingOnOff();
+					this.setMeetingCode('');
+					this.$router.push('/attend');
+					let el = document.getElementById('apdiv');
+					if (!!el) {
+						el.remove();
 					}
-				})
-				.catch(err => {
-					console.log(err);
-				});
+				}
+			});
 		},
 		screenOff() {
 			const event = this.findMyVideo();

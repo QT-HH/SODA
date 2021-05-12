@@ -26,13 +26,10 @@ export default {
 	watch: {
 		sttcheck(val) {
 			this.stt = val;
-			console.log('와치시작');
 			if (this.stt == true) {
 				this.speech.init();
-				console.log(this.stt + '켜짐');
 			} else {
 				this.speech.stop();
-				console.log(this.stt + '꺼짐');
 			}
 		},
 	},

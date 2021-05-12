@@ -77,31 +77,27 @@ export default {
 			}
 			// 이메일이 초대된 이메일인지 판단하는 api 불러오기
 			// 인증코드의 미팅방으로 이동
-			attendMeeting(this.inputSessionId, this.inputCertifycode)
-				.then(res => {
-					const stat = res.data.split(',');
-					if (stat[0] === '면접자') {
-						switch (stat[1]) {
-							case 'PLAN':
-								alert('순서를 기다려주세요.');
-								break;
-							case 'PROGRESS':
-								this.setMeetingName(stat[2]);
-								this.openOrJoin(this.inputCertifycode);
-								break;
-							case 'DONE':
-								alert('종료된 면접입니다.');
-								break;
-						}
-					} else {
-						this.setMeetingName(stat[1]);
-						this.setIsSuperUser(true);
-						this.openOrJoin(this.inputCertifycode);
+			attendMeeting(this.inputSessionId, this.inputCertifycode).then(res => {
+				const stat = res.data.split(',');
+				if (stat[0] === '면접자') {
+					switch (stat[1]) {
+						case 'PLAN':
+							alert('순서를 기다려주세요.');
+							break;
+						case 'PROGRESS':
+							this.setMeetingName(stat[2]);
+							this.openOrJoin(this.inputCertifycode);
+							break;
+						case 'DONE':
+							alert('종료된 면접입니다.');
+							break;
 					}
-				})
-				.catch(err => {
-					console.log(err.message);
-				});
+				} else {
+					this.setMeetingName(stat[1]);
+					this.setIsSuperUser(true);
+					this.openOrJoin(this.inputCertifycode);
+				}
+			});
 		},
 		openOrJoin(meetingCode) {
 			this.setMeetingCode(meetingCode);

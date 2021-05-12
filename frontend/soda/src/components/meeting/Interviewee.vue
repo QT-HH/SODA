@@ -1,8 +1,6 @@
 <template>
 	<div>
-		<p>
-			{{ interviewee.u_name }}
-		</p>
+		<p>{{ interviewee.u_name }} ({{ interviewee.u_email }})</p>
 		<div class="pb-5 interviewItem">
 			<button
 				@click="changeStatus(interviewee.mm_id, 'PLAN')"
@@ -59,13 +57,9 @@ export default {
 	},
 	methods: {
 		async changeStatus(mm_id, status) {
-			await editStatus(mm_id, status)
-				.then(() => {
-					this.interviewee.status = status;
-				})
-				.catch(err => {
-					console.log(err);
-				});
+			await editStatus(mm_id, status).then(() => {
+				this.interviewee.status = status;
+			});
 		},
 	},
 };

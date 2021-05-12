@@ -48,13 +48,9 @@ export default {
 	},
 	mounted() {
 		const roomid = this.meetingCode;
-		intervieweeOfMeeting(roomid)
-			.then(res => {
-				this.intervieweeList = res.data;
-			})
-			.catch(err => {
-				console.log(err);
-			});
+		intervieweeOfMeeting(roomid).then(res => {
+			this.intervieweeList = res.data;
+		});
 	},
 	methods: {
 		closeSidebar() {

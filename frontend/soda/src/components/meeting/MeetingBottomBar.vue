@@ -86,11 +86,9 @@ export default {
 			if (this.isSubtitle) {
 				this.subtitleIcon = 'fas fa-closed-captioning greenColor';
 				this.STTOnOff(true);
-				console.log('켜기' + this.sttOn);
 			} else {
 				this.subtitleIcon = 'far fa-closed-captioning redColor';
 				this.STTOnOff(false);
-				console.log('끄기' + this.sttOn);
 			}
 		},
 		chatting() {
