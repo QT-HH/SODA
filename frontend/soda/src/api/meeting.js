@@ -31,6 +31,14 @@ function createTestMeeting() {
 function deleteTestMeeting(mp_id) {
 	return instance.delete(`practice/del?mp_id=${mp_id}`);
 }
+function deleteInterviewee(u_id) {
+	return instance.delete(`meeting/interviewee/del?u_id=${u_id}`);
+}
+function deleteAllInterviewee(inviteCode) {
+	return instance.delete(
+		`meeting/interviewee/list/del?inviteCode=${inviteCode}`,
+	);
+}
 
 export {
 	getConfirmMeetingCode,
@@ -39,4 +47,6 @@ export {
 	intervieweeOfMeeting,
 	createTestMeeting,
 	deleteTestMeeting,
+	deleteInterviewee,
+	deleteAllInterviewee,
 };
