@@ -113,7 +113,6 @@ export default {
 				);
 				this.connection.openOrJoin(code);
 				this.userlist();
-				this.chatOnOff();
 			}
 		},
 		outRoom() {

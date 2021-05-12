@@ -51,11 +51,11 @@ export default {
 			isAudio: false,
 			isVideo: true,
 			isSubtitle: true,
-			isChatting: true,
+			isChatting: false,
 			audioIcon: 'fas fa-volume-mute redColor',
 			videoIcon: 'fas fa-video greenColor',
 			subtitleIcon: 'fas fa-closed-captioning greenColor',
-			chattingIcon: 'fas fa-comment greenColor',
+			chattingIcon: 'fas fa-comment-slash redColor',
 		};
 	},
 	methods: {
