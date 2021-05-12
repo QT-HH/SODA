@@ -21,7 +21,13 @@
 					:key="idx"
 					:interviewee="item"
 					class="listName"
+					@dltUser="dltUser"
 				></Interviewee>
+			</div>
+			<div class="d-flex justify-center">
+				<button class="dltBtn" id="font3" @click="dltIntervieweeList">
+					리스트 전체 삭제
+				</button>
 			</div>
 		</nav>
 	</div>
@@ -30,6 +36,7 @@
 <script>
 import { mapState } from 'vuex';
 import { intervieweeOfMeeting } from '@/api/meeting.js';
+import { deleteAllInterviewee } from '@/api/meeting.js';
 import Interviewee from '@/components/meeting/Interviewee.vue';
 
 export default {
@@ -59,11 +66,24 @@ export default {
 		showSidebar() {
 			this.sideBar = 'page-wrapper sideBarTheme toggled';
 		},
+		async dltIntervieweeList() {
+			await deleteAllInterviewee(this.meetingCode);
+			this.intervieweeList = [];
+		},
+		dltUser(deleteId) {
+			const len = this.intervieweeList.length;
+			for (let i = 0; i < len; i++) {
+				if (this.intervieweeList[i].u_id == deleteId) {
+					this.intervieweeList.splice(i, 1);
+					break;
+				}
+			}
+		},
 	},
 };
 </script>
 
-<style>
+<style scoped>
 .page-wrapper .sidebar-wrapper,
 #show-sidebar,
 #close-sidebar {
@@ -137,10 +157,18 @@ export default {
 	text-align: start;
 	padding-left: 15px;
 	overflow-y: auto;
-	height: 75vh;
+	height: 70vh;
 }
 .listName {
 	margin: 2px;
 	color: #dddddd;
+}
+.dltBtn {
+	color: #bdbdbd;
+	position: absolute;
+	bottom: 10px;
+}
+.dltBtn:hover {
+	color: red;
 }
 </style>
