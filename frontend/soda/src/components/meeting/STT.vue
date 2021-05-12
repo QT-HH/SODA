@@ -19,33 +19,35 @@ export default {
 				connection: this.connection,
 			});
 		},
-		sttcheck() {
-			return this.sttOn;
-		},
-	},
-	watch: {
-		sttcheck(val) {
-			this.stt = val;
-			if (this.stt == true) {
-				this.speech.init();
-			} else {
-				this.speech.stop();
-			}
-		},
+		// sttcheck() {
+		// 	console.log(1);
+		// 	return this.sttOn;
+		// },
 	},
 	data() {
 		return {
-			stt: this.sttOn,
 			chatInfo: {
 				sender: 'STT',
 				data: '',
 			},
 		};
 	},
+	watch: {
+		sttcheck() {
+			if (this.sttOn == true) {
+				this.speech.init();
+			} else {
+				this.speech.stop();
+			}
+		},
+	},
 	props: {
 		connection: Object,
 	},
 	methods: {},
+	mounted() {
+		this.speech.init();
+	},
 };
 
 class SpeechRecognitionApi {
