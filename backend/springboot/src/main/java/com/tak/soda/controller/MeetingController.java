@@ -80,7 +80,7 @@ public class MeetingController {
 	@DeleteMapping("/interviewee/del")
 	@ApiOperation(value = "면접자 삭제(면접 종료)", notes = "리스트에서 삭제함")
 	public ResponseEntity<String> delMeeting(Long u_id) {
-		meetingService.removeInterviewee(u_id);
+		meetingService.removeOne(u_id);
 
 		return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
 	}
