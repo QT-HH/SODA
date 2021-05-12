@@ -33,7 +33,7 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions(['setMeetingCode', 'setTestMeetingId']),
+		...mapActions(['setMeetingCode', 'setTestMeetingId', 'setMeetingName']),
 		createMeeting() {
 			if (this.$route.path !== '/certify') {
 				this.$router.push({ name: 'Certify' });
@@ -49,6 +49,7 @@ export default {
 				.then(res => {
 					this.setMeetingCode(res.data.name);
 					this.setTestMeetingId(res.data.id);
+					this.setMeetingName('면접자');
 					this.$router.push({ name: 'MeetingTest' });
 				})
 				.catch(err => {

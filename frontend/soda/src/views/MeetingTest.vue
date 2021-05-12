@@ -117,7 +117,7 @@ export default {
 				this.connection.videosContainer = document.querySelector(
 					'.videos-container',
 				);
-				this.connection.openOrJoin(this.meetingCode);
+				this.connection.openOrJoin(code);
 				this.userlist();
 				this.chatOnOff();
 			}
