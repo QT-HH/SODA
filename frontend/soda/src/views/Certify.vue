@@ -44,14 +44,16 @@ export default {
 		dialogOpen: false,
 	}),
 	methods: {
-		...mapActions(['setAuthCode']),
+		...mapActions(['setAuthCode', 'setMeetingName']),
 		async certify() {
 			const authCode = this.code;
 			if (this.code === null) {
 				alert('인증코드를 입력해주세요.');
 			} else {
 				await authCompany(authCode).then(res => {
+					this.setMeetingName('면접관 임시');
 					this.setAuthCode(authCode);
+
 					if (res.data) this.$router.push('/invite');
 					else this.dialogOpen = true;
 				});
