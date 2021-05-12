@@ -26,6 +26,13 @@
 			>
 				완료
 			</button>
+			<button
+				@click="dltInterviewee(interviewee.u_id)"
+				class="dltBtn"
+				id="font3"
+			>
+				삭제
+			</button>
 		</div>
 		<hr class="devider" />
 	</div>
@@ -33,6 +40,7 @@
 
 <script>
 import { editStatus } from '@/api/member.js';
+import { deleteInterviewee } from '@/api/meeting.js';
 export default {
 	name: 'Interviewee',
 	props: {
@@ -64,11 +72,21 @@ export default {
 				this.interviewee.status = status;
 			});
 		},
+		async dltInterviewee(u_id) {
+			await deleteInterviewee(u_id)
+				.then(() => {
+					console.log('삭제');
+				})
+				.catch(err => {
+					console.log(err.message);
+				});
+			this.$emit('dltUser', u_id);
+		},
 	},
 };
 </script>
 
-<style>
+<style scoped>
 .defaultBtn:hover {
 	background-color: #bbbbbb;
 	color: black;
@@ -82,7 +100,7 @@ export default {
 	color: black;
 	cursor: pointer;
 	font-size: 15px;
-	padding: 6px 20px;
+	padding: 6px 11px;
 	transition: all 200ms;
 	margin-right: 5px;
 }
@@ -99,7 +117,7 @@ export default {
 	color: white;
 	cursor: pointer;
 	font-size: 15px;
-	padding: 6px 20px;
+	padding: 6px 11px;
 	transition: all 200ms;
 	margin-right: 5px;
 }
@@ -116,7 +134,7 @@ export default {
 	color: white;
 	cursor: pointer;
 	font-size: 15px;
-	padding: 6px 20px;
+	padding: 6px 11px;
 	transition: all 200ms;
 	margin-right: 5px;
 }
@@ -133,7 +151,7 @@ export default {
 	color: white;
 	cursor: pointer;
 	font-size: 15px;
-	padding: 6px 20px;
+	padding: 6px 11px;
 	transition: all 200ms;
 	margin-right: 5px;
 }
@@ -141,5 +159,22 @@ export default {
 	border-color: #dddddd;
 	width: 220px;
 	margin-bottom: 10px;
+}
+.dltBtn:hover {
+	background-color: red;
+	color: white;
+	outline: 0;
+}
+.dltBtn:focus {
+	outline: none;
+}
+.dltBtn {
+	background-color: white;
+	color: black;
+	cursor: pointer;
+	font-size: 15px;
+	padding: 6px 11px;
+	transition: all 200ms;
+	margin-right: 5px;
 }
 </style>

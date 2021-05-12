@@ -36,6 +36,15 @@ public class MeetingMemberRepository {
     }
 
     @Transactional
+    public void deleteByU_Id(Long u_id) {
+        String qlString = "DELETE FROM MeetingMember mm where mm.member.id=:u_id";
+
+        em.createQuery(qlString)
+                .setParameter("u_id", u_id)
+                .executeUpdate();
+    }
+    
+    @Transactional
     public void deleteById(Long mu_id) {
         String qlString = "DELETE FROM MeetingMember mm where mm.id=:mu_id";
 

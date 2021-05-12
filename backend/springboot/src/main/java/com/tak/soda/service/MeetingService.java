@@ -81,10 +81,15 @@ public class MeetingService {
 	}
 
 	/**
-	 * 면접방 폭파
+	 * 면접자 삭제
 	 * @param u_id
 	 */
-	public void removeInterviewee(Long u_id) {
+	public void removeOne(Long u_id) {
+		meetingMemberRepository.deleteByU_Id(u_id);
+	}
+	
+	
+	private void removeInterviewee(Long u_id) {
 		meetingMemberRepository.deleteById(u_id);
 	}
 
