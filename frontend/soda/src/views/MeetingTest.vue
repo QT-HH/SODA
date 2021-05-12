@@ -28,7 +28,7 @@
 		<STT :connection="connection"></STT>
 
 		<div class="footer">
-			<MeetingBottomBar
+			<TestMeetingBottomBar
 				@userlist="userlist"
 				@outRoom="outRoom"
 				@voiceOn="voiceOn"
@@ -36,7 +36,7 @@
 				@screenOn="screenOn"
 				@screenOff="screenOff"
 				@chatOnOff="chatOnOff"
-			></MeetingBottomBar>
+			></TestMeetingBottomBar>
 		</div>
 	</div>
 </template>

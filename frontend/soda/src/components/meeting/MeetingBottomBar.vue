@@ -1,31 +1,31 @@
 <template>
 	<div class="footerBox">
 		<v-footer padless color="#e0dcdd">
-			<button class="btn1" @click="audio">
-				<i :class="this.audioIcon"> </i>
+			<button class="btn1" @click="audio" v-bind="attrs" v-on="on">
+				<i :class="audioIcon"> </i>
 				<span id="font2">
 					{{ isAudio ? '음소거' : '음소거 해제' }}
 				</span>
 			</button>
-			<button class="btn1" @click="video">
-				<i :class="this.videoIcon"> </i>
+			<button class="btn1" @click="video" v-bind="attrs" v-on="on">
+				<i :class="videoIcon"> </i>
 				<span id="font2">
 					{{ isVideo ? '비디오 끄기' : '비디오 켜기' }}
 				</span>
 			</button>
-			<button class="btn1" @click="subtitle">
-				<i :class="this.subtitleIcon"> </i>
+			<button class="btn1" @click="subtitle" v-bind="attrs" v-on="on">
+				<i :class="subtitleIcon"> </i>
 				<span id="font2">
 					{{ isSubtitle ? '자막 끄기' : '자막 켜기' }}
 				</span>
 			</button>
-			<button class="btn1" @click="chatting">
-				<i :class="this.chattingIcon"> </i>
+			<button class="btn1" @click="chatting" v-bind="attrs" v-on="on">
+				<i :class="chattingIcon"> </i>
 				<span id="font2">
 					{{ isChatting ? '채팅창 끄기' : '채팅창 열기' }}
 				</span>
 			</button>
-			<button class="btn2" @click="outRoom">
+			<button class="btn2" @click="outRoom" v-bind="attrs" v-on="on">
 				<i class="fas fa-sign-out-alt"></i>
 				<span id="font2">면접 종료</span>
 			</button>
@@ -34,44 +34,7 @@
 </template>
 
 <script>
-// class SpeechRecognitionApi {
-// 	constructor(options) {
-// 		const SpeechToText =
-// 			window.speechRecognition || window.webkitSpeechRecognition;
-// 		this.speechApi = new SpeechToText();
-// 		this.output = options.output
-// 			? options.output
-// 			: document.createElement('div');
-// 		this.speechApi.continuous = true;
-// 		this.speechApi.interimResult = false;
-// 		this.speechApi.onresult = event => {
-// 			var resultIndex = event.resultIndex;
-// 			var transcript = event.results[resultIndex][0].transcript;
-// 			console.log(transcript);
-// 			this.output.textContent = transcript;
-// 		};
-// 	}
-// 	init() {
-// 		this.speechApi.start();
-// 	}
-// 	stop() {
-// 		this.speechApi.stop();
-// 	}
-// }
-
-// window.onload = function () {
-// 	var f = false;
-// 	var speech = new SpeechRecognitionApi({
-// 		output: document.querySelector('.output'),
-// 	});
-// 	document.querySelector('.btn-start').addEventListener('click', () => {
-// 		f = !f;
-// 		if (f) speech.init();
-// 		else speech.stop();
-// 	});
-// };
 import { mapState, mapActions } from 'vuex';
-
 export default {
 	name: 'MeetingBottomBar',
 	computed: {
@@ -119,6 +82,7 @@ export default {
 		},
 		subtitle() {
 			this.isSubtitle = !this.isSubtitle;
+			this.$emit('sttOnOff');
 			if (this.isSubtitle) {
 				this.subtitleIcon = 'fas fa-closed-captioning greenColor';
 				this.STTOnOff(true);
@@ -156,7 +120,6 @@ export default {
 }
 .btn1 {
 	background-color: white;
-	/* border: 2px solid black; */
 	border-radius: 30px;
 	color: black;
 	cursor: pointer;
