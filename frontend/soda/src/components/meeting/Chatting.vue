@@ -97,8 +97,6 @@ export default {
 }
 .inputBtn {
 	background-color: #cccccc;
-	/* border: 2px solid black; */
-	/* border-radius: 30px; */
 	color: black;
 	cursor: pointer;
 	font-size: 13px;

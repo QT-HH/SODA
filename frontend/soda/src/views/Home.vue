@@ -6,7 +6,6 @@
 			<p>주요 기술</p>
 			<p>사용 가이드</p>
 		</ul>
-		<!-- <p v-show="scroll0" class="arrow"><span></span></p> -->
 		<button button="type" class="topBtn" id="font3">TOP</button>
 		<section class="bgimg">
 			<div class="page1content">
@@ -218,22 +217,8 @@ export default {
 				});
 			});
 		},
-		showArrow() {
-			if (
-				document.body.scrollTop > 100 ||
-				document.documentElement.scrollTop > 100
-			) {
-				this.scroll0 = false;
-			} else {
-				this.scroll0 = true;
-			}
-		},
 	},
 	mounted() {
-		// window.onscroll = () => {
-		// 	this.showArrow();
-		// };
-
 		this.start();
 	},
 };

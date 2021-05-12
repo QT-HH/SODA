@@ -50,17 +50,12 @@ export default {
 		this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 		this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
 		this.connection.connectSocket();
-		// this.updateInterval();
 	},
 	beforeDestroy() {
-		// clearInterval(this.updateInterval);
 		this.connection.closeSocket();
 		this.connection = null;
 	},
 	methods: {
-		// updateInterval() {
-		// 	setInterval(this.updateRoomList, 3000);
-		// },
 		updateRoomList() {
 			this.connection.socket.emit(
 				'get-public-rooms',

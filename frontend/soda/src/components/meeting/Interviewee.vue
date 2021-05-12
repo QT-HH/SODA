@@ -76,8 +76,6 @@ export default {
 }
 .defaultBtn {
 	background-color: white;
-	/* border: 2px solid black; */
-	/* border-radius: 30px; */
 	color: black;
 	cursor: pointer;
 	font-size: 15px;
@@ -95,8 +93,6 @@ export default {
 }
 .done {
 	background-color: #616161;
-	/* border: 2px solid black; */
-	/* border-radius: 30px; */
 	color: white;
 	cursor: pointer;
 	font-size: 15px;
@@ -114,8 +110,6 @@ export default {
 }
 .plan {
 	background-color: #f9a825;
-	/* border: 2px solid black; */
-	/* border-radius: 30px; */
 	color: white;
 	cursor: pointer;
 	font-size: 15px;
@@ -133,8 +127,6 @@ export default {
 }
 .progress {
 	background-color: #388e3c;
-	/* border: 2px solid black; */
-	/* border-radius: 30px; */
 	color: white;
 	cursor: pointer;
 	font-size: 15px;

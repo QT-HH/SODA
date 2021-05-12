@@ -97,7 +97,6 @@ export default {
 				this.connection = new RTCMultiConnection();
 				this.connection.userid = this.meetingName;
 				this.chatInfo.sender = this.meetingName;
-				// this.connection.autoCloseEntireSession = true;
 				this.connection.socketMessageEvent = code;
 				this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 				this.connection.session = {
@@ -105,8 +104,6 @@ export default {
 					video: true,
 					data: true,
 				};
-
-				// this.connection.onmessage = this.appendDIV;
 				this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
 				this.connection.sdpConstraints.mandatory = {
 					OfferToReceiveAudio: true,
@@ -131,7 +128,6 @@ export default {
 				this.userlist();
 				this.chatOnOff();
 				if (!!this.connection) {
-					// this.connection.onstreamended = null;
 					this.connection.getAllParticipants().forEach(participantId => {
 						this.connection.disconnectWith(participantId);
 					});
