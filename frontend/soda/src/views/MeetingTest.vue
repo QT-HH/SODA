@@ -1,27 +1,12 @@
 <template>
 	<div class="bgcolor">
-		<div v-show="isChat" id="chat-container" class="chatBox">
-			<div class="chat-output"></div>
-			<div class="chat-input">
-				<input
-					type="text"
-					id="input-text-chat"
-					class="comp"
-					placeholder="Enter Text Chat"
-					v-model="chatInfo.data"
-					@keyup.enter="inputChat"
-					style="width: 70%; left: 0px"
-				/>
-				<v-btn
-					depressed
-					small
-					class="comp"
-					@click="inputChat"
-					style="width: 30%; right: 0px"
-					>입력</v-btn
-				>
-			</div>
-		</div>
+		<Chatting
+			v-show="isChat"
+			id="chat-container"
+			class="chatBox"
+			:connection="connection"
+		></Chatting>
+
 		<v-sheet class="overflow-hidden bgcolor" style="position: relative">
 			<v-container class="fill-height bgcolor">
 				<v-row align="center" justify="center">
@@ -32,14 +17,19 @@
 							controls
 							muted
 							src="https://ifh.cc/v/CA0iFG.mp4"
+							controlsList="nodownload"
+							class="videoExample"
 						></video>
 					</div>
 				</v-row>
 			</v-container>
 		</v-sheet>
+
+		<STT :connection="connection"></STT>
+
 		<div class="footer">
 			<TestMeetingBottomBar
-				v-if="streaming"
+				@userlist="userlist"
 				@outRoom="outRoom"
 				@voiceOn="voiceOn"
 				@voiceOff="voiceOff"
@@ -48,7 +38,6 @@
 				@chatOnOff="chatOnOff"
 			></TestMeetingBottomBar>
 		</div>
-		<!-- <MeetingUser v-if="isUser"></MeetingUser> -->
 	</div>
 </template>
 
@@ -56,55 +45,56 @@
 <script src="https://rtcmulticonnection.herokuapp.com/socket.io/socket.io.js"></script>
 
 <script>
-import TestMeetingBottomBar from '@/components/meeting/TestMeetingBottomBar.vue';
-import { createTestMeeting, deleteTestMeeting } from '@/api/meeting.js';
-
+import { mapState, mapActions } from 'vuex';
+import MeetingBottomBar from '@/components/meeting/MeetingBottomBar.vue';
+import Chatting from '@/components/meeting/Chatting.vue';
+import IntervieweeList from '@/components/meeting/IntervieweeList.vue';
+import STT from '@/components/meeting/STT.vue';
+import { deleteTestMeeting } from '@/api/meeting.js';
 export default {
 	components: {
-		TestMeetingBottomBar,
+		MeetingBottomBar,
+		Chatting,
+		IntervieweeList,
+		STT,
 	},
 	data() {
 		return {
 			isUser: false,
 			isChat: false,
-			roomid: '',
+			meetingStart: false,
 			connection: null,
-			streaming: false,
-			chatting: false,
 			chatInfo: {
 				data: '',
-				sender: null,
+				sender: '',
 			},
-			participants: Array,
-			publicRoomIdentifier: 'sodasodatest',
-			room_id: null,
+			publicRoomIdentifier: 'sodasodaTest',
+			mention: String,
 		};
 	},
-	async mounted() {
-		createTestMeeting()
-			.then(res => {
-				// console.log(res.data);
-				this.room_id = res.data.id;
-				this.openRoom(res.data.name);
-			})
-			.catch(err => {
-				console.log(err.message);
-			});
+	computed: {
+		...mapState(['meetingOn', 'meetingCode', 'meetingName', 'testMeetingId']),
+	},
+	created() {
+		this.setRoom(this.meetingCode);
+	},
+	mounted() {
+		this.openRoom(this.meetingCode);
 	},
 	beforeDestroy() {
 		this.outRoom();
 	},
 	methods: {
-		async openRoom(code) {
+		...mapActions(['meetingOnOff', 'setMeetingCode']),
+		setRoom(code) {
 			if (!!code) {
-				this.roomid = code;
+				this.meetingOnOff();
 				this.meetingStart = !this.meetingStart;
-				this.streaming = !this.streaming;
-				this.$store.state.meetingOn = this.streaming;
 				this.connection = new RTCMultiConnection();
-				this.chatInfo.sender = this.connection.userid;
+				this.connection.userid = this.meetingName;
+				this.chatInfo.sender = this.meetingName;
 				// this.connection.autoCloseEntireSession = true;
-				this.connection.socketMessageEvent = this.roomid;
+				this.connection.socketMessageEvent = code;
 				this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
 				this.connection.session = {
 					audio: true,
@@ -112,26 +102,33 @@ export default {
 					data: true,
 				};
 
-				this.connection.onmessage = this.appendDIV;
+				// this.connection.onmessage = this.appendDIV;
 				this.connection.socketURL = `https://rtcmulticonnection.herokuapp.com:443/`;
 				this.connection.sdpConstraints.mandatory = {
 					OfferToReceiveAudio: true,
 					OfferToReceiveVideo: true,
 				};
+				this.connection.onstream = this.onStream;
+				this.connection.onstreamended = this.onStreamEnded;
+			}
+		},
+		openRoom(code) {
+			if (!!code) {
 				this.connection.videosContainer = document.querySelector(
 					'.videos-container',
 				);
-				this.connection.openOrJoin(this.roomid);
+				this.connection.openOrJoin(code);
+				this.userlist();
 				this.chatOnOff();
-				this.notify('입장');
 			}
 		},
 		outRoom() {
-			deleteTestMeeting(this.room_id)
-				.then(res => {
-					// console.log(res);
+			deleteTestMeeting(this.testMeetingId)
+				.then(() => {
+					this.userlist();
+					this.chatOnOff();
 					if (!!this.connection) {
-						this.chatOnOff();
+						// this.connection.onstreamended = null;
 						this.connection.getAllParticipants().forEach(participantId => {
 							this.connection.disconnectWith(participantId);
 						});
@@ -142,20 +139,17 @@ export default {
 
 						this.connection.closeSocket();
 						this.connection = null;
-						this.streaming = !this.streaming;
-						this.roomid = '';
-						this.$store.state.meetingOn = this.streaming;
-						this.$store.state.meetingCode = '';
-						this.$router.push('/');
-						var el = document.getElementById('apdiv');
+						this.meetingOnOff();
+						this.setMeetingCode('');
+						this.$router.push('/attend');
+						let el = document.getElementById('apdiv');
 						if (!!el) {
 							el.remove();
 						}
-						this.notify('퇴장');
 					}
 				})
 				.catch(err => {
-					console.log(err.message);
+					console.log(err);
 				});
 		},
 		screenOff() {
@@ -174,6 +168,12 @@ export default {
 			const event = this.findMyVideo();
 			event.stream.unmute('audio');
 		},
+		chatOnOff() {
+			this.isChat = !this.isChat;
+		},
+		userlist() {
+			this.isUser = !this.isUser;
+		},
 		findMyVideo() {
 			let events = this.connection.streamEvents.selectAll();
 			let event = events.find(event => {
@@ -181,36 +181,29 @@ export default {
 			});
 			return event;
 		},
-		chatOnOff() {
-			this.isChat = !this.isChat;
+		onStream(event) {
+			let video = event.mediaElement;
+			video.id = event.streamid;
+			video.controls = false;
+			this.connection.videosContainer.insertBefore(
+				video,
+				this.connection.videosContainer.firstChild,
+			);
+			this.notify('입장');
 		},
-		inputChat() {
-			const myChat = {
-				data: this.chatInfo,
-			};
-			if (!!myChat.data.data) {
-				this.connection.send(myChat.data);
-				this.appendDIV(myChat);
-				this.chatInfo.data = '';
+		onStreamEnded(event) {
+			let video = document.getElementById(event.streamid);
+			if (video && video.parentNode) {
+				video.parentNode.removeChild(video);
 			}
-		},
-		appendDIV(event) {
-			const chatContainer = document.querySelector('.chat-output');
-			let div = document.createElement('div');
-			div.setAttribute('id', 'apdiv');
-			div.innerHTML = `${event.data.sender} : ${event.data.data}`;
-			chatContainer.insertBefore(div, chatContainer.firstchild);
-			div.tabIndex = 0;
-			div.focus();
-
-			document.getElementById('input-text-chat').focus();
+			this.notify('퇴장');
 		},
 		notify(mention) {
 			if (Notification.permission !== 'granted') {
 				alert(`모의면접을 ${mention}하셨습니다.`);
 			} else {
-				const notification = new Notification(`모의면접 ${mention}`, {
-					icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+				const notification = new Notification(`면접 ${mention}`, {
+					icon: 'https://i.ibb.co/wypPBQx/sodalogo.png',
 					body: `모의면접을 ${mention}하셨습니다.`,
 				});
 			}
@@ -226,18 +219,6 @@ export default {
 	float: left;
 	background-color: white;
 	padding: 100%, 0%;
-}
-.chat-output {
-	height: 95%;
-	overflow-y: auto;
-}
-.chat-input {
-	position: relative;
-	height: 5%;
-}
-.chat-input .comp {
-	position: absolute;
-	bottom: 0px;
 }
 .bgcolor {
 	background-color: #e0dcdd;
@@ -263,5 +244,8 @@ export default {
 }
 .contentBox {
 	height: 75%;
+}
+.divLocation {
+	top: 100px;
 }
 </style>

@@ -125,10 +125,14 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 import { authCompany } from '@/api/company.js';
 import { sendMeetingCode } from '@/api/member.js';
 export default {
 	name: 'InvitePage',
+	computed: {
+		...mapState(['auth_code']),
+	},
 	data: () => {
 		return {
 			inputsmg: 0,
@@ -148,9 +152,10 @@ export default {
 		};
 	},
 	created() {
-		this.getCompanyInfo(this.$store.state.auth_code);
+		this.getCompanyInfo(this.auth_code);
 	},
 	methods: {
+		...mapActions(['setMeetingCode', 'setIsSuperUser']),
 		addMG() {
 			const email = this.firemailmg;
 			const name = this.namemg;
@@ -209,7 +214,8 @@ export default {
 				names: this.namesmj,
 				role: '면접자',
 			});
-			this.$store.state.meetingCode = this.inviteCode;
+			this.setMeetingCode(this.inviteCode);
+			this.setIsSuperUser(true);
 			this.$router.push('/meeting');
 		},
 	},

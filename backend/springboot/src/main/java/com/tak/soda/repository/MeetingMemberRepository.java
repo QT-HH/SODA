@@ -1,8 +1,10 @@
 package com.tak.soda.repository;
 
+import com.tak.soda.domain.Company;
 import com.tak.soda.domain.MeetingMember;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -33,4 +35,17 @@ public class MeetingMemberRepository {
                 .getSingleResult();
     }
 
+    @Transactional
+    public void deleteById(Long mu_id) {
+        String qlString = "DELETE FROM MeetingMember mm where mm.id=:mu_id";
+
+        em.createQuery(qlString)
+                .setParameter("mu_id", mu_id)
+                .executeUpdate();
+
+//        em.createQuery("DELETE FROM Member m where m.id=:u_id")
+//                .setParameter("u_id", u_id)
+//                .executeUpdate();
+
+    }
 }

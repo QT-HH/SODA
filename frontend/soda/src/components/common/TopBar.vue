@@ -22,6 +22,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+import { createTestMeeting } from '@/api/meeting.js';
+
 export default {
 	name: 'TopBar',
 	data() {
@@ -30,6 +33,7 @@ export default {
 		};
 	},
 	methods: {
+		...mapActions(['setMeetingCode', 'setTestMeetingId', 'setMeetingName']),
 		createMeeting() {
 			if (this.$route.path !== '/certify') {
 				this.$router.push({ name: 'Certify' });
@@ -40,10 +44,19 @@ export default {
 				this.$router.push({ name: 'Attend' });
 			}
 		},
-		goSimulatedMeeting() {
-			if (this.$route.path !== '/meetingtest') {
-				this.$router.push({ name: 'MeetingTest' });
-			}
+		async goSimulatedMeeting() {
+			await createTestMeeting()
+				.then(res => {
+					this.setMeetingCode(res.data.name);
+					this.setTestMeetingId(res.data.id);
+					this.setMeetingName('면접자');
+					this.$router.push({ name: 'MeetingTest' });
+				})
+				.catch(err => {
+					console.log(err.message);
+				});
+			// setTimeout(() => {
+			// }, 200);
 		},
 		goRegister() {
 			if (this.$route.path !== '/register') {

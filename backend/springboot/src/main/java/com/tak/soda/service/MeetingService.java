@@ -1,10 +1,10 @@
 package com.tak.soda.service;
 
+import com.tak.soda.domain.Meeting;
 import com.tak.soda.domain.MeetingMember;
+import com.tak.soda.domain.Member;
 import com.tak.soda.domain.MemberStatus;
 import com.tak.soda.domain.dto.IntervieweeDto;
-import com.tak.soda.domain.Meeting;
-import com.tak.soda.domain.Member;
 import com.tak.soda.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -82,12 +82,17 @@ public class MeetingService {
 
 	/**
 	 * 면접방 폭파
-	 * @param inviteCode
+	 * @param u_id
 	 */
-	public long removeMeeting(String inviteCode) {
-		long id = meetingRepository.deleteByInviteCode(inviteCode);
-
-		return id;
+	public void removeInterviewee(Long u_id) {
+		meetingMemberRepository.deleteById(u_id);
 	}
 
+	public void removeAllInterviewees(String inviteCode) {
+		List<IntervieweeDto> members = intervieweeRepository.findMemberByInviteCode(inviteCode);
+
+		for(IntervieweeDto member: members) {
+			removeInterviewee(member.getMm_id());
+		}
+	}
 }

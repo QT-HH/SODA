@@ -48,6 +48,7 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 import { attendMeeting } from '@/api/meeting.js';
 
 export default {
@@ -61,6 +62,7 @@ export default {
 		};
 	},
 	methods: {
+		...mapActions(['setMeetingCode', 'setMeetingName', 'setIsSuperUser']),
 		guestbtn() {
 			// 이메일&인증코드 유효성 확인
 			if (this.inputSessionId == '' || this.inputCertifycode == '') {
@@ -84,6 +86,7 @@ export default {
 								alert('순서를 기다려주세요.');
 								break;
 							case 'PROGRESS':
+								this.setMeetingName(stat[2]);
 								this.openOrJoin(this.inputCertifycode);
 								break;
 							case 'DONE':
@@ -91,6 +94,8 @@ export default {
 								break;
 						}
 					} else {
+						this.setMeetingName(stat[1]);
+						this.setIsSuperUser(true);
 						this.openOrJoin(this.inputCertifycode);
 					}
 				})
@@ -99,7 +104,7 @@ export default {
 				});
 		},
 		openOrJoin(meetingCode) {
-			this.$store.state.meetingCode = meetingCode;
+			this.setMeetingCode(meetingCode);
 			this.$router.push('/meeting');
 		},
 	},

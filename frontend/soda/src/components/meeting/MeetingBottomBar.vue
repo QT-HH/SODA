@@ -34,8 +34,18 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 export default {
 	name: 'MeetingBottomBar',
+	computed: {
+		...mapState(['sttOn']),
+		divClasses: function () {
+			return {
+				'fas fa-volume-up': this.isAudio,
+				'fas fa-volume-mute': !this.isAudio,
+			};
+		},
+	},
 	data() {
 		return {
 			isAudio: false,
@@ -49,6 +59,7 @@ export default {
 		};
 	},
 	methods: {
+		...mapActions(['STTOnOff']),
 		audio() {
 			this.isAudio = !this.isAudio;
 			if (this.isAudio) {
@@ -74,10 +85,12 @@ export default {
 			this.$emit('sttOnOff');
 			if (this.isSubtitle) {
 				this.subtitleIcon = 'fas fa-closed-captioning greenColor';
-				this.$store.state.sttOn = true;
+				this.STTOnOff(true);
+				console.log('켜기' + this.sttOn);
 			} else {
 				this.subtitleIcon = 'far fa-closed-captioning redColor';
-				this.$store.state.sttOn = false;
+				this.STTOnOff(false);
+				console.log('끄기' + this.sttOn);
 			}
 		},
 		chatting() {
@@ -91,14 +104,6 @@ export default {
 		},
 		outRoom() {
 			this.$emit('outRoom');
-		},
-	},
-	computed: {
-		divClasses: function () {
-			return {
-				'fas fa-volume-up': this.isAudio,
-				'fas fa-volume-mute': !this.isAudio,
-			};
 		},
 	},
 };

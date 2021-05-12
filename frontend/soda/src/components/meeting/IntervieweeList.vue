@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import { intervieweeOfMeeting } from '@/api/meeting.js';
 import Interviewee from '@/components/meeting/Interviewee.vue';
 
@@ -36,6 +37,9 @@ export default {
 	components: {
 		Interviewee,
 	},
+	computed: {
+		...mapState(['meetingCode']),
+	},
 	data() {
 		return {
 			intervieweeList: Array,
@@ -43,7 +47,7 @@ export default {
 		};
 	},
 	mounted() {
-		const roomid = this.$store.state.meetingCode;
+		const roomid = this.meetingCode;
 		intervieweeOfMeeting(roomid)
 			.then(res => {
 				this.intervieweeList = res.data;
