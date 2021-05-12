@@ -99,11 +99,11 @@
 				</v-row>
 			</div>
 
-			<p class="content important" style="font-size: xx-large">WebRTC + STT</p>
+			<!-- <p class="content important" style="font-size: xx-large">WebRTC + STT</p>
 			<p class="content" style="font-size: x-large">
 				<span style="color: navy; font-weight: bold">SODA</span>는 WebRTC와 STT
 				기능을 사용하여 화상면접에 자막기능을 추가하였습니다. ~~~~~~~
-			</p>
+			</p> -->
 		</section>
 		<section class="bgcolor">
 			<h1 style="margin-bottom: 70px">
@@ -112,7 +112,42 @@
 			<v-row>
 				<v-col style="padding: 0px">
 					<div class="interviewer">
-						<h1 style="padding-top: 20px">면접관</h1>
+						<h1 style="padding-top: 20px; padding-bottom: 50px">면접관</h1>
+						<v-card flat tile>
+							<v-window v-model="onboarding" reverse>
+								<v-window-item v-for="n in interviewerimg" :key="`card-${n}`">
+									<v-card color="grey" height="500">
+										<v-row class="fill-height" align="center" justify="center">
+											<img :src="n" style="width: 500px" alt="" />
+										</v-row>
+									</v-card>
+								</v-window-item>
+							</v-window>
+
+							<v-card-actions class="justify-space-between">
+								<v-btn text @click="prev">
+									<i class="fas fa-chevron-left"></i>
+								</v-btn>
+								<v-item-group
+									v-model="onboarding"
+									class="text-center"
+									mandatory
+								>
+									<v-item
+										v-for="n in length"
+										:key="`btn-${n}`"
+										v-slot="{ active, toggle }"
+									>
+										<v-btn :input-value="active" icon @click="toggle">
+											<i class="fas fa-circle"></i>
+										</v-btn>
+									</v-item>
+								</v-item-group>
+								<v-btn text @click="next">
+									<i class="fas fa-chevron-right"></i>
+								</v-btn>
+							</v-card-actions>
+						</v-card>
 					</div>
 				</v-col>
 				<v-col style="padding: 0px">
@@ -136,9 +171,24 @@ export default {
 			error: null,
 			isRun: true,
 			scroll0: true,
+			length: 3,
+			onboarding: 0,
+			interviewerimg: [
+				'https://i.ibb.co/XFx69N4/image.png',
+				'https://i.ibb.co/Msz6tCF/image.png',
+				'https://i.ibb.co/PTGQ4g5/image.png',
+			],
 		};
 	},
 	methods: {
+		next() {
+			this.onboarding =
+				this.onboarding + 1 === this.length ? 0 : this.onboarding + 1;
+		},
+		prev() {
+			this.onboarding =
+				this.onboarding - 1 < 0 ? this.length - 1 : this.onboarding - 1;
+		},
 		createMeeting() {
 			this.$router.push({ name: 'Certify' });
 		},
@@ -377,7 +427,7 @@ button:focus {
 }
 .important {
 	display: inline;
-	box-shadow: inset 0 -40px 0 #fff2ab;
+	box-shadow: inset 0 -40px 0 #c0ff96;
 	margin: 0px;
 	padding: 3px;
 }
