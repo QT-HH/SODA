@@ -195,7 +195,7 @@ export default {
 		},
 		async getCompanyInfo(code) {
 			const res = await authCompany(code);
-			this.setMeetingName(res.data[0]);
+			this.setMeetingName(`${res.data[0]} (면접관)`);
 			this.cname = res.data[1];
 			this.inviteCode = res.data[2];
 		},

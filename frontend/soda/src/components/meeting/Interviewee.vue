@@ -1,6 +1,9 @@
 <template>
 	<div>
-		<p>{{ interviewee.u_name }} ({{ interviewee.u_email }})</p>
+		<p>
+			{{ interviewee.u_name }} <br />
+			({{ interviewee.u_email }})
+		</p>
 		<div class="pb-5 interviewItem">
 			<button
 				@click="changeStatus(interviewee.mm_id, 'PLAN')"
