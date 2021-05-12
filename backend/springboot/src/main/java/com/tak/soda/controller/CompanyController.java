@@ -121,12 +121,12 @@ public class CompanyController {
 
 		if(company != null) {
 			inviteCode = companyService.findInviteCode(member.getId());
-			res = new String[] {company.getName(), inviteCode};
+			res = new String[] {member.getName(), company.getName(), inviteCode};
 
 			return new ResponseEntity(res, HttpStatus.OK);
 		}
 
-		res = new String[] {company.getName(), inviteCode};
+		res = new String[] { member.getName(), company.getName(), inviteCode};
 		return new ResponseEntity(res, HttpStatus.OK);
 	}
 
