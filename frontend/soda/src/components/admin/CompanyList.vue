@@ -36,9 +36,7 @@ export default {
 	},
 	async created() {
 		const company = await companyList();
-		// console.log(company);
 		this.companyList = company.data;
-		console.log(this.companyList);
 	},
 };
 </script>

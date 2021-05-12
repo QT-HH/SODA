@@ -70,14 +70,12 @@ export default {
 			const companyInfo = this.company;
 			const email = companyInfo.email;
 			const u_id = companyInfo.u_id;
-			// console.log(companyInfo);
 			await approveEmail(email, u_id);
 			this.dialog = false;
 		},
 		async reject() {
 			const companyInfo = this.company;
 			const email = companyInfo.email;
-			// console.log(email);
 			await rejectEmail(email);
 			this.dialog = false;
 		},

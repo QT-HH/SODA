@@ -55,8 +55,6 @@ export default {
 				.catch(err => {
 					console.log(err.message);
 				});
-			// setTimeout(() => {
-			// }, 200);
 		},
 		goRegister() {
 			if (this.$route.path !== '/register') {
