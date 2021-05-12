@@ -202,7 +202,6 @@ export default {
 		},
 		sttOnOff() {
 			this.isStt = !this.isStt;
-			console.log('123412341241234', this.isStt);
 		},
 	},
 };

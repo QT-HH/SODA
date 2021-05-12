@@ -199,7 +199,6 @@ export default {
 			this.inviteCode = res.data[1];
 		},
 		async postInviteCode() {
-			console.log('되니' + this.inviteCode);
 			await sendMeetingCode({
 				cname: this.cname,
 				emails: this.emailsmg,
