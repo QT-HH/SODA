@@ -60,6 +60,7 @@ export default {
 		this.setRoom(this.meetingCode);
 	},
 	mounted() {
+		console.log(this.meetingCode);
 		this.openRoom(this.meetingCode);
 	},
 	beforeDestroy() {
