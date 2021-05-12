@@ -64,7 +64,7 @@ class SpeechRecognitionApi {
 			var transcript = event.results[resultIndex][0].transcript;
 			let chatInfo = {
 				type: 'STT',
-				sender: connection.userid,
+				sender: connection.username,
 				data: transcript,
 			};
 			this.inputChat(connection, chatInfo);

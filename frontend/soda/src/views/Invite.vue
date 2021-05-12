@@ -155,7 +155,7 @@ export default {
 		this.getCompanyInfo(this.auth_code);
 	},
 	methods: {
-		...mapActions(['setMeetingCode', 'setIsSuperUser']),
+		...mapActions(['setMeetingCode', 'setIsSuperUser', 'setMeetingName']),
 		addMG() {
 			const email = this.firemailmg;
 			const name = this.namemg;
@@ -195,8 +195,9 @@ export default {
 		},
 		async getCompanyInfo(code) {
 			const res = await authCompany(code);
-			this.cname = res.data[0];
-			this.inviteCode = res.data[1];
+			this.setMeetingName(res.data[0]);
+			this.cname = res.data[1];
+			this.inviteCode = res.data[2];
 		},
 		async postInviteCode() {
 			await sendMeetingCode({
@@ -212,6 +213,8 @@ export default {
 				inviteCode: this.inviteCode,
 				names: this.namesmj,
 				role: '면접자',
+			}).catch(err => {
+				console.log(err.message);
 			});
 			this.setMeetingCode(this.inviteCode);
 			this.setIsSuperUser(true);
