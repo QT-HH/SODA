@@ -14,7 +14,15 @@ export default new Vuex.Store({
 		meetingCode: String,
 		meetingName: String,
 		auth_code: String,
+		loader: {
+			load: false,
+		},
 	},
 	mutations,
 	actions,
+	getters: {
+		getLoader(state) {
+			return state.loader.load;
+		},
+	},
 });
