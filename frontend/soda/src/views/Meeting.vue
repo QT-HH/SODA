@@ -67,7 +67,6 @@ export default {
 		this.setRoom(this.meetingCode);
 	},
 	mounted() {
-		console.log(this.meetingCode);
 		this.openRoom(this.meetingCode);
 	},
 	beforeDestroy() {
@@ -75,7 +74,7 @@ export default {
 	},
 	data() {
 		return {
-			isUser: false,
+			isUser: true,
 			isChat: false,
 			meetingStart: false,
 			connection: null,
@@ -118,12 +117,9 @@ export default {
 					'.videos-container',
 				);
 				this.connection.openOrJoin(code);
-				this.userlist();
 			}
 		},
 		outRoom() {
-			this.userlist();
-			this.chatOnOff();
 			this.setIsSuperUser(false);
 			if (!!this.connection) {
 				this.connection.getAllParticipants().forEach(participantId => {
