@@ -59,9 +59,10 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions(['STTOnOff']),
+		...mapActions(['STTshow', 'STTsend']),
 		audio() {
 			this.isAudio = !this.isAudio;
+			this.STTsend();
 			if (this.isAudio) {
 				this.audioIcon = 'fas fa-volume-up greenColor';
 				this.$emit('voiceOn');
@@ -82,13 +83,11 @@ export default {
 		},
 		subtitle() {
 			this.isSubtitle = !this.isSubtitle;
-			this.$emit('sttOnOff');
+			this.STTshow();
 			if (this.isSubtitle) {
 				this.subtitleIcon = 'fas fa-closed-captioning greenColor';
-				this.STTOnOff(true);
 			} else {
 				this.subtitleIcon = 'far fa-closed-captioning redColor';
-				this.STTOnOff(false);
 			}
 		},
 		chatting() {

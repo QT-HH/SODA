@@ -12,17 +12,14 @@
 import { mapState } from 'vuex';
 export default {
 	computed: {
-		...mapState(['sttOn']),
+		...mapState(['sttOn', 'sendSTT']),
 		speech() {
 			return new SpeechRecognitionApi({
 				output: document.querySelector('.output'),
 				connection: this.connection,
+				sendSTT: false,
 			});
 		},
-		// sttcheck() {
-		// 	console.log(1);
-		// 	return this.sttOn;
-		// },
 	},
 	data() {
 		return {
@@ -40,19 +37,24 @@ export default {
 				this.speech.stop();
 			}
 		},
+		sendSTT() {
+			if (this.sendSTT) {
+				this.speech.init();
+			} else {
+				this.speech.stop();
+			}
+		},
 	},
 	props: {
 		connection: Object,
 	},
 	methods: {},
-	mounted() {
-		this.speech.init();
-	},
 };
 
 class SpeechRecognitionApi {
 	constructor(options) {
 		const connection = options.connection;
+		this.sendSTT = options.sendSTT;
 		const SpeechToText =
 			window.speechRecognition || window.webkitSpeechRecognition;
 		this.speechApi = new SpeechToText();
@@ -73,9 +75,11 @@ class SpeechRecognitionApi {
 		};
 	}
 	init() {
+		console.log('start');
 		this.speechApi.start();
 	}
 	stop() {
+		console.log('stop');
 		this.speechApi.stop();
 	}
 	inputChat(connection, chatInfo) {
