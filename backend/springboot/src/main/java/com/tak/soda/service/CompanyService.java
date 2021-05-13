@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -56,6 +57,14 @@ public class CompanyService {
 		if(!findCompany.isEmpty()) {
 			throw new IllegalStateException("이미 등록된 기업입니다.");
 		}
+	}
+
+	public boolean checkAuthCode(Long u_id) {
+		Member member = memberRepository.findById(u_id);
+		if (member.getCompany() != null) {
+			return true;
+		}
+		return false;
 	}
 
 	@Transactional
@@ -113,18 +122,36 @@ public class CompanyService {
 		}
 		return res.get(0);
 	}
+//
+//	public Member findMember(Long c_id) {
+//		List<Member> res =  memberRepository.findByCId(c_id);
+//
+//		if(!res.isEmpty()) {
+//			return res.get(0);
+//		}
+//		return null;
+//	}
 
-	public Member findMember(Long c_id) {
-		List<Member> res =  memberRepository.findByCId(c_id);
+	public String findHost(Long c_id) {
+		List<Member> res = memberRepository.findByCId(c_id);
+		Member host = null;
+		String ans = "";
 
-		if(!res.isEmpty()) {
-			return res.get(0);
+		for(Member member: res) {
+			ans = meetingRepository.findInviteCodeByHostId(member.getId());
+			if(ans != null) {
+				host = member;
+				break;
+			}
 		}
-		return null;
-	}
 
-	public String findInviteCode(Long host_id) {
-		return meetingRepository.findInviteCodeByHostId(host_id);
+		String[] tmp = ans.split(",");
+
+
+		String host_name = host.getName();
+		String inviteCode = tmp[1];
+
+		return host_name +","+ inviteCode;
 	}
 
 	/**
