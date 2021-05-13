@@ -1,5 +1,6 @@
 <template>
 	<div>
+		<Loader />
 		<section class="bgcolor"></section>
 		<div class="contentwrap">
 			<h1 class="pb-3" id="font3">면접 참여자의 이메일을 입력해주세요.</h1>
@@ -125,11 +126,16 @@
 </template>
 
 <script>
+import Loader from '@/components/common/Loader';
+
 import { mapState, mapActions } from 'vuex';
 import { authCompany } from '@/api/company.js';
 import { sendMeetingCode } from '@/api/member.js';
 export default {
 	name: 'InvitePage',
+	components: {
+		Loader,
+	},
 	computed: {
 		...mapState(['auth_code']),
 	},
@@ -154,8 +160,17 @@ export default {
 	created() {
 		this.getCompanyInfo(this.auth_code);
 	},
+	beforeDestroy() {
+		this.setLoaderFalse();
+	},
 	methods: {
-		...mapActions(['setMeetingCode', 'setIsSuperUser', 'setMeetingName']),
+		...mapActions([
+			'setMeetingCode',
+			'setIsSuperUser',
+			'setMeetingName',
+			'setLoaderTrue',
+			'setLoaderFalse',
+		]),
 		addMG() {
 			const email = this.firemailmg;
 			const name = this.namemg;
@@ -200,6 +215,7 @@ export default {
 			this.inviteCode = res.data[2];
 		},
 		async postInviteCode() {
+			this.setLoaderTrue();
 			await sendMeetingCode({
 				cname: this.cname,
 				emails: this.emailsmg,
@@ -218,7 +234,10 @@ export default {
 			});
 			this.setMeetingCode(this.inviteCode);
 			this.setIsSuperUser(true);
-			this.$router.push('/meeting');
+			setTimeout(() => {
+				this.setLoaderFalse();
+				this.$router.push('/meeting');
+			}, 1500);
 		},
 	},
 };

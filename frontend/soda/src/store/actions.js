@@ -20,6 +20,12 @@ export default {
 	STTOnOff({ commit }, value) {
 		commit('STT_ON_OFF', value);
 	},
+	setLoaderTrue({ commit }) {
+		commit('SET_LOADER_TRUE');
+	},
+	setLoaderFalse({ commit }) {
+		commit('SET_LOADER_FALSE');
+	},
 	STTshow({ commit }) {
 		commit('STT_SHOW');
 	},

@@ -20,6 +20,12 @@ export default {
 	STT_ON_OFF(state, value) {
 		state.sttOn = value;
 	},
+	SET_LOADER_TRUE(state) {
+		state.loader.load = true;
+	},
+	SET_LOADER_FALSE(state) {
+		state.loader.load = false;
+	},
 	STT_SHOW(state) {
 		state.showSTT = !state.showSTT;
 	},
