@@ -38,16 +38,17 @@ export default {
 			}
 		},
 		sendSTT() {
-			this.speech.sendSTT = this.sendSTT;
+			if (this.sendSTT) {
+				this.speech.init();
+			} else {
+				this.speech.stop();
+			}
 		},
 	},
 	props: {
 		connection: Object,
 	},
 	methods: {},
-	mounted() {
-		this.speech.init();
-	},
 };
 
 class SpeechRecognitionApi {
@@ -74,17 +75,18 @@ class SpeechRecognitionApi {
 		};
 	}
 	init() {
+		console.log('start');
 		this.speechApi.start();
 	}
 	stop() {
+		console.log('stop');
 		this.speechApi.stop();
 	}
 	inputChat(connection, chatInfo) {
 		const myChat = {
 			data: chatInfo,
 		};
-		console.log(myChat, this.sendSTT);
-		if (myChat.data.data && this.sendSTT) {
+		if (myChat.data.data) {
 			connection.send(myChat.data);
 			this.output.textContent = `${myChat.data.sender} : ${myChat.data.data}`;
 		}
