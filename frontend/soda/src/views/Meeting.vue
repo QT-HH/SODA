@@ -109,6 +109,7 @@ export default {
 				};
 				this.connection.onstream = this.onStream;
 				this.connection.onstreamended = this.onStreamEnded;
+				this.connection.iceTransportPolicy = 'all';
 			}
 		},
 		openRoom(code) {
