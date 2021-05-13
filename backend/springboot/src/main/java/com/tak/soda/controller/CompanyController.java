@@ -118,19 +118,20 @@ public class CompanyController {
 	@ApiOperation(value = "기업 인증코드 확인", notes = "인증완료/없는코드")
 	@PostMapping("/auth")
 	public ResponseEntity checkAuthCode(String authCode) {
-		Company company = companyService.matchAuthCode(authCode);
-		Member member = companyService.findMember(company.getId());
 		String[] res;
-		String inviteCode = "없는 인증코드";;
+		String inviteCode = "없는 인증코드";
 
-		if(company != null) {
-			inviteCode = companyService.findInviteCode(member.getId());
-			res = new String[] {member.getName(), company.getName(), inviteCode};
-
+		Company company = companyService.matchAuthCode(authCode);
+		// 기업이 없으면
+		if(company == null) {
+			res = new String[] {"", company.getName(), inviteCode};
 			return new ResponseEntity(res, HttpStatus.OK);
 		}
 
-		res = new String[] { member.getName(), company.getName(), inviteCode};
+		// 담당자 찾기
+		String[] tmp = companyService.findHost(company.getId()).split(",");
+
+		res = new String[] { tmp[0], company.getName(), tmp[1]};
 		return new ResponseEntity(res, HttpStatus.OK);
 	}
 
