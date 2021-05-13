@@ -24,14 +24,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
 export default {
 	name: 'Chatting',
 	props: {
 		connection: Object,
-	},
-	computed: {
-		...mapState(['recvSTT']),
 	},
 	data() {
 		return {
@@ -68,7 +64,7 @@ export default {
 				div.focus();
 
 				document.getElementsByClassName('input-text-chat')[0].focus();
-			} else if (this.recvSTT) {
+			} else {
 				let output = document.querySelector('.output');
 				output.textContent = `${event.data.sender} : ${event.data.data}`;
 			}

@@ -32,7 +32,4 @@ export default {
 	STT_SEND(state) {
 		state.sendSTT = !state.sendSTT;
 	},
-	STT_RECV(state) {
-		state.recvSTT = !state.recvSTT;
-	},
 };

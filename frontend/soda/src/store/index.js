@@ -10,7 +10,6 @@ export default new Vuex.Store({
 		meetingOn: false,
 		isSuperUser: false,
 		sttOn: true,
-		recvSTT: true,
 		sendSTT: false,
 		showSTT: true,
 		testMeetingId: String,
