@@ -26,4 +26,13 @@ export default {
 	SET_LOADER_FALSE(state) {
 		state.loader.load = false;
 	},
+	STT_SHOW(state) {
+		state.showSTT = !state.showSTT;
+	},
+	STT_SEND(state) {
+		state.sendSTT = !state.sendSTT;
+	},
+	STT_RECV(state) {
+		state.recvSTT = !state.recvSTT;
+	},
 };

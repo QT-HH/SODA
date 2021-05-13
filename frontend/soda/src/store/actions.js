@@ -26,4 +26,13 @@ export default {
 	setLoaderFalse({ commit }) {
 		commit('SET_LOADER_FALSE');
 	},
+	STTshow({ commit }) {
+		commit('STT_SHOW');
+	},
+	STTsend({ commit }) {
+		commit('STT_SEND');
+	},
+	STTrecv({ commit }) {
+		commit('STT_RECV');
+	},
 };
