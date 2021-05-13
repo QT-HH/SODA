@@ -51,6 +51,10 @@ public class CompanyController {
 	@GetMapping("/email/approve")
 	@ApiOperation(value="승인 이메일", notes="기업코드, 미팅코드 같이 보냄")
 	public ResponseEntity sendApproveEmail(Long u_id, String email) throws MessagingException {
+		if (companyService.checkAuthCode(u_id)) {
+			return new ResponseEntity("승인됨", HttpStatus.OK);
+		}
+
 		String[] val = companyService.generateCode(u_id, email);
 		System.out.println(val[0]+" " + val[1]);
 

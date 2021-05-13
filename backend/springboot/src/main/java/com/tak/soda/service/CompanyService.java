@@ -58,6 +58,14 @@ public class CompanyService {
 		}
 	}
 
+	public boolean checkAuthCode(Long u_id) {
+		Member member = memberRepository.findById(u_id);
+		if (member.getCompany() != null) {
+			return true;
+		}
+		return false;
+	}
+
 	@Transactional
 	public String[] generateCode(Long u_id, String email) {
 		String authCode = randomAccessToken.makeToken(10);
