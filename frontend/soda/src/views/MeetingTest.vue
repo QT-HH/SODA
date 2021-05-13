@@ -119,14 +119,10 @@ export default {
 					'.videos-container',
 				);
 				this.connection.openOrJoin(code);
-				this.userlist();
-				this.chatOnOff();
 			}
 		},
 		outRoom() {
 			deleteTestMeeting(this.testMeetingId).then(() => {
-				this.userlist();
-				this.chatOnOff();
 				if (!!this.connection) {
 					this.connection.getAllParticipants().forEach(participantId => {
 						this.connection.disconnectWith(participantId);

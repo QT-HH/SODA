@@ -32,7 +32,4 @@ export default {
 	STTsend({ commit }) {
 		commit('STT_SEND');
 	},
-	STTrecv({ commit }) {
-		commit('STT_RECV');
-	},
 };
