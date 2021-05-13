@@ -8,8 +8,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
 	state: {
 		meetingOn: false,
-		sttOn: true,
 		isSuperUser: false,
+		sttOn: true,
+		recvSTT: true,
+		sendSTT: false,
+		showSTT: true,
 		testMeetingId: String,
 		meetingCode: String,
 		meetingName: String,

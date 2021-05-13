@@ -20,4 +20,13 @@ export default {
 	STTOnOff({ commit }, value) {
 		commit('STT_ON_OFF', value);
 	},
+	STTshow({ commit }) {
+		commit('STT_SHOW');
+	},
+	STTsend({ commit }) {
+		commit('STT_SEND');
+	},
+	STTrecv({ commit }) {
+		commit('STT_RECV');
+	},
 };

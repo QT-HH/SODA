@@ -19,7 +19,7 @@
 			</v-container>
 		</v-sheet>
 
-		<STT :connection="connection" v-show="isStt"></STT>
+		<STT :connection="connection" v-show="showSTT"></STT>
 
 		<div class="footer">
 			<MeetingBottomBar
@@ -30,7 +30,6 @@
 				@screenOn="screenOn"
 				@screenOff="screenOff"
 				@chatOnOff="chatOnOff"
-				@sttOnOff="sttOnOff"
 			></MeetingBottomBar>
 		</div>
 	</div>
@@ -54,7 +53,13 @@ export default {
 		STT,
 	},
 	computed: {
-		...mapState(['meetingOn', 'meetingCode', 'meetingName', 'isSuperUser']),
+		...mapState([
+			'meetingOn',
+			'meetingCode',
+			'meetingName',
+			'isSuperUser',
+			'showSTT',
+		]),
 	},
 	created() {
 		this.setRoom(this.meetingCode);
@@ -78,7 +83,6 @@ export default {
 			},
 			publicRoomIdentifier: 'sodasoda',
 			mention: String,
-			isStt: true,
 		};
 	},
 	methods: {
@@ -195,9 +199,6 @@ export default {
 					body: `${user}님께서 면접을 ${mention}하셨습니다.`,
 				});
 			}
-		},
-		sttOnOff() {
-			this.isStt = !this.isStt;
 		},
 	},
 };

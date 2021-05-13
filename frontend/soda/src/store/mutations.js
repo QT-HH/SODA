@@ -20,4 +20,13 @@ export default {
 	STT_ON_OFF(state, value) {
 		state.sttOn = value;
 	},
+	STT_SHOW(state) {
+		state.showSTT = !state.showSTT;
+	},
+	STT_SEND(state) {
+		state.sendSTT = !state.sendSTT;
+	},
+	STT_RECV(state) {
+		state.recvSTT = !state.recvSTT;
+	},
 };
