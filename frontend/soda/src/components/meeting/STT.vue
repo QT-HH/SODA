@@ -30,13 +30,6 @@ export default {
 		};
 	},
 	watch: {
-		sttcheck() {
-			if (this.sttOn == true) {
-				this.speech.init();
-			} else {
-				this.speech.stop();
-			}
-		},
 		sendSTT() {
 			if (this.sendSTT) {
 				this.speech.init();
@@ -75,11 +68,9 @@ class SpeechRecognitionApi {
 		};
 	}
 	init() {
-		console.log('start');
 		this.speechApi.start();
 	}
 	stop() {
-		console.log('stop');
 		this.speechApi.stop();
 	}
 	inputChat(connection, chatInfo) {

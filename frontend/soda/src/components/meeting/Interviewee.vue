@@ -73,13 +73,9 @@ export default {
 			});
 		},
 		async dltInterviewee(u_id) {
-			await deleteInterviewee(u_id)
-				.then(() => {
-					console.log('삭제');
-				})
-				.catch(err => {
-					console.log(err.message);
-				});
+			await deleteInterviewee(u_id).catch(err => {
+				console.log(err.message);
+			});
 			this.$emit('dltUser', u_id);
 		},
 	},
