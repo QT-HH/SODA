@@ -32,4 +32,10 @@ export default {
 	STT_SEND(state) {
 		state.sendSTT = !state.sendSTT;
 	},
+	SET_NEW_CHAT(state, value) {
+		state.newChat = value;
+	},
+	SET_IS_CHAT(state) {
+		state.isChat = !state.isChat;
+	},
 };

@@ -31,7 +31,6 @@
 				@voiceOff="voiceOff"
 				@screenOn="screenOn"
 				@screenOff="screenOff"
-				@chatOnOff="chatOnOff"
 			></MeetingBottomBar>
 		</div>
 	</div>
@@ -61,21 +60,28 @@ export default {
 			'meetingName',
 			'isSuperUser',
 			'showSTT',
+			'isChat',
 		]),
 	},
 	created() {
+		if (this.meetingCode === String) {
+			this.meetingOnOff();
+			this.$router.push({ name: 'Attend' });
+		}
 		this.setRoom(this.meetingCode);
 	},
 	mounted() {
 		this.openRoom(this.meetingCode);
 	},
 	beforeDestroy() {
-		this.outRoom();
+		if (!this.connection) {
+			this.outRoom();
+		}
 	},
 	data() {
 		return {
 			isUser: true,
-			isChat: false,
+			// isChat: false,
 			meetingStart: false,
 			connection: null,
 			chatInfo: {
@@ -135,7 +141,7 @@ export default {
 				this.connection = null;
 				this.meetingOnOff();
 				this.setMeetingCode('');
-				this.$router.push('/attend');
+				this.$router.push({ name: 'Attend' });
 				let el = document.getElementById('apdiv');
 				if (!!el) {
 					el.remove();
@@ -157,9 +163,6 @@ export default {
 		voiceOn() {
 			const event = this.findMyVideo();
 			event.stream.unmute('audio');
-		},
-		chatOnOff() {
-			this.isChat = !this.isChat;
 		},
 		userlist() {
 			this.isUser = !this.isUser;
@@ -198,6 +201,11 @@ export default {
 					body: `${user}님께서 면접을 ${mention}하셨습니다.`,
 				});
 			}
+		},
+		test() {
+			window.BeforeUnloadEvent = function () {
+				alert('asdf');
+			};
 		},
 	},
 };
