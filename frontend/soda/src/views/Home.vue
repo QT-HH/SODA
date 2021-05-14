@@ -41,11 +41,20 @@
 				<h1 style="margin-bottom: 50px" class="content">
 					<span class="highlight">간단 소개</span>
 				</h1>
-				<img
-					style="width: 70%; margin-bottom: 30px"
-					src="@/assets/intro.png"
-					alt=""
-				/>
+				<v-lazy
+					v-model="isActive"
+					:options="{
+						threshold: 0.9,
+					}"
+					transition="scroll-y-reverse-transition"
+					min-height="200"
+				>
+					<img
+						style="width: 70%; margin-bottom: 30px"
+						src="@/assets/intro.png"
+						alt=""
+					/>
+				</v-lazy>
 				<p class="content" style="font-size: x-large">
 					<span style="color: navy; font-weight: bold">소다</span>는
 					<span style="font-weight: bold">청각장애인</span>을 위한
@@ -177,6 +186,7 @@ export default {
 				'https://i.ibb.co/Msz6tCF/image.png',
 				'https://i.ibb.co/PTGQ4g5/image.png',
 			],
+			isActive: false,
 		};
 	},
 	methods: {
@@ -374,29 +384,6 @@ button:focus {
 	background-color: #000;
 	border-color: #333;
 	color: #fff;
-}
-.arrow {
-	padding-top: 60px;
-	position: fixed;
-	bottom: 0;
-	left: calc(50% - 20px);
-	align-items: center;
-	z-index: 100;
-}
-.arrow span {
-	position: absolute;
-	top: 0;
-	left: 50%;
-	width: 24px;
-	height: 24px;
-	margin-left: -12px;
-	border-left: 3px solid white;
-	border-bottom: 3px solid white;
-	-webkit-transform: rotate(-45deg);
-	transform: rotate(-45deg);
-	-webkit-animation: sdb 1.5s infinite;
-	animation: sdb 1.5s infinite;
-	box-sizing: border-box;
 }
 .highlight {
 	border-bottom: 3px solid #0b0072;

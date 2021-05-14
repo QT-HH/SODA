@@ -19,12 +19,14 @@
 					{{ isSubtitle ? '자막 끄기' : '자막 켜기' }}
 				</span>
 			</button>
-			<button class="btn1" @click="chatting">
-				<i :class="chattingIcon"> </i>
-				<span id="font2">
-					{{ isChatting ? '채팅창 끄기' : '채팅창 열기' }}
-				</span>
-			</button>
+			<div :class="newChatting">
+				<button class="btn1" @click="chatting">
+					<i :class="chattingIcon"> </i>
+					<span id="font2">
+						{{ isChatting ? '채팅창 끄기' : '채팅창 열기' }}
+					</span>
+				</button>
+			</div>
 			<button class="btn2" @click="outRoom">
 				<i class="fas fa-sign-out-alt"></i>
 				<span id="font2">면접 종료</span>
@@ -56,6 +58,7 @@ export default {
 			videoIcon: 'fas fa-video greenColor',
 			subtitleIcon: 'fas fa-closed-captioning greenColor',
 			chattingIcon: 'fas fa-comment-slash redColor',
+			newChatting: 'effect',
 		};
 	},
 	methods: {
@@ -152,5 +155,25 @@ export default {
 .footerBox {
 	justify-items: center;
 	align-self: center;
+}
+.effect {
+	position: relative;
+	display: inline-block;
+}
+.effect:after {
+	content: '';
+	position: absolute;
+	z-index: 1;
+	height: auto;
+	background: #d50000;
+	content: 'New';
+	text-align: center;
+	color: #fff;
+	font-weight: bold;
+	font-size: 10px;
+	padding: 3px 5px;
+	right: -3px;
+	top: -15px;
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
 }
 </style>
