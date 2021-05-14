@@ -67,103 +67,66 @@
 			</div>
 		</section>
 		<section class="bgcolor">
-			<h1 style="margin-bottom: 70px">
+			<h1 style="margin-bottom: 90px">
 				<span class="highlight">기술</span>
 			</h1>
 			<div style="margin-bottom: 20px">
 				<v-row>
 					<v-col style="margin-left: 70px">
 						<img
-							style="width: 55%; margin-bottom: 20px"
+							style="width: 55%; margin-bottom: 40px"
 							src="@/assets/webrtc.png"
 							alt=""
 						/>
 						<p style="margin: 0px 80px">
-							<span style="font-weight: bold; font-size: 120%"
+							<span style="font-weight: bold; font-size: 150%"
 								>WebRTC(Web Real-Time Communication)는</span
+							><span><br /></span>
+							<span style="font-size: 120%"
+								>중간자 없이 브라우저 간에 오디오나 영상 미디어를</span
+							><span><br /></span>
+							<span style="font-size: 120%">마음대로 스트림 할 뿐 아니라,</span>
+							<span><br /></span
+							><span style="font-size: 120%"
+								>임의의 데이터도 교환할 수 있도록 하는 기술입니다.</span
 							>
-							중간자 없이 <span><br /></span> 브라우저 간에 오디오나 영상
-							미디어를 마음대로 스트림 할 뿐 아니라, <span><br /></span> 임의의
-							데이터도 교환할 수 있도록 하는 기술입니다.
 						</p>
 					</v-col>
 					<v-col style="margin-right: 70px">
 						<img
-							style="width: 55%; margin-bottom: 20px"
+							style="width: 55%; margin-bottom: 40px"
 							src="@/assets/stt.png"
 							alt=""
 						/>
 						<p style="margin-left: 70px; margin-right: 70px">
-							<span style="font-weight: bold; font-size: 120%"
-								>STT(Sppech-to-Text)는</span
+							<span style="font-weight: bold; font-size: 150%"
+								>STT(Sppech-to-Text)는<br
+							/></span>
+							<span style="font-size: 120%"
+								>사람이 말하는 음성 언어를 컴퓨터가 해석하여<br
+							/></span>
+							<span style="font-size: 120%"
+								>그 내용을 문자 데이터로 전환하여 처리하는 것을 말하며<br
+							/></span>
+							><span style="font-size: 120%">
+								음성인식 (Speech Recognition)이라고도 부릅니다.</span
 							>
-							사람이 말하는 음성 언어를 컴퓨터가 해석하여
-							<span><br /></span>
-							그 내용을 문자 데이터로 전환하여 처리하는 것을 말하며
-							<span><br /></span> 음성인식 (Speech Recognition)이라고도
-							부릅니다.
 						</p>
 					</v-col>
 				</v-row>
 			</div>
-
-			<!-- <p class="content important" style="font-size: xx-large">WebRTC + STT</p>
-			<p class="content" style="font-size: x-large">
-				<span style="color: navy; font-weight: bold">SODA</span>는 WebRTC와 STT
-				기능을 사용하여 화상면접에 자막기능을 추가하였습니다. ~~~~~~~
-			</p> -->
 		</section>
 		<section class="bgcolor">
 			<h1 style="margin-bottom: 70px">
 				<span class="highlight">사용 방법</span>
 			</h1>
-			<v-row>
-				<v-col style="padding: 0px">
-					<div class="interviewer">
-						<h1 style="padding-top: 20px; padding-bottom: 50px">면접관</h1>
-						<v-card flat tile>
-							<v-window v-model="onboarding" reverse>
-								<v-window-item v-for="n in interviewerimg" :key="`card-${n}`">
-									<v-card color="grey" height="500">
-										<v-row class="fill-height" align="center" justify="center">
-											<img :src="n" style="width: 500px" alt="" />
-										</v-row>
-									</v-card>
-								</v-window-item>
-							</v-window>
 
-							<v-card-actions class="justify-space-between">
-								<v-btn text @click="prev">
-									<i class="fas fa-chevron-left"></i>
-								</v-btn>
-								<v-item-group
-									v-model="onboarding"
-									class="text-center"
-									mandatory
-								>
-									<v-item
-										v-for="n in length"
-										:key="`btn-${n}`"
-										v-slot="{ active, toggle }"
-									>
-										<v-btn :input-value="active" icon @click="toggle">
-											<i class="fas fa-circle"></i>
-										</v-btn>
-									</v-item>
-								</v-item-group>
-								<v-btn text @click="next">
-									<i class="fas fa-chevron-right"></i>
-								</v-btn>
-							</v-card-actions>
-						</v-card>
-					</div>
-				</v-col>
-				<v-col style="padding: 0px">
-					<div class="interviewee">
-						<h1 style="padding-top: 20px">면접자</h1>
-					</div>
-				</v-col>
-			</v-row>
+			<img src="@/assets/interviewer.png" alt="" style="width: 65%" />
+			<br />
+			<br />
+			<br />
+			<br />
+			<img src="@/assets/interviewee.png" alt="" style="width: 65%" />
 		</section>
 	</div>
 </template>
