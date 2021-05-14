@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SodaApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(SodaApplication.class, args);
+		SpringApplication.run(SodaApplication.class);
 	}
 	@PostConstruct
 	public void setTimezone() {

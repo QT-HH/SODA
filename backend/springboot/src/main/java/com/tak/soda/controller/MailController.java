@@ -58,7 +58,7 @@ public class MailController {
 			}
 		} catch (MessagingException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			// e.printStackTrace();
 		}
 		return new ResponseEntity<String>("전송 완료",HttpStatus.OK);
 	}

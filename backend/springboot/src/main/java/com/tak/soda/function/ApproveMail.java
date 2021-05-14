@@ -30,8 +30,8 @@ public class ApproveMail {
             mailSender.send(mail);
 
         }catch(MessagingException e) {
-            e.printStackTrace();
-            System.out.println(e);
+            // e.printStackTrace();
+            // System.out.println(e);
             return true;
         }
         return false;

@@ -24,7 +24,7 @@ public class MeetingController {
 
 	@GetMapping("inviteCode")
 	@ApiOperation(value = "미팅 코드", notes = "미팅 코드 유효성", response = String.class)
-	private boolean getValidInviteCode(String inviteCode) {
+	public boolean getValidInviteCode(String inviteCode) {
 		return meetingService.validteInviteCode(inviteCode);
 	}
 

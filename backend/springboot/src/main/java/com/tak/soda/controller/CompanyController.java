@@ -56,8 +56,7 @@ public class CompanyController {
 		}
 
 		String[] val = companyService.generateCode(u_id, email);
-		System.out.println(val[0]+" " + val[1]);
-
+	
 		approveMail.sendMail(val[0], val[1], email);
 
 		return new ResponseEntity("메일 보냄", HttpStatus.OK);
