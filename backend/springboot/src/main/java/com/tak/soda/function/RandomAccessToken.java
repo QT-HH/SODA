@@ -9,14 +9,10 @@ import java.util.Random;
 @Service
 public class RandomAccessToken {
 
-	private Random random = SecureRandom.getInstanceStrong();
-
-	public RandomAccessToken() throws NoSuchAlgorithmException {
-	}
 	//	토큰발급
 	public String makeToken(int size) {
-		// Random random = new Random();
-		System.out.println("token size: " + size);
+		Random random = new Random();
+
 		StringBuffer buffer = new StringBuffer();
 		while(buffer.length()<size) {
 			int num = random.nextInt(3);
@@ -38,7 +34,6 @@ public class RandomAccessToken {
 				buffer.append(cnt);
 			}
 		}
-		System.out.println("token: " + buffer.toString());
 		return buffer.toString();
 	}
 
