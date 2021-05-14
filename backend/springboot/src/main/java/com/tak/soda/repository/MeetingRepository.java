@@ -9,14 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MeetingRepository extends JpaRepository<Meeting, Integer>{
-
-	@Query(value = "select host_id, invite_code from meeting where host_id=:host_id", nativeQuery = true)
-	String findInviteCodeByHostId(@Param("host_id") Long host_id);
-
+public interface MeetingRepository extends JpaRepository<Meeting, Long>{
 	@Query(value = "select count(*) from meeting where invite_code=:inviteCode", nativeQuery = true)
 	Integer findInviteCode(@Param("inviteCode") String inviteCode);
 
+	Meeting findByHostId(Long host_id);
 	Meeting findByInviteCode(String inviteCode);
 
 	long deleteByInviteCode(String inviteCode);

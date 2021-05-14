@@ -29,8 +29,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
 	@Bean
 	public Docket apiDocket() {
 		return new Docket(DocumentationType.SWAGGER_2)
-				//.consumes(getConsumeContentTypes())
-				//.produces(getProduceContentTypes())
 				.apiInfo(apiInfo())
 				.select()
 				.apis(RequestHandlerSelectors.basePackage("com.tak.soda.controller"))
@@ -44,17 +42,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
 				.description("Soda API")
 				.version("1.0")
 				.build();
-	}
-	private Set<String> getConsumeContentTypes(){
-		Set<String> consumes = new HashSet<>();
-		consumes.add("application/json;charset=UTF-8");
-        consumes.add("application/x-www-form-urlencoded");
-		return consumes;
-	}
-	private Set<String> getProduceContentTypes(){
-		Set<String> produces = new HashSet<String>();
-		produces.add("application/json;charset=UTF-8");
-		return produces;
 	}
 }
 

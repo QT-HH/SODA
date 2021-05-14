@@ -133,23 +133,19 @@ public class CompanyService {
 //	}
 
 	public String findHost(Long c_id) {
-		List<Member> res = memberRepository.findByCId(c_id);
-		Member host = null;
-		String ans = "";
+		List<Member> members = memberRepository.findByCId(c_id);
 
-		for(Member member: res) {
-			ans = meetingRepository.findInviteCodeByHostId(member.getId());
-			if(ans != null) {
-				host = member;
+		String host_name = "";
+		String inviteCode = "";
+
+		for(Member member: members) {
+			Meeting meeting = meetingRepository.findByHostId(member.getId());
+			if(meeting != null) {
+				host_name = member.getName();
+				inviteCode = meeting.getInviteCode();
 				break;
 			}
 		}
-
-		String[] tmp = ans.split(",");
-
-
-		String host_name = host.getName();
-		String inviteCode = tmp[1];
 
 		return host_name +","+ inviteCode;
 	}
