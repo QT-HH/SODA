@@ -17,29 +17,29 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @Transactional
 class MeetingServiceTest {
-
-    @Autowired
-    MemberRepository memberRepository;
-
-    @Autowired
-    MeetingService meetingService;
-    @Autowired
-    MeetingRepository meetingRepository;
-
-    @DisplayName("새로운 미팅 추가 - 멤버에도 추가")
-    @Test
-    void testCreateMeeting() {
-
-    }
-
-    @DisplayName("미팅 삭제")
-    @Test
-    void testDeleteMeeting() {
-        //Given
-
-        //When
-
-        //Then
-
-    }
+//
+//    @Autowired
+//    MemberRepository memberRepository;
+//
+//    @Autowired
+//    MeetingService meetingService;
+//    @Autowired
+//    MeetingRepository meetingRepository;
+//
+//    @DisplayName("새로운 미팅 추가 - 멤버에도 추가")
+//    @Test
+//    void testCreateMeeting() {
+//
+//    }
+//
+//    @DisplayName("미팅 삭제")
+//    @Test
+//    void testDeleteMeeting() {
+//        //Given
+//
+//        //When
+//
+//        //Then
+//
+//    }
 }
