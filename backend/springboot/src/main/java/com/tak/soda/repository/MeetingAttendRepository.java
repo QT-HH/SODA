@@ -34,7 +34,6 @@ public class MeetingAttendRepository {
         Long mm_id = -1L;
 
         for(Object[] row: results) {
-            System.out.println(row[0]);
             ids.add((Long) row[0]);
             ids.add((Long) row[1]);
         }

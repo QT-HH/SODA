@@ -46,9 +46,7 @@ public class MeetingService {
 	 */
 	public List<IntervieweeDto> findByInviteCode(String inviteCode) {
 		return intervieweeRepository.findMemberByInviteCode(inviteCode);
-		//return meetingRepository.findByInviteCode(inviteCode);
 	}
-
 
 	/**
 	 * 면접방 입장
@@ -56,13 +54,7 @@ public class MeetingService {
 	 * @param inviteCode
 	 */
 	public List<Long> enterMeeting(String email, String inviteCode) {
-
-		List<Member> member = memberRepository.findByEmail(email);
-		Meeting meeting = meetingRepository.findByInviteCode(inviteCode);
-
-		List<Long> ids = meetingAttendRepository.findByEmailAndInviteCode(email, inviteCode);
-
-		return ids;
+		return meetingAttendRepository.findByEmailAndInviteCode(email, inviteCode);
 	}
 
 	public boolean isInterviewer(Long u_id) {
@@ -87,7 +79,6 @@ public class MeetingService {
 	public void removeOne(Long u_id) {
 		meetingMemberRepository.deleteByU_Id(u_id);
 	}
-	
 	
 	private void removeInterviewee(Long u_id) {
 		meetingMemberRepository.deleteById(u_id);
