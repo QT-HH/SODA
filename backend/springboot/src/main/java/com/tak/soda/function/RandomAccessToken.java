@@ -16,7 +16,7 @@ public class RandomAccessToken {
 	//	토큰발급
 	public String makeToken(int size) {
 		// Random random = new Random();
-		
+		System.out.println("token size: " + size);
 		StringBuffer buffer = new StringBuffer();
 		while(buffer.length()<size) {
 			int num = random.nextInt(3);
@@ -38,7 +38,7 @@ public class RandomAccessToken {
 				buffer.append(cnt);
 			}
 		}
-
+		System.out.println("token: " + buffer.toString());
 		return buffer.toString();
 	}
 
