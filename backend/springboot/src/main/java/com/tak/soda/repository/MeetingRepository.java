@@ -15,6 +15,4 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long>{
 
 	Meeting findByHostId(Long host_id);
 	Meeting findByInviteCode(String inviteCode);
-
-	long deleteByInviteCode(String inviteCode);
 }
