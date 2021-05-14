@@ -26,9 +26,10 @@ public class MeetingPracticeService {
         LocalDateTime now = LocalDateTime.now();
         String room_name = randomAccessToken.makeToken(10);
 
+        System.out.println(room_name+now.toString());
         MeetingPractice meetingPractice = new MeetingPractice(room_name+now.toString());
         meetingPracticeRepository.save(meetingPractice);
-
+        System.out.println("save done");
         return meetingPractice;
     }
 
