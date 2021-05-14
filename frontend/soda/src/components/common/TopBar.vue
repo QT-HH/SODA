@@ -16,6 +16,7 @@
 				<v-btn text plain @click="attendMeeting"> 면접 참가 </v-btn>
 				<v-btn text plain @click="goSimulatedMeeting"> 모의 면접 </v-btn>
 				<v-btn text plain @click="goRegister"> 기업 등록 </v-btn>
+				<v-btn text plain @click="goServiceGuide"> 서비스 가이드 </v-btn>
 			</v-toolbar-items>
 		</v-app-bar>
 	</div>
@@ -74,6 +75,11 @@ export default {
 				this.bg = 'rgb(255,255,255,0.9)';
 			} else {
 				this.bg = 'transparent';
+			}
+		},
+		goServiceGuide() {
+			if (this.$route.path !== '/serviceguide') {
+				this.$router.push({ name: 'Guide' });
 			}
 		},
 	},
