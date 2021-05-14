@@ -38,7 +38,7 @@ public class RandomAccessToken {
 				buffer.append(cnt);
 			}
 		}
-		System.out.println(buffer.toString());
+
 		return buffer.toString();
 	}
 
