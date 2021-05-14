@@ -132,7 +132,7 @@ public class MemberService {
 		//member.setStatus(MemberStatus.PLAN);
 		member.setEmail(email);
 		member.setRole("면접관");
-		if(name=="") {
+		if(name.equals("")) {
 			member.setName(company.getName() + " 면접관");
 		}else{
 			member.setName("["+company.getName()+ "] " + name);
@@ -154,7 +154,7 @@ public class MemberService {
 		System.out.println(email);
 		System.out.println(name);
 
-		if(name=="") {
+		if(name.equals("")) {
 			member.setName(email.split("@")[0]);
 		}else{
 			member.setName(name);
