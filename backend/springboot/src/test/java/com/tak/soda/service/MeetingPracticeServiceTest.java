@@ -31,20 +31,6 @@ class MeetingPracticeServiceTest {
         assertEquals(room, meetingPracticeRepository.findByName(room.getName()));
     }
 
-    @DisplayName("검색")
-    @Test
-    void testFindByName() {
-        //Given
-        String name = "6gCfJehg0i";
-
-        //When
-        boolean success = meetingPracticeService.findByName(name);
-
-        //Then
-        assertEquals(true, success);
-    }
-
-
     @DisplayName("모의면접방 삭제")
     @Test
     void testDeleteRoom() {
