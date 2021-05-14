@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 @Service
 @RequiredArgsConstructor
 public class MeetingPracticeService {
@@ -20,34 +23,13 @@ public class MeetingPracticeService {
      */
     public MeetingPractice createRoom() {
         System.out.println("enter Service");
-        String room_name;
+        LocalDateTime now = LocalDateTime.now();
+        String room_name = randomAccessToken.makeToken(10);
 
-        while (true) {
-            room_name = randomAccessToken.makeToken(10);
-
-            if (!findByName(room_name))
-                break;
-        }
-        System.out.println(room_name);
-        MeetingPractice meetingPractice = new MeetingPractice(room_name);
+        MeetingPractice meetingPractice = new MeetingPractice(room_name+now.toString());
         meetingPracticeRepository.save(meetingPractice);
 
         return meetingPractice;
-    }
-
-    /**
-     * 중복되는 방이 있는지 확인
-     * @param name
-     * @return
-     */
-    public boolean findByName(String name) {
-        MeetingPractice meetingPractice = meetingPracticeRepository.findByName(name);
-
-        if (meetingPractice != null) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
