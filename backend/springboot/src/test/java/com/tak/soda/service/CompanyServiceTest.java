@@ -2,6 +2,7 @@ package com.tak.soda.service;
 
 import com.tak.soda.domain.Company;
 import com.tak.soda.repository.CompanyRepository;
+import com.tak.soda.repository.MeetingRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 class CompanyServiceTest {
 
-//    @Autowired
-//    CompanyService companyService;
+    @Autowired CompanyService companyService;
+    @Autowired MeetingRepository meetingRepository;
 //    @Autowired
 //    CompanyRepository companyRepository;
 //
@@ -29,6 +31,23 @@ class CompanyServiceTest {
 //    void testGet() {
 //        assertEquals("Hello JUnit5", companyService.get());
 //    }
+
+    @DisplayName("기업 등록 테스트")
+    @Test
+    void testFindHost() {
+        //Given
+        Long c_id = 1L;
+
+        String host_name = "백규태";
+        String inviteCode = "Ch7H6hegiiH9aiA";
+
+        //When
+        String result = companyService.findHost(c_id);
+
+        //Then
+        assertEquals(host_name+","+inviteCode, result);
+    }
+
 //
 //    @DisplayName("기업 등록 테스트")
 //    @Test
