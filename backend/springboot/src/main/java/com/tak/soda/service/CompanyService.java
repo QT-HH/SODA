@@ -61,7 +61,7 @@ public class CompanyService {
 
 	public boolean checkAuthCode(Long u_id) {
 		Member member = memberRepository.findById(u_id);
-		if (member.getCompany() != null) {
+		if (member.getCompany().getAuthCode() != null) {
 			return true;
 		}
 		return false;
