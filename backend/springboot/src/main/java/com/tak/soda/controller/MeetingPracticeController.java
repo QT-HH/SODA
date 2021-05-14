@@ -21,6 +21,7 @@ public class MeetingPracticeController {
     @ApiOperation(value = "모의면접 방 생성")
     @GetMapping("new")
     public ResponseEntity newMeetingPractice() {
+        System.out.println("enter practice/new");
         MeetingPractice meetingPractice = meetingPracticeService.createRoom();
 
         return new ResponseEntity(meetingPractice, HttpStatus.OK);

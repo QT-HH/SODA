@@ -19,6 +19,7 @@ public class MeetingPracticeService {
      * @return mp_id
      */
     public MeetingPractice createRoom() {
+        System.out.println("enter Service");
         String room_name;
 
         while (true) {
@@ -27,7 +28,7 @@ public class MeetingPracticeService {
             if (!findByName(room_name))
                 break;
         }
-
+        System.out.println(room_name);
         MeetingPractice meetingPractice = new MeetingPractice(room_name);
         meetingPracticeRepository.save(meetingPractice);
 
@@ -39,7 +40,7 @@ public class MeetingPracticeService {
      * @param name
      * @return
      */
-    private boolean findByName(String name) {
+    public boolean findByName(String name) {
         MeetingPractice meetingPractice = meetingPracticeRepository.findByName(name);
 
         if (meetingPractice != null) {
