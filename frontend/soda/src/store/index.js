@@ -12,6 +12,8 @@ export default new Vuex.Store({
 		sttOn: true,
 		sendSTT: false,
 		showSTT: true,
+		newChat: false,
+		isChat: false,
 		testMeetingId: String,
 		meetingCode: String,
 		meetingName: String,

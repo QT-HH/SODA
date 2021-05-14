@@ -23,7 +23,7 @@
 				<button class="btn1" @click="chatting">
 					<i :class="chattingIcon"> </i>
 					<span id="font2">
-						{{ isChatting ? '채팅창 끄기' : '채팅창 열기' }}
+						{{ isChat ? '채팅창 끄기' : '채팅창 열기' }}
 					</span>
 				</button>
 			</div>
@@ -40,11 +40,10 @@ import { mapState, mapActions } from 'vuex';
 export default {
 	name: 'MeetingBottomBar',
 	computed: {
-		...mapState(['sttOn']),
-		divClasses: function () {
+		...mapState(['sttOn', 'newChat', 'isChat']),
+		newChatting: function () {
 			return {
-				'fas fa-volume-up': this.isAudio,
-				'fas fa-volume-mute': !this.isAudio,
+				effect: this.newChat,
 			};
 		},
 	},
@@ -58,11 +57,11 @@ export default {
 			videoIcon: 'fas fa-video greenColor',
 			subtitleIcon: 'fas fa-closed-captioning greenColor',
 			chattingIcon: 'fas fa-comment-slash redColor',
-			newChatting: 'effect',
+			// newChatting: 'effect',
 		};
 	},
 	methods: {
-		...mapActions(['STTshow', 'STTsend']),
+		...mapActions(['STTshow', 'STTsend', 'setNewChat', 'setIsChat']),
 		audio() {
 			this.isAudio = !this.isAudio;
 			this.STTsend();
@@ -94,10 +93,10 @@ export default {
 			}
 		},
 		chatting() {
-			this.isChatting = !this.isChatting;
-			this.$emit('chatOnOff');
-			if (this.isChatting) {
+			this.setIsChat();
+			if (this.isChat) {
 				this.chattingIcon = 'fas fa-comment greenColor';
+				this.setNewChat(false);
 			} else {
 				this.chattingIcon = 'fas fa-comment-slash redColor';
 			}

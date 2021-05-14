@@ -24,6 +24,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 export default {
 	name: 'Chatting',
 	props: {
@@ -38,11 +39,15 @@ export default {
 			},
 		};
 	},
+	computed: {
+		...mapState(['isChat']),
+	},
 	mounted() {
 		this.chatInfo.sender = this.connection.username;
 		this.connection.onmessage = this.appendDIV;
 	},
 	methods: {
+		...mapActions(['setNewChat']),
 		inputChat() {
 			const myChat = {
 				data: this.chatInfo,
@@ -64,6 +69,9 @@ export default {
 				div.focus();
 
 				document.getElementsByClassName('input-text-chat')[0].focus();
+				if (!this.isChat) {
+					this.setNewChat(true);
+				}
 			} else {
 				let output = document.querySelector('.output');
 				output.textContent = `${event.data.sender} : ${event.data.data}`;

@@ -32,4 +32,10 @@ export default {
 	STTsend({ commit }) {
 		commit('STT_SEND');
 	},
+	setNewChat({ commit }, value) {
+		commit('SET_NEW_CHAT', value);
+	},
+	setIsChat({ commit }) {
+		commit('SET_IS_CHAT');
+	},
 };
