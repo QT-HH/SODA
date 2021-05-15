@@ -14,7 +14,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Service
-public class RejectMail {
+public class SodaEmail {
 	@Autowired private JavaMailSender emailSender;
 	@Autowired private SpringTemplateEngine templateEngine;
 	

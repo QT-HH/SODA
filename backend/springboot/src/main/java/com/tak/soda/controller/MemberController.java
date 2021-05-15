@@ -7,8 +7,7 @@ import com.tak.soda.domain.MemberStatus;
 import com.tak.soda.domain.dto.InviteDto;
 import com.tak.soda.domain.dto.MemberDto;
 import com.tak.soda.function.Mail;
-import com.tak.soda.function.MeetingMail;
-import com.tak.soda.function.RejectMail;
+import com.tak.soda.function.SodaEmail;
 import com.tak.soda.service.CompanyService;
 import com.tak.soda.service.MemberService;
 import io.swagger.annotations.Api;
@@ -33,7 +32,7 @@ import java.util.Map;
 @RequestMapping("/member")
 public class MemberController {
 
-	private final RejectMail rejectMail;
+	private final SodaEmail sodaEmail;
 
 	private final MemberService memberService;
 	private final CompanyService companyService;
@@ -132,7 +131,7 @@ public class MemberController {
 					.build();
 
 
-			rejectMail.sendMail(mail);
+			sodaEmail.sendMail(mail);
 
 		}
 
