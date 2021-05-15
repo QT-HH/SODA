@@ -1,31 +1,39 @@
 package com.tak.soda.controller;
 
-import com.tak.soda.domain.*;
+import com.tak.soda.domain.Company;
+import com.tak.soda.domain.Meeting;
+import com.tak.soda.domain.Member;
+import com.tak.soda.domain.MemberStatus;
 import com.tak.soda.domain.dto.InviteDto;
 import com.tak.soda.domain.dto.MemberDto;
+import com.tak.soda.function.Mail;
 import com.tak.soda.function.MeetingMail;
+import com.tak.soda.function.RejectMail;
 import com.tak.soda.service.CompanyService;
+import com.tak.soda.service.MemberService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.tak.soda.service.MemberService;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-
 import javax.mail.MessagingException;
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
+@Log4j2
 @CrossOrigin(origins = "*")
 @Api(tags = {"멤버 컨트롤러"})
 @RequestMapping("/member")
 public class MemberController {
 
-	private final MeetingMail meetingMail;
+	private final RejectMail rejectMail;
 
 	private final MemberService memberService;
 	private final CompanyService companyService;
@@ -75,7 +83,7 @@ public class MemberController {
 
 	@PostMapping("/invite")
 	@ApiOperation(value="미팅 인증코드 전송", notes="role 통해 면접자/면접관 구분, 면접관이다 면접자이다 적어주면 됨. ex) role='면접관'")
-	public ResponseEntity inviteInterviewee(@RequestBody InviteDto dto) throws MessagingException {
+	public ResponseEntity inviteInterviewee(@RequestBody InviteDto dto) throws MessagingException, IOException {
 		Meeting meeting = memberService.findMeetingByInviteCode(dto.getInviteCode());
 
 		List<String> emails = dto.getEmails();
@@ -107,8 +115,24 @@ public class MemberController {
 			} else {
 				memberService.addToMeeting(member, meeting, "면접관");
 			}
-			// 메일 보내기
-			meetingMail.sendMail(dto.getInviteCode(), email);
+
+			log.info("인증코드 이메일 보냄");
+			Map<String, Object> properties = new HashMap<String, Object>();
+			properties.put("name", name);
+			properties.put("admin",  dto.getCName()+" 인사담당자");
+			properties.put("inviteCode", dto.getInviteCode());
+			properties.put("location", "South Korea");
+			properties.put("sign", "소리를 보다");
+
+			Mail mail = Mail.builder()
+					.from("no-reply@soda.com")
+					.to(email)
+					.htmlTemplate(new Mail.HtmlTemplate("user", properties))
+					.subject("[" + dto.getCName() + "] 면접 인증코드 안내")
+					.build();
+
+
+			rejectMail.sendMail(mail);
 
 		}
 

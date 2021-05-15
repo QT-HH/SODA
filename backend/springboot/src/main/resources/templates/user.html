@@ -1,0 +1,215 @@
+<!DOCTYPE html >
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>Spring boot email template using Thymeleaf</title>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <!-- use the font -->
+
+</head>
+<body style="font-family: Courier;
+            font-size: 48px;">
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" align="center" style="background-image: url(https://tutors-resources.s3-us-west-2.amazonaws.com/media/mail-template/mail-bg.png);
+
+      background-color: rgba(45, 57, 66, 0.02);
+      background-size: 100% auto;">
+  <tr>
+    <td align="center">
+      <table align="center" border="0" cellpadding="0" cellspacing="0" width="600">
+        <tr>
+          <td>
+            <div>
+              <div style="text-align: center;">
+                <img src="https://static2.clutch.co/s3fs-public/logos/soda-logo-orange.png" style="width: 240px;height: 100px;padding-bottom: 32px;padding-top: 56px;">
+                <!-- card -->
+                <div >
+                  <div style="background: #FFFFFF;
+                                border-radius: 16px;
+                                padding: 48px 70px;
+                                box-sizing: border-box;
+                                border: 1px solid rgba(45, 57, 66, 0.2);
+                                color: rgba(45, 57, 66, 0.2);
+                                bottom: 4px;
+                                position: relative;
+                                right: 4px;">
+                    <h1 style="font-size: 30px;
+                                line-height: 42px;
+                                text-align: center;
+                                letter-spacing: 0.5px;
+                                color: #2D3942;
+                                font-weight: 700;
+                                padding-bottom: 24px;
+                                margin: 0;">
+                      안녕하세요, <span th:text="${name}"></span>님
+                    </h1>
+                    <div style="font-weight: bold;
+                                font-size: 24px;
+                                line-height: 36px;
+                                text-align: center;
+                                letter-spacing: 0.5px;
+                                color: skyblue;
+                                padding-bottom: 24px;">
+                      면접방 초대 안내
+                    </div>
+                    <p style="font-weight: 400;
+            font-size: 18px;
+            line-height: 34px;
+            letter-spacing: 1px;
+            color: #576168;
+            text-align: left;
+            margin: 0;">
+                      아래 인증 코드를 통해 면접에 참가하실 수 있습니다.
+                    </p>
+                    <p style="font-weight: 400;
+            font-size: 18px;
+            line-height: 34px;
+            letter-spacing: 1px;
+            color: #576168;
+            text-align: left;
+            margin: 0;">
+                      좋은 하루 되세요.
+                    </p>
+
+                    </br>
+
+                    <span style="font-weight:bold;color:indigo;font-size: 15px;">미팅 인증 코드</span>
+                    <!-- The text field -->
+                    <input type="text" value="미팅 인증코드" th:value="${inviteCode}" disabled id="myInput2" >
+
+                    <p style="font-size:20px;margin-top: 32px;" th:text="${admin}"> - TEAM Tak!</p>
+                  </div>
+                </div>
+                <!-- card -->
+                <div style="display: flex;
+                            justify-content: center;
+                            margin-top: 32px;
+                            margin-bottom: 32px;
+                            background-color: rgba(45, 57, 66, 0.2);
+                            border-radius: 16px;">
+                  <div style="background: #FFFFFF;
+                                                border-radius: 16px;
+                                                padding: 48px 42px;
+                                                box-sizing: border-box;
+                                                max-width: 780px;
+                                                border: 1px solid rgba(45, 57, 66, 0.2);
+                                                color: rgba(45, 57, 66, 0.2);
+                                                bottom: 4px;
+                                                position: relative;
+                                                right: 4px;">
+                    <div style="margin-bottom: 16px;">
+                      <h1 style="font-size: 30px;
+                                                    line-height: 42px;
+                                                    text-align: center;
+                                                    letter-spacing: 0.5px;
+                                                    color: #2D3942;
+                                                    font-weight: 700;
+                                                    padding-bottom: 24px;
+                                                    margin: 0;">
+                        소리를 보다, <span style="color:#6ACFED;text-decoration: none;">SODA</span>
+                      </h1>
+                      <p style="font-weight: 400;
+                                                    font-size: 18px;
+                                                    line-height: 34px;
+                                                    letter-spacing: 1px;
+                                                    color: #576168;
+                                                    text-align: center;
+                                                    margin: 0;">
+                        호우!!
+                      </p>
+                      <hr style="border: 5px solid #93E2FA;
+                                                      width: 128px;
+                                                      border-radius: 10px;
+                                                      margin: 44px auto 48px auto;">
+                      <img src="https://cdn.dribbble.com/users/1894420/screenshots/11700268/online-video-chat.gif"
+                           style="width: 500px;border: 1px solid rgba(45, 57, 66, 0.1);
+                    border-radius: 18px;">
+                    </div>
+                    <div style="margin-bottom: 16px;">
+                      <h2 style="font-size: 20px;
+                    line-height: 36px;
+                    text-align: center;
+                    letter-spacing: 1px;
+                    color: #576168;
+                    font-weight: 700;
+                    padding-bottom: 24px;
+                    margin: 0;">
+                        WebRTC(Web Real-Time Communication)
+                      </h2>
+                      <p style="font-weight: 400;
+                    font-size: 18px;
+                    line-height: 34px;
+                    letter-spacing: 1px;
+                    color: #576168;
+                    margin: 0;
+                    padding: 0 28px 0 28px;">
+                        WebRTC 기술을 사용하여 퀘적한 면접 환경을 구성하였습니다.
+                      </p>
+                      <hr style="border: 5px solid #93E2FA;
+                  width: 128px;
+                  border-radius: 10px;
+                  margin: 44px auto 48px auto;">
+                      <img src="https://media1.tenor.com/images/7058f7f217d9c2282e16e61489482df4/tenor.gif?itemid=16705128"
+                           style="border: 1px solid rgba(45, 57, 66, 0.1);
+                    border-radius: 18px;">
+                    </div>
+                    <div>
+                      <h2 style="font-size: 20px;
+                    line-height: 36px;
+                    text-align: center;
+                    letter-spacing: 1px;
+                    color: #576168;
+                    font-weight: 700;
+                    padding-bottom: 24px;
+                    margin: 0;">
+                        STT(Sppech-to-Text)
+                      </h2>
+                      <p style="font-weight: 400;
+                    font-size: 18px;
+                    line-height: 34px;
+                    letter-spacing: 1px;
+                    color: #576168;
+                    margin: 0;">
+                        사람이 말하는 음성 언어를 자막으로 제공합니다
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <!-- card -->
+                <div style="margin-bottom: 32px;
+                  background-color: rgba(45, 57, 66, 0.2);
+                  border-radius: 16px;">
+                  <div style="background: #FFFFFF;
+                              border-radius: 16px;
+                              padding: 41px 0;
+                              box-sizing: border-box;
+                              max-width: 780px;
+                              width: 780px;
+                              border: 1px solid rgba(45, 57, 66, 0.2);
+                              color: rgba(45, 57, 66, 0.2);
+                              bottom: 4px;
+                              position: relative;
+                              right: 4px;">
+                    <div>
+                      <p style="font-weight: 400;
+                  font-size: 20px;
+                  line-height: 36px;
+                  letter-spacing: 1px;
+                  color: #576168;
+                  margin: 0;">
+                        Find more about  <a href="https://k4d103.p.ssafy.io/serviceguide" style="font-weight:bold; color:#6ACFED;text-decoration: none;" target="_blank">SODA service</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

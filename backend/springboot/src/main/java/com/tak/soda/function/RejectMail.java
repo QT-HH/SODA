@@ -1,36 +1,45 @@
 package com.tak.soda.function;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.messaging.MessagingException;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class RejectMail {
-	@Autowired
-	private JavaMailSender mailSender;
+	@Autowired private JavaMailSender emailSender;
+	@Autowired private SpringTemplateEngine templateEngine;
 	
-	public boolean sendMail(String email) throws javax.mail.MessagingException {
+	public void sendMail(Mail mail) throws IOException, MessagingException {
 		
-		MimeMessage mail = mailSender.createMimeMessage();
-		MimeMessageHelper helper = new MimeMessageHelper(mail);
-		String mailContent = "<h1>ㅋㅋㅈㅅ</h1>"+
-				"<p>죄송하지만 거절한다!!</p>";
-	
-		try {
-			helper.setSubject("[SODA 관리자] 미팅룸 생성 관련 메일");
-			helper.setText(mailContent, true);
-			helper.setTo(email);
-			mailSender.send(mail);
-			
-		}catch(MessagingException e) {
-			// e.printStackTrace();
-			// System.out.println(e);
-			return true;
-		}
-		return false;
+		MimeMessage message = emailSender.createMimeMessage();
+		MimeMessageHelper helper = new MimeMessageHelper(message,
+				MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+				StandardCharsets.UTF_8.name());
+
+		// helper.addAttachment("logo.png", new ClassPathResource("email-logo.png"));
+
+		String html = getHtmlContent(mail);
+
+		helper.setFrom(mail.getFrom());
+		helper.setTo(mail.getTo());
+		helper.setText(html, true);
+		helper.setSubject(mail.getSubject());
+
+		emailSender.send(message);
+	}
+
+	private String getHtmlContent(Mail mail) {
+		Context context = new Context();
+		context.setVariables(mail.getHtmlTemplate().getProps());
+		return templateEngine.process(mail.getHtmlTemplate().getTemplate(), context);
 	}
 }
