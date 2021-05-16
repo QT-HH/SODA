@@ -4,7 +4,7 @@
 			<p>SODA</p>
 			<p>서비스 소개</p>
 			<p>주요 기술</p>
-			<p>사용 가이드</p>
+			<p>사용 방법</p>
 		</ul>
 		<!-- <p v-show="scroll0" class="arrow"><span></span></p> -->
 		<button button="type" class="topBtn" id="font3">TOP</button>
@@ -71,15 +71,17 @@
 							alt=""
 						/>
 						<p style="margin: 0px 80px">
-							<span style="font-weight: bold; font-size: 150%"
+							<span style="font-weight: bold; font-size: 150%; color: #0b0072"
 								>WebRTC(Web Real-Time Communication)는</span
 							><span><br /></span>
-							<span style="font-size: 120%"
+							<span style="font-size: 120%; color: black; font-weight: bold"
 								>중간자 없이 브라우저 간에 오디오나 영상 미디어를</span
 							><span><br /></span>
-							<span style="font-size: 120%">마음대로 스트림 할 뿐 아니라,</span>
+							<span style="font-size: 120%; color: black; font-weight: bold"
+								>마음대로 스트림 할 뿐 아니라,</span
+							>
 							<span><br /></span
-							><span style="font-size: 120%"
+							><span style="font-size: 120%; color: black; font-weight: bold"
 								>임의의 데이터도 교환할 수 있도록 하는 기술입니다.</span
 							>
 						</p>
@@ -91,16 +93,16 @@
 							alt=""
 						/>
 						<p style="margin-left: 70px; margin-right: 70px">
-							<span style="font-weight: bold; font-size: 150%"
+							<span style="font-weight: bold; font-size: 150%; color: #0b0072"
 								>STT(Sppech-to-Text)는<br
 							/></span>
-							<span style="font-size: 120%"
+							<span style="font-size: 120%; color: black; font-weight: bold"
 								>사람이 말하는 음성 언어를 컴퓨터가 해석하여<br
 							/></span>
-							<span style="font-size: 120%"
+							<span style="font-size: 120%; color: black; font-weight: bold"
 								>그 내용을 문자 데이터로 전환하여 처리하는 것을 말하며<br
 							/></span>
-							><span style="font-size: 120%">
+							<span style="font-size: 120%; color: black; font-weight: bold">
 								음성인식 (Speech Recognition)이라고도 부릅니다.</span
 							>
 						</p>
@@ -117,8 +119,13 @@
 			<br />
 			<br />
 			<br />
-			<br />
 			<img src="@/assets/interviewee.png" alt="" style="width: 65%" />
+			<br />
+			<br />
+			<br />
+			<p style="color: black" class="under">
+				※ 자세한 사용 가이드는 상단의 서비스 가이드 탭을 클릭하여 확인하세요.
+			</p>
 		</section>
 	</div>
 </template>
@@ -393,6 +400,9 @@ button:focus {
 	box-shadow: inset 0 -40px 0 #c0ff96;
 	margin: 0px;
 	padding: 3px;
+}
+.under {
+	text-decoration: underline;
 }
 @-webkit-keyframes sdb {
 	0% {
