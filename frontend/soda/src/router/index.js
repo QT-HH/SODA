@@ -26,7 +26,7 @@ const routes = [
 		component: Certify,
 	},
 	{
-		path: '/admin',
+		path: '/aaddmmiinn',
 		name: 'Admin',
 		component: Admin,
 	},
