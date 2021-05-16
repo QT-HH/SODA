@@ -231,6 +231,7 @@ export default {
 	background-color: white;
 }
 .footer {
+	background-color: #e0dcdd;
 	position: absolute;
 	bottom: 0px;
 	height: 20vh;
