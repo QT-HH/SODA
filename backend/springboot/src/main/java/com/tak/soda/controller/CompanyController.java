@@ -38,7 +38,7 @@ public class CompanyController {
 	
 	@ApiOperation(value="기업정보 입력", notes="기업 등록하면 기업코드, 미팅코드 이메일로 전송")
 	@PostMapping("/new")
-	public ResponseEntity newCompany(String cName, String uName, String role, String phone, String email) {
+	public ResponseEntity<Long> newCompany(String cName, String uName, String role, String phone, String email) {
 		MemberDto dto = new MemberDto();
 
 		dto.setCName(cName);
@@ -48,14 +48,14 @@ public class CompanyController {
 		dto.setEmail(email);
 		Long res = companyService.newCompany(dto);
 
-		return new ResponseEntity(res, HttpStatus.OK);
+		return new ResponseEntity<Long>(res, HttpStatus.OK);
 	}
 
-	@GetMapping("/email/approve")
+	@GetMapping(value = "/email/approve")
 	@ApiOperation(value="승인 이메일", notes="기업코드, 미팅코드 같이 보냄")
-	public ResponseEntity sendApproveEmail(Long u_id, String email) throws MessagingException, IOException {
+	public ResponseEntity<String> sendApproveEmail(Long u_id, String email) throws MessagingException, IOException {
 		if (companyService.checkAuthCode(u_id)) {
-			return new ResponseEntity("승인됨", HttpStatus.OK);
+			return new ResponseEntity<String>("승인됨", HttpStatus.OK);
 		}
 
 		String[] val = companyService.generateCode(u_id, email);
@@ -78,11 +78,11 @@ public class CompanyController {
 
 		sodaEmail.sendMail(mail);
 
-		return new ResponseEntity("메일 보냄", HttpStatus.OK);
+		return new ResponseEntity<String>("메일 보냄", HttpStatus.OK);
 	}
-	@GetMapping("/email/reject")
+	@GetMapping(value = "/email/reject")
 	@ApiOperation(value="미승인 이메일", notes="ㅋㅋㅈㅅ")
-	public ResponseEntity sendRejectEmail(String email) throws MessagingException, IOException {
+	public ResponseEntity<String> sendRejectEmail(String email) throws MessagingException, IOException {
 		log.info("Sending Reject Email with Thymeleaf HTML Template Example");
 
 		Map<String, Object> properties = new HashMap<String, Object>();
@@ -99,13 +99,13 @@ public class CompanyController {
 
 		sodaEmail.sendMail(mail);
 
-		return new ResponseEntity("메일 보냄", HttpStatus.OK);
+		return new ResponseEntity<String>("메일 보냄", HttpStatus.OK);
 
 	}
 
 	@ApiOperation(value="기업정보 전체 리스트", notes="DB에 저장된 기업 전체를 반환")
 	@GetMapping("/list")
-	public ResponseEntity showAllCompany() {
+	public ResponseEntity<List<MemberDto>> showAllCompany() {
 		List<Company> res = companyService.showCompany();
 		List<MemberDto> res_list = new ArrayList<>();
 
@@ -124,12 +124,12 @@ public class CompanyController {
 			res_list.add(dto);
 		}
 
-		return new ResponseEntity(res_list, HttpStatus.OK);
+		return new ResponseEntity<List<MemberDto>>(res_list, HttpStatus.OK);
 	}
 
 	@ApiOperation(value="기업 찾기", notes="기업 이름으로 검색")
 	@GetMapping("/find")
-	public ResponseEntity findCompany(String cname) {
+	public ResponseEntity<List<CompanyDto>> findCompany(String cname) {
 		List<Company> res = companyService.findByName(cname);
 		List<CompanyDto> res_list = new ArrayList<>();
 
@@ -143,12 +143,12 @@ public class CompanyController {
 			res_list.add(dto);
 		}
 
-		return new ResponseEntity(res_list, HttpStatus.OK);
+		return new ResponseEntity<List<CompanyDto>>(res_list, HttpStatus.OK);
 	}
 
 	@ApiOperation(value = "기업 인증코드 확인", notes = "인증완료/없는코드")
-	@PostMapping("/auth")
-	public ResponseEntity checkAuthCode(String authCode) {
+	@PostMapping(value = "/auth")
+	public ResponseEntity<String[]> checkAuthCode(String authCode) {
 		String[] res;
 		String inviteCode = "없는 인증코드";
 
@@ -156,22 +156,22 @@ public class CompanyController {
 		// 기업이 없으면
 		if(company == null) {
 			res = new String[] {"", "", inviteCode};
-			return new ResponseEntity(res, HttpStatus.OK);
+			return new ResponseEntity<String[]>(res, HttpStatus.OK);
 		}
 
 		// 담당자 찾기
 		String[] tmp = companyService.findHost(company.getId()).split(",");
 
 		res = new String[] { tmp[0], company.getName(), tmp[1]};
-		return new ResponseEntity(res, HttpStatus.OK);
+		return new ResponseEntity<String[]>(res, HttpStatus.OK);
 	}
 
 	@ApiOperation(value="기업정보 삭제", notes="기업 id로 삭제")
-	@DeleteMapping("/del")
-	public ResponseEntity delCompany(Long cid) {
+	@DeleteMapping(value = "/del")
+	public ResponseEntity<String> delCompany(Long cid) {
 		if(companyService.deleteCompany(cid)) {
-			return new ResponseEntity("성공",HttpStatus.OK);
+			return new ResponseEntity<String>("성공",HttpStatus.OK);
 		}
-		return new ResponseEntity("실패",HttpStatus.OK);
+		return new ResponseEntity<String>("실패",HttpStatus.OK);
 	}
 }

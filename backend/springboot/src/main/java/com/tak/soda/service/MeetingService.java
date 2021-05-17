@@ -74,10 +74,10 @@ public class MeetingService {
 
 	/**
 	 * 면접자 삭제
-	 * @param u_id
+	 * @param mm_id
 	 */
-	public void removeOne(Long u_id) {
-		meetingMemberRepository.deleteByU_Id(u_id);
+	public void removeOne(Long mm_id) {
+		meetingMemberRepository.deleteByMm_Id(mm_id);
 	}
 	
 	private void removeInterviewee(Long u_id) {

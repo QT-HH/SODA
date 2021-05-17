@@ -192,8 +192,14 @@ export default {
 			const user = event.userid.split(',')[1];
 			// console.log(user);
 			let userTag = document.createElement('div');
-			userTag.textContent = `${user}`;
+			let nameSpace = document.createElement('span');
+			userTag.insertBefore(nameSpace, userTag.firstChild);
+			nameSpace.textContent = `${user}`;
 			// console.log(userTag);
+			userTag.setAttribute('id', 'font3');
+
+			nameSpace.className = 'effectName';
+			video.className = 'effectVideo';
 
 			let videoBox = document.createElement('div');
 			videoBox.setAttribute('id', event.streamid);
