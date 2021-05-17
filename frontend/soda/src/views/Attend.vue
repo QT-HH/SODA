@@ -20,6 +20,7 @@
 				flat
 				rounded
 				v-model="inputCertifycode"
+				v-on:keyup.enter="guestbtn"
 				label="참여 코드"
 			></v-text-field>
 			<button id="font3" @click="guestbtn">입장 하기</button>
@@ -85,7 +86,10 @@ export default {
 			// 인증코드의 미팅방으로 이동
 			attendMeeting(this.inputSessionId, this.inputCertifycode).then(res => {
 				if (res.data === '미팅코드 오류') {
-					alert('유효하지 않은 이메일 혹은 미팅코드입니다.');
+					alert('유효하지 않은 미팅코드입니다.');
+					return;
+				} else if (res.data === '회원 오류') {
+					alert('유효하지 않은 이메일입니다.');
 					return;
 				}
 				const stat = res.data.split(',');
