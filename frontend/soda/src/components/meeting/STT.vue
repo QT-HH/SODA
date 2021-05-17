@@ -68,9 +68,11 @@ class SpeechRecognitionApi {
 		};
 	}
 	init() {
+		// console.log('init');
 		this.speechApi.start();
 	}
 	stop() {
+		// console.log('stop');
 		this.speechApi.stop();
 	}
 	inputChat(connection, chatInfo) {

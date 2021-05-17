@@ -94,7 +94,12 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions(['meetingOnOff', 'setMeetingCode', 'setIsSuperUser']),
+		...mapActions([
+			'meetingOnOff',
+			'setMeetingCode',
+			'setIsSuperUser',
+			'STTshow',
+		]),
 		setRoom(code) {
 			if (!!code) {
 				this.meetingOnOff();
@@ -141,7 +146,8 @@ export default {
 				this.connection.closeSocket();
 				this.connection = null;
 				this.meetingOnOff();
-				this.setMeetingCode('');
+				this.setMeetingCode(String);
+				this.STTshow(false);
 				this.$router.push({ name: 'Attend' });
 				let el = document.getElementById('apdiv');
 				if (!!el) {
