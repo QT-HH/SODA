@@ -67,6 +67,7 @@ export default {
 		if (this.meetingCode === String) {
 			this.meetingOnOff();
 			this.$router.push({ name: 'Attend' });
+			return;
 		}
 		this.setRoom(this.meetingCode);
 	},

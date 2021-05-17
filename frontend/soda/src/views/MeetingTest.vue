@@ -32,7 +32,7 @@
 		<div class="footer">
 			<TestMeetingBottomBar
 				@userlist="userlist"
-				@outRoom="outRoom"
+				@outRoom="goAnywhere"
 				@voiceOn="voiceOn"
 				@voiceOff="voiceOff"
 				@screenOn="screenOn"
@@ -82,13 +82,25 @@ export default {
 		...mapState(['meetingOn', 'meetingCode', 'meetingName', 'testMeetingId']),
 	},
 	created() {
-		this.setRoom(this.meetingCode);
+		if (this.meetingCode === String) {
+			this.$router.push({ name: 'Attend' });
+		} else {
+			this.setRoom(this.meetingCode);
+		}
+		// this.$router.push({ name: 'Attend' });
 	},
 	mounted() {
-		this.openRoom(this.meetingCode);
+		// window.addEventListener('beforeunload', this.unLoadEvent);
+		window.onbeforeunload = this.unLoadEvent;
+		if (this.meetingCode !== String) {
+			this.openRoom(this.meetingCode);
+		}
 	},
 	beforeDestroy() {
-		this.outRoom();
+		// window.removeEventListener('beforeunload', this.unLoadEvent);
+		if (this.meetingCode !== String) {
+			this.outRoom();
+		}
 	},
 	methods: {
 		...mapActions(['meetingOnOff', 'setMeetingCode']),
@@ -124,27 +136,33 @@ export default {
 			}
 		},
 		outRoom() {
-			deleteTestMeeting(this.testMeetingId).then(() => {
-				if (!!this.connection) {
-					this.connection.getAllParticipants().forEach(participantId => {
-						this.connection.disconnectWith(participantId);
-					});
+			deleteTestMeeting(this.testMeetingId)
+				.then(() => {
+					if (!!this.connection) {
+						this.connection.getAllParticipants().forEach(participantId => {
+							this.connection.disconnectWith(participantId);
+						});
 
-					this.connection.attachStreams.forEach(function (localStream) {
-						localStream.stop();
-					});
+						this.connection.attachStreams.forEach(function (localStream) {
+							localStream.stop();
+						});
 
-					this.connection.closeSocket();
-					this.connection = null;
-					this.meetingOnOff();
-					this.setMeetingCode('');
-					this.$router.push('/attend');
-					let el = document.getElementById('apdiv');
-					if (!!el) {
-						el.remove();
+						this.connection.closeSocket();
+						this.connection = null;
+						this.meetingOnOff();
+						this.setMeetingCode(String);
+						let el = document.getElementById('apdiv');
+						if (!!el) {
+							el.remove();
+						}
 					}
-				}
-			});
+				})
+				.catch(err => {
+					console.log(err.message);
+				});
+		},
+		goAnywhere() {
+			this.$router.push({ name: 'Attend' });
 		},
 		screenOff() {
 			const event = this.findMyVideo();
@@ -204,6 +222,12 @@ export default {
 		},
 		sttOnOff() {
 			this.isStt = !this.isStt;
+		},
+		unLoadEvent(event) {
+			console.log(event);
+			// event.preventDefault();
+			event.returnValue = '';
+			// this.outRoom();
 		},
 	},
 };
