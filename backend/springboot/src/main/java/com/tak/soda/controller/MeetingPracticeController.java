@@ -19,7 +19,7 @@ public class MeetingPracticeController {
     MeetingPracticeService meetingPracticeService;
 
     @ApiOperation(value = "모의면접 방 생성")
-    @GetMapping(value = "new", produces = "text/plain;charset=UTF-8")
+    @GetMapping(value = "new")
     public ResponseEntity newMeetingPractice() {
         System.out.println("enter practice/new");
         MeetingPractice meetingPractice = meetingPracticeService.createRoom();
@@ -28,7 +28,7 @@ public class MeetingPracticeController {
     }
 
     @ApiOperation(value = "모의면접 방 삭제")
-    @DeleteMapping(value = "del", produces = "text/plain;charset=UTF-8")
+    @DeleteMapping(value = "del")
     public ResponseEntity delMeetingPractice(Long mp_id) {
         meetingPracticeService.deleteRoom(mp_id);
 
