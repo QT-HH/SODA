@@ -182,15 +182,15 @@ export default {
 			return event;
 		},
 		onStream(event) {
-			console.log(event);
+			// console.log(event);
 			let video = event.mediaElement;
 			video.id = event.streamid;
 			video.controls = false;
 			const user = event.userid.split(',')[1];
-			console.log(user);
+			// console.log(user);
 			let userTag = document.createElement('div');
 			userTag.textContent = `${user}`;
-			console.log(userTag);
+			// console.log(userTag);
 
 			let videoBox = document.createElement('div');
 			videoBox.setAttribute('id', event.streamid);
