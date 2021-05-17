@@ -22,13 +22,13 @@ public class MeetingController {
 	@Autowired MeetingService meetingService;
 	@Autowired MemberService memberService;
 
-	@GetMapping("inviteCode")
+	@GetMapping(value = "inviteCode", produces = "text/plain;charset=UTF-8")
 	@ApiOperation(value = "미팅 코드", notes = "미팅 코드 유효성", response = String.class)
 	public boolean getValidInviteCode(String inviteCode) {
 		return meetingService.validteInviteCode(inviteCode);
 	}
 
-	@GetMapping("interviewee/list")
+	@GetMapping(value = "interviewee/list", produces = "text/plain;charset=UTF-8")
 	@ApiOperation(value = "면접 대상자", notes ="면접자 리스트를 반환")
 	public ResponseEntity getIntervieweeList(String inviteCode) {
 
@@ -37,7 +37,7 @@ public class MeetingController {
 		return new ResponseEntity(res, HttpStatus.OK);
 	}
 
-	@GetMapping("attend")
+	@GetMapping(value = "attend", produces = "text/plain;charset=UTF-8")
 	@ApiOperation(value = "미팅 참여(면접관/면접자 구분)",
 			notes = "면접관인지 면접자인지 구분하는 값 반환하고\n" +
 					"면접자라면 status를 한 번 더 확인함\n" +
@@ -77,15 +77,15 @@ public class MeetingController {
 		return new ResponseEntity("초대받지 못함", HttpStatus.OK);
 	}
 
-	@DeleteMapping("/interviewee/del")
+	@DeleteMapping(value = "/interviewee/del", produces = "text/plain;charset=UTF-8")
 	@ApiOperation(value = "면접자 삭제(면접 종료)", notes = "리스트에서 삭제함")
-	public ResponseEntity<String> delMeeting(Long u_id) {
-		meetingService.removeOne(u_id);
+	public ResponseEntity<String> delMeeting(Long mm_id) {
+		meetingService.removeOne(mm_id);
 
 		return new ResponseEntity<>("삭제 성공", HttpStatus.OK);
 	}
 
-	@DeleteMapping("/interviewee/list/del")
+	@DeleteMapping(value = "/interviewee/list/del", produces = "text/plain;charset=UTF-8")
 	@ApiOperation(value = "면접자 전체 리스트 삭제(면접 종료)", notes = "면접방 아이디(m_id)를 보내면 해당 방에 초대된 면접자들을 삭제함으로 그날 면접이 종료됨")
 	public ResponseEntity<String> deleteAllMeeting(String inviteCode) {
 		meetingService.removeAllInterviewees(inviteCode);
