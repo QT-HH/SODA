@@ -50,6 +50,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { attendMeeting } from '@/api/meeting.js';
+import { checkIsHost } from '@/api/member.js';
 
 export default {
 	name: 'AttendPage',
@@ -62,7 +63,12 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions(['setMeetingCode', 'setMeetingName', 'setIsSuperUser']),
+		...mapActions([
+			'setMeetingCode',
+			'setMeetingName',
+			'setIsSuperUser',
+			'setIsHost',
+		]),
 		guestbtn() {
 			// 이메일&인증코드 유효성 확인
 			if (this.inputSessionId == '' || this.inputCertifycode == '') {
@@ -97,6 +103,11 @@ export default {
 							break;
 					}
 				} else {
+					checkIsHost(this.inputSessionId, this.inputCertifycode).then(res => {
+						if (res.data) {
+							this.setIsHost(true);
+						}
+					});
 					this.setMeetingName(`${stat[1]} (면접관)`);
 					this.setIsSuperUser(true);
 					this.openOrJoin(this.inputCertifycode);

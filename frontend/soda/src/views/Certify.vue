@@ -44,7 +44,7 @@ export default {
 		dialogOpen: false,
 	}),
 	methods: {
-		...mapActions(['setAuthCode', 'setMeetingName']),
+		...mapActions(['setAuthCode', 'setMeetingName', 'setIsHost']),
 		async certify() {
 			const authCode = this.code;
 			if (authCode === null) {
@@ -58,6 +58,7 @@ export default {
 				await authCompany(authCode).then(res => {
 					this.setMeetingName('면접관 임시');
 					this.setAuthCode(authCode);
+					this.setIsHost(true);
 
 					if (res.data) this.$router.push('/invite');
 					else this.dialogOpen = true;

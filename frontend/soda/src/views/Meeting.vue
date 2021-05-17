@@ -74,6 +74,7 @@ export default {
 	},
 	beforeDestroy() {
 		if (!this.connection) {
+			alert('1234');
 			this.outRoom();
 		}
 	},
@@ -97,6 +98,7 @@ export default {
 			'setMeetingCode',
 			'setIsSuperUser',
 			'STTshow',
+			'setIsHost',
 		]),
 		setRoom(code) {
 			if (!!code) {
@@ -148,6 +150,7 @@ export default {
 				this.meetingOnOff();
 				this.setMeetingCode(String);
 				this.STTshow(false);
+				this.setIsHost(false);
 				this.$router.push({ name: 'Attend' });
 				let el = document.getElementById('apdiv');
 				if (!!el) {

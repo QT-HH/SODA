@@ -11,6 +11,9 @@ export default {
 	setIsSuperUser({ commit }, value) {
 		commit('SET_IS_SUPER_USER', value);
 	},
+	setIsHost({ commit }, value) {
+		commit('SET_IS_HOST', value);
+	},
 	setAuthCode({ commit }, value) {
 		commit('SET_AUTH_CODE', value);
 	},
