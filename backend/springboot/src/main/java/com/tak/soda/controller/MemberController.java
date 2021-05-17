@@ -38,6 +38,19 @@ public class MemberController {
 	private final CompanyService companyService;
 
 
+	@GetMapping("/check")
+	@ApiOperation(value = "호스트인지 확인", notes = "host가 맞다면 yes")
+	public ResponseEntity<Boolean> isHost(String email, String inviteCode) {
+		log.info(email + "님이 호스트인지 확인");
+
+		try{
+			boolean result = memberService.isHost(email, inviteCode);
+			return new ResponseEntity<Boolean>(result, HttpStatus.OK);
+		}catch (Exception e){
+			return new ResponseEntity<Boolean>(false, HttpStatus.OK);
+		}
+	}
+
 	@DeleteMapping("/del/{id}")
 	@ApiOperation(value="멤버 삭제", notes="멤버 id로 삭제")
 	public ResponseEntity delMember(@PathVariable("id")Long id) {

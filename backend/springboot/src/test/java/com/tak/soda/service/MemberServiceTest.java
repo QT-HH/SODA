@@ -21,6 +21,21 @@ class MemberServiceTest {
     MemberRepository memberRepository;
 
     @Test
+    @DisplayName("멤버 정보 수정 - status 변경")
+    void testIsHost() {
+        //Given
+        Long u_id = 201L;
+        String email = "youlee602@hanmail.net";
+        String inviteCode = "3Ea251D1GeDi1Fd";
+
+        //When
+        boolean result = memberService.isHost(email, inviteCode);
+
+        //Then
+        assertEquals(true, result);
+    }
+
+    @Test
     @DisplayName("신규 멤버 등록")
     void testJoin() {
         //Given
@@ -42,8 +57,6 @@ class MemberServiceTest {
         //When
 
         //Then
-
-
     }
 
     @Test

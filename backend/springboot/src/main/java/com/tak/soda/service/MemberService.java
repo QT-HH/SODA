@@ -2,10 +2,7 @@ package com.tak.soda.service;
 
 import com.tak.soda.domain.*;
 import com.tak.soda.domain.dto.MemberDto;
-import com.tak.soda.repository.CompanyRepository;
-import com.tak.soda.repository.MeetingMemberRepository;
-import com.tak.soda.repository.MeetingRepository;
-import com.tak.soda.repository.MemberRepository;
+import com.tak.soda.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +19,20 @@ public class MemberService {
 	private final MemberRepository memberRepository;
 	private final MeetingRepository meetingRepository;
 	private final MeetingMemberRepository meetingMemberRepository;
-	
+	private final MeetingAttendRepository meetingAttendRepository;
+
+	public Boolean isHost(String email, String inviteCode) {
+		List<Long> ids = meetingAttendRepository.findByEmailAndInviteCode(email, inviteCode);
+		Meeting meeting = meetingRepository.findByInviteCode(inviteCode);
+
+		System.out.println(ids.get(0)+" "+ meeting.getHostId());
+		if (ids.get(0).equals(meeting.getHostId())) {
+			return true;
+		}
+
+		return false;
+	}
+
 	/**
 	 * 신규 멤버 등록(기업 담당자)
 	 * @param dto
