@@ -75,6 +75,7 @@ export default {
 			});
 		},
 		async dltInterviewee(mm_id) {
+			console.log(mm_id);
 			await deleteInterviewee(mm_id).catch(err => {
 				console.log(err.message);
 			});

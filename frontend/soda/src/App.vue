@@ -72,7 +72,11 @@ export default {
 }
 video {
 	height: 40vh;
-	margin: 5px 5px 0;
+	margin: 5px;
+}
+.videoBox {
+	height: 40vh;
+	width: 60vh;
 }
 .effectName {
 	position: relative;

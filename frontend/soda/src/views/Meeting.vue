@@ -74,7 +74,7 @@ export default {
 	},
 	beforeDestroy() {
 		if (!this.connection) {
-			alert('1234');
+			// alert('1234');
 			this.outRoom();
 		}
 	},
@@ -203,6 +203,7 @@ export default {
 
 			let videoBox = document.createElement('div');
 			videoBox.setAttribute('id', event.streamid);
+			videoBox.className = 'videoBox';
 
 			videoBox.insertBefore(userTag, videoBox.firstChild);
 			videoBox.insertBefore(video, videoBox.firstChild);
