@@ -32,6 +32,7 @@ export default {
 	watch: {
 		sendSTT() {
 			if (this.sendSTT) {
+				console.log('녹음 시작');
 				this.speech.init();
 			} else {
 				this.speech.stop();
