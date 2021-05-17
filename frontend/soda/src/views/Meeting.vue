@@ -1,8 +1,6 @@
 <template>
 	<div class="bgcolor">
-		<IntervieweeList
-			v-if="this.isSuperUser && isUser && !!connection.isInitiator"
-		></IntervieweeList>
+		<IntervieweeList v-if="this.isSuperUser && isUser"></IntervieweeList>
 
 		<Chatting
 			v-show="isChat"
@@ -106,6 +104,8 @@ export default {
 				this.meetingStart = !this.meetingStart;
 				this.connection = new RTCMultiConnection();
 				this.connection.username = this.meetingName;
+				this.connection.userid =
+					this.connection.userid + ',' + this.connection.username;
 				this.chatInfo.sender = this.meetingName;
 				this.connection.socketMessageEvent = code;
 				this.connection.publicRoomIdentifier = this.publicRoomIdentifier;
@@ -182,9 +182,19 @@ export default {
 			return event;
 		},
 		onStream(event) {
+			console.log(event);
 			let video = event.mediaElement;
 			video.id = event.streamid;
 			video.controls = false;
+			const user = event.userid.split(',')[1];
+			console.log(user);
+			let userTag = document.createElement('div');
+			userTag.textContent = `${user}`;
+			console.log(userTag);
+			this.connection.videosContainer.insertBefore(
+				userTag,
+				this.connection.videosContainer.firstChild,
+			);
 			this.connection.videosContainer.insertBefore(
 				video,
 				this.connection.videosContainer.firstChild,

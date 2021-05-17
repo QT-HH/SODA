@@ -47,13 +47,11 @@
 					<button class="btn1" @click="chatting" v-bind="attrs" v-on="on">
 						<i :class="chattingIcon"> </i>
 						<span id="font2">
-							{{ isChatting ? '채팅창 끄기' : '채팅창 열기' }}
+							{{ isChat ? '채팅창 끄기' : '채팅창 열기' }}
 						</span>
 					</button>
 				</template>
-				<span>{{
-					isChatting ? '채팅창 닫기' : '화면 우측에 채팅창 활성화'
-				}}</span>
+				<span>{{ isChat ? '채팅창 닫기' : '화면 우측에 채팅창 활성화' }}</span>
 			</v-tooltip>
 			<v-tooltip top>
 				<template v-slot:activator="{ on, attrs }">
@@ -77,7 +75,7 @@ export default {
 			isAudio: false,
 			isVideo: true,
 			isSubtitle: true,
-			isChatting: false,
+			// isChatting: false,
 			audioIcon: 'fas fa-volume-mute redColor',
 			videoIcon: 'fas fa-video greenColor',
 			subtitleIcon: 'fas fa-closed-captioning greenColor',
@@ -128,7 +126,7 @@ export default {
 		},
 		chatting() {
 			this.setIsChat();
-			if (this.isChatting) {
+			if (this.isChat) {
 				this.chattingIcon = 'fas fa-comment greenColor';
 			} else {
 				this.chattingIcon = 'fas fa-comment-slash redColor';

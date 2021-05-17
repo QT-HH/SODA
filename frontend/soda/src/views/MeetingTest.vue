@@ -65,7 +65,7 @@ export default {
 	data() {
 		return {
 			isUser: false,
-			isChat: false,
+			// isChat: false,
 			meetingStart: false,
 			connection: null,
 			chatInfo: {
@@ -81,12 +81,16 @@ export default {
 			'meetingOn',
 			'meetingCode',
 			'meetingName',
-			'testMeetingId',
 			'showSTT',
+			'isChat',
 		]),
 	},
 	created() {
-		if (this.meetingCode === String) {
+		const meetCode = localStorage.getItem('meetingCode');
+		if (!!meetCode) {
+			this.setMeetingCode(meetCode);
+		}
+		if (this.meetingCode === String || this.meetingCode === null) {
 			this.$router.push({ name: 'Attend' });
 		} else {
 			this.setRoom(this.meetingCode);
@@ -95,19 +99,25 @@ export default {
 	},
 	mounted() {
 		// window.addEventListener('beforeunload', this.unLoadEvent);
-		window.onbeforeunload = this.unLoadEvent;
-		if (this.meetingCode !== String) {
-			this.openRoom(this.meetingCode);
-		}
+		// window.onbeforeunload = this.unLoadEvent;
+		this.openRoom(this.meetingCode);
+		// if (this.meetingCode !== String) {
+		// }
 	},
 	beforeDestroy() {
+		// alert('qwer');
 		// window.removeEventListener('beforeunload', this.unLoadEvent);
-		if (this.meetingCode !== String) {
-			this.outRoom();
-		}
+		this.outRoom();
+		// if (this.meetingCode !== String) {
+		// }
 	},
 	methods: {
-		...mapActions(['meetingOnOff', 'setMeetingCode', 'STTshow']),
+		...mapActions([
+			'meetingOnOff',
+			'setMeetingCode',
+			'STTshow',
+			'setMeetingCode',
+		]),
 		setRoom(code) {
 			if (!!code) {
 				this.meetingOnOff();
@@ -140,8 +150,10 @@ export default {
 			}
 		},
 		outRoom() {
-			deleteTestMeeting(this.testMeetingId)
+			deleteTestMeeting(localStorage.getItem('meetingCodeId'))
 				.then(() => {
+					localStorage.setItem('meetingCodeId', null);
+					localStorage.setItem('meetingCode', null);
 					if (!!this.connection) {
 						this.connection.getAllParticipants().forEach(participantId => {
 							this.connection.disconnectWith(participantId);
@@ -225,12 +237,12 @@ export default {
 				});
 			}
 		},
-		unLoadEvent(event) {
-			console.log(event);
-			// event.preventDefault();
-			event.returnValue = '';
-			// this.outRoom();
-		},
+		// unLoadEvent(event) {
+		// 	console.log(event);
+		// 	event.preventDefault();
+		// 	event.returnValue = '';
+		// 	// this.outRoom();
+		// },
 	},
 };
 </script>
