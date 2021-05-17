@@ -69,6 +69,7 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex';
 export default {
 	name: 'TestMeetingBottomBar',
 	data() {
@@ -83,9 +84,20 @@ export default {
 			chattingIcon: 'fas fa-comment greenColor',
 		};
 	},
+	computed: {
+		...mapState(['sttOn', 'isChat']),
+		divClasses: function () {
+			return {
+				'fas fa-volume-up': this.isAudio,
+				'fas fa-volume-mute': !this.isAudio,
+			};
+		},
+	},
 	methods: {
+		...mapActions(['STTshow', 'STTsend', 'setIsChat']),
 		audio() {
 			this.isAudio = !this.isAudio;
+			this.STTsend();
 			if (this.isAudio) {
 				this.audioIcon = 'fas fa-volume-up greenColor';
 				this.$emit('voiceOn');
@@ -106,18 +118,16 @@ export default {
 		},
 		subtitle() {
 			this.isSubtitle = !this.isSubtitle;
-			this.$emit('sttOnOff');
 			if (this.isSubtitle) {
 				this.subtitleIcon = 'fas fa-closed-captioning greenColor';
-				this.$store.state.sttOn = true;
+				this.STTshow(true);
 			} else {
 				this.subtitleIcon = 'far fa-closed-captioning redColor';
-				this.$store.state.sttOn = false;
+				this.STTshow(false);
 			}
 		},
 		chatting() {
-			this.isChatting = !this.isChatting;
-			this.$emit('chatOnOff');
+			this.setIsChat();
 			if (this.isChatting) {
 				this.chattingIcon = 'fas fa-comment greenColor';
 			} else {
@@ -126,14 +136,6 @@ export default {
 		},
 		outRoom() {
 			this.$emit('outRoom');
-		},
-	},
-	computed: {
-		divClasses: function () {
-			return {
-				'fas fa-volume-up': this.isAudio,
-				'fas fa-volume-mute': !this.isAudio,
-			};
 		},
 	},
 };

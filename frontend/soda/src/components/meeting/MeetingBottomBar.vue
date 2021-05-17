@@ -57,7 +57,6 @@ export default {
 			videoIcon: 'fas fa-video greenColor',
 			subtitleIcon: 'fas fa-closed-captioning greenColor',
 			chattingIcon: 'fas fa-comment-slash redColor',
-			// newChatting: 'effect',
 		};
 	},
 	methods: {
@@ -85,11 +84,12 @@ export default {
 		},
 		subtitle() {
 			this.isSubtitle = !this.isSubtitle;
-			this.STTshow();
 			if (this.isSubtitle) {
 				this.subtitleIcon = 'fas fa-closed-captioning greenColor';
+				this.STTshow(true);
 			} else {
 				this.subtitleIcon = 'far fa-closed-captioning redColor';
+				this.STTshow(false);
 			}
 		},
 		chatting() {
