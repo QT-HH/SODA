@@ -49,8 +49,9 @@ export default {
 			await createTestMeeting()
 				.then(res => {
 					this.setMeetingCode(res.data.name);
-					this.setTestMeetingId(res.data.id);
 					this.setMeetingName('탁소다 (면접자)');
+					localStorage.setItem('meetingCode', res.data.name);
+					localStorage.setItem('meetingCodeId', res.data.id);
 					this.$router.push({ name: 'MeetingTest' });
 				})
 				.catch(err => {
