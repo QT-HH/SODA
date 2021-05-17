@@ -191,12 +191,14 @@ export default {
 			let userTag = document.createElement('div');
 			userTag.textContent = `${user}`;
 			console.log(userTag);
+
+			let videoBox = document.createElement('div');
+			videoBox.setAttribute('id', event.streamid);
+
+			videoBox.insertBefore(userTag, videoBox.firstChild);
+			videoBox.insertBefore(video, videoBox.firstChild);
 			this.connection.videosContainer.insertBefore(
-				userTag,
-				this.connection.videosContainer.firstChild,
-			);
-			this.connection.videosContainer.insertBefore(
-				video,
+				videoBox,
 				this.connection.videosContainer.firstChild,
 			);
 			// this.notify('입장', event.username);
