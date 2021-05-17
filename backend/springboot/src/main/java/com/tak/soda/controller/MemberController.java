@@ -38,7 +38,7 @@ public class MemberController {
 	private final CompanyService companyService;
 
 
-	@GetMapping(value = "/check", produces = "text/plain;charset=UTF-8")
+	@GetMapping(value = "/check")
 	@ApiOperation(value = "호스트인지 확인", notes = "host가 맞다면 yes")
 	public ResponseEntity<Boolean> isHost(String email, String inviteCode) {
 		log.info(email + "님이 호스트인지 확인");
@@ -51,7 +51,7 @@ public class MemberController {
 		}
 	}
 
-	@DeleteMapping(value = "/del/{id}", produces = "text/plain;charset=UTF-8")
+	@DeleteMapping(value = "/del/{id}")
 	@ApiOperation(value="멤버 삭제", notes="멤버 id로 삭제")
 	public ResponseEntity delMember(@PathVariable("id")Long id) {
 		if(memberService.deleteMember(id)) {
@@ -61,27 +61,27 @@ public class MemberController {
 		return new ResponseEntity("삭제 실패", HttpStatus.OK);
 	}
 
-	@PutMapping(value = "/edit/status", produces = "text/plain;charset=UTF-8")
+	@PutMapping(value = "/edit/status")
 	@ApiOperation(value="멤버 정보 수정(상태)", notes="PLAN: 예정, PROGRESS: 진행, DONE: 완료")
 	public ResponseEntity updateMemberStatus(Long mm_id, MemberStatus status) {
 		Long saveId = memberService.updateStatus(mm_id, status);
 
 		return new ResponseEntity("성공", HttpStatus.OK);
 	}
-	@PutMapping(value = "/edit/name", produces = "text/plain;charset=UTF-8")
+	@PutMapping(value = "/edit/name")
 	@ApiOperation(value="멤버 정보 수정(이름)", notes="멤버 이름 변경")
-	public ResponseEntity updateMemberName(Long u_id, String u_name) {
+	public ResponseEntity<String> updateMemberName(Long u_id, String u_name) {
 		memberService.updateName(u_id, u_name);
 
-		return new ResponseEntity("성공", HttpStatus.OK);
+		return new ResponseEntity<String>("성공", HttpStatus.OK);
 	}
 
-	@PutMapping(value = "/edit/company", produces = "text/plain;charset=UTF-8")
+	@PutMapping(value = "/edit/company")
 	@ApiOperation(value="멤버 정보 수정(기업)", notes="멤버 기업 이름 변경")
-	public ResponseEntity updateMemberCompany(Long u_id, String c_name) {
+	public ResponseEntity<String> updateMemberCompany(Long u_id, String c_name) {
 		memberService.updateCompany(u_id, c_name);
 
-		return new ResponseEntity("성공", HttpStatus.OK);
+		return new ResponseEntity<String>("성공", HttpStatus.OK);
 	}
 
 	// 일단 닫아놓음
@@ -93,9 +93,9 @@ public class MemberController {
 //		return new ResponseEntity("성공", HttpStatus.OK);
 //	}
 
-	@PostMapping(value = "/invite", produces = "text/plain;charset=UTF-8")
+	@PostMapping(value = "/invite")
 	@ApiOperation(value="미팅 인증코드 전송", notes="role 통해 면접자/면접관 구분, 면접관이다 면접자이다 적어주면 됨. ex) role='면접관'")
-	public ResponseEntity inviteInterviewee(@RequestBody InviteDto dto) throws MessagingException, IOException {
+	public ResponseEntity<String> inviteInterviewee(@RequestBody InviteDto dto) throws MessagingException, IOException {
 		Meeting meeting = memberService.findMeetingByInviteCode(dto.getInviteCode());
 
 		List<String> emails = dto.getEmails();
@@ -148,23 +148,23 @@ public class MemberController {
 
 		}
 
-		return new ResponseEntity("전송 완료", HttpStatus.OK);
+		return new ResponseEntity<String>("전송 완료", HttpStatus.OK);
 	}
 
 
-	@GetMapping(value = "/list", produces = "text/plain;charset=UTF-8")
+	@GetMapping("/list")
 	@ApiOperation(value="전체 멤버 조회", notes="멤버 리스트 반환")
-	public ResponseEntity showAllMember() {
+	public ResponseEntity<List<MemberDto>> showAllMember() {
 		List<MemberDto> res = memberService.showAll();
-		return new ResponseEntity(res, HttpStatus.OK);
+		return new ResponseEntity<List<MemberDto>>(res, HttpStatus.OK);
 	}
 
-	@GetMapping(value = "/search/{uName}", produces = "text/plain;charset=UTF-8")
+	@GetMapping("/search/{uName}")
 	@ApiOperation(value="특정 멤버 조회(이름)", notes="멤버 이름으로 검색")
-	public ResponseEntity searchByName(@PathVariable("uName")String name) {
+	public ResponseEntity<List<MemberDto>> searchByName(@PathVariable("uName")String name) {
 		List<MemberDto> res = memberService.findByName(name);
 
-		return new ResponseEntity(res, HttpStatus.OK);
+		return new ResponseEntity<List<MemberDto>>(res, HttpStatus.OK);
 	}
 
 }
