@@ -43,8 +43,10 @@ export default {
 		...mapState(['isChat']),
 	},
 	mounted() {
-		this.chatInfo.sender = this.connection.username;
-		this.connection.onmessage = this.appendDIV;
+		if (this.connection) {
+			this.chatInfo.sender = this.connection.username;
+			this.connection.onmessage = this.appendDIV;
+		}
 	},
 	methods: {
 		...mapActions(['setNewChat']),

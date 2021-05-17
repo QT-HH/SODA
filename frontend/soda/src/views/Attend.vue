@@ -78,6 +78,10 @@ export default {
 			// 이메일이 초대된 이메일인지 판단하는 api 불러오기
 			// 인증코드의 미팅방으로 이동
 			attendMeeting(this.inputSessionId, this.inputCertifycode).then(res => {
+				if (res.data === '미팅코드 오류') {
+					alert('유효하지 않은 이메일 혹은 미팅코드입니다.');
+					return;
+				}
 				const stat = res.data.split(',');
 				if (stat[0] === '면접자') {
 					switch (stat[1]) {
