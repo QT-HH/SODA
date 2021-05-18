@@ -145,7 +145,7 @@ public class MemberService {
 		if(name.equals("")) {
 			member.setName(company.getName() + " 면접관");
 		}else{
-			member.setName("["+company.getName()+ "] " + name);
+			member.setName(name);
 		}
 
 		memberRepository.save(member);
