@@ -82,6 +82,7 @@ video {
 	position: relative;
 	top: -40px;
 	background-color: rgba(255, 255, 255, 0.8);
+	margin: 0 3px;
 }
 .effectVideo {
 	position: relative;
