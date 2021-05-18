@@ -1,6 +1,6 @@
 export default {
-	MEETING_ON_OFF(state) {
-		state.meetingOn = !state.meetingOn;
+	MEETING_ON_OFF(state, value) {
+		state.meetingOn = value;
 	},
 	SET_MEETING_CODE(state, value) {
 		state.meetingCode = value;

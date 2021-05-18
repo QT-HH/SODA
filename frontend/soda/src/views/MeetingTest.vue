@@ -120,7 +120,7 @@ export default {
 		]),
 		setRoom(code) {
 			if (!!code) {
-				this.meetingOnOff();
+				this.meetingOnOff(true);
 				this.meetingStart = !this.meetingStart;
 				this.connection = new RTCMultiConnection();
 				this.connection.username = this.meetingName;
@@ -165,7 +165,7 @@ export default {
 
 						this.connection.closeSocket();
 						this.connection = null;
-						this.meetingOnOff();
+						this.meetingOnOff(false);
 						this.setMeetingCode(String);
 						this.STTshow(false);
 						let el = document.getElementById('apdiv');

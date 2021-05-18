@@ -1,6 +1,6 @@
 export default {
-	meetingOnOff({ commit }) {
-		commit('MEETING_ON_OFF');
+	meetingOnOff({ commit }, value) {
+		commit('MEETING_ON_OFF', value);
 	},
 	setMeetingCode({ commit }, value) {
 		commit('SET_MEETING_CODE', value);
