@@ -129,7 +129,9 @@ export default {
 				this.connection.videosContainer = document.querySelector(
 					'.videos-container',
 				);
-				this.connection.openOrJoin(code);
+				this.connection.openOrJoin(code, () => {
+					this.voiceOff();
+				});
 			}
 		},
 		outRoom() {
