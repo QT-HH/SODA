@@ -74,6 +74,8 @@ export default {
 				if (!this.isChat) {
 					this.setNewChat(true);
 				}
+			} else if (event.data.type === 'retire') {
+				if (event.data.data === this.connection.userid) this.$emit('outRoom');
 			} else {
 				let output = document.querySelector('.output');
 				output.textContent = `${event.data.sender} : ${event.data.data}`;

@@ -7,6 +7,7 @@
 			id="chat-container"
 			class="chatBox"
 			:connection="connection"
+			@outRoom="outRoom"
 		></Chatting>
 
 		<v-sheet class="overflow-hidden bgcolor" style="position: relative">
@@ -59,6 +60,7 @@ export default {
 			'isSuperUser',
 			'showSTT',
 			'isChat',
+			'isHost',
 		]),
 	},
 	created() {
@@ -189,12 +191,29 @@ export default {
 			let video = event.mediaElement;
 			video.id = event.streamid;
 			video.controls = false;
-			const user = event.userid.split(',')[1];
+			const user = event.userid;
 			// console.log(user);
 			let userTag = document.createElement('div');
 			let nameSpace = document.createElement('span');
+
+			if (this.isHost && user !== this.connection.userid) {
+				let retireButton = document.createElement('button');
+				retireButton.textContent = '퇴실';
+				userTag.insertBefore(retireButton, userTag.firstChild);
+				retireButton.className = 'effectName';
+
+				retireButton.addEventListener('click', () => {
+					const msg = {
+						type: 'retire',
+						sender: '',
+						data: user,
+					};
+					this.connection.send(msg);
+				});
+			}
+
 			userTag.insertBefore(nameSpace, userTag.firstChild);
-			nameSpace.textContent = `${user}`;
+			nameSpace.textContent = `${user.split(',')[1]}`;
 			// console.log(userTag);
 			userTag.setAttribute('id', 'font3');
 
@@ -231,10 +250,8 @@ export default {
 				});
 			}
 		},
-		test() {
-			window.BeforeUnloadEvent = function () {
-				alert('asdf');
-			};
+		retire(e) {
+			alert(e);
 		},
 	},
 };
