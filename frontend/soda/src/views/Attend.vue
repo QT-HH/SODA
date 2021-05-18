@@ -20,6 +20,7 @@
 				flat
 				rounded
 				v-model="inputCertifycode"
+				v-on:keyup.enter="guestbtn"
 				label="참여 코드"
 			></v-text-field>
 			<button id="font3" @click="guestbtn">입장 하기</button>
@@ -50,6 +51,7 @@
 <script>
 import { mapActions } from 'vuex';
 import { attendMeeting } from '@/api/meeting.js';
+import { checkIsHost } from '@/api/member.js';
 
 export default {
 	name: 'AttendPage',
@@ -62,7 +64,12 @@ export default {
 		};
 	},
 	methods: {
-		...mapActions(['setMeetingCode', 'setMeetingName', 'setIsSuperUser']),
+		...mapActions([
+			'setMeetingCode',
+			'setMeetingName',
+			'setIsSuperUser',
+			'setIsHost',
+		]),
 		guestbtn() {
 			// 이메일&인증코드 유효성 확인
 			if (this.inputSessionId == '' || this.inputCertifycode == '') {
@@ -79,7 +86,10 @@ export default {
 			// 인증코드의 미팅방으로 이동
 			attendMeeting(this.inputSessionId, this.inputCertifycode).then(res => {
 				if (res.data === '미팅코드 오류') {
-					alert('유효하지 않은 이메일 혹은 미팅코드입니다.');
+					alert('유효하지 않은 미팅코드입니다.');
+					return;
+				} else if (res.data === '회원 오류') {
+					alert('유효하지 않은 이메일입니다.');
 					return;
 				}
 				const stat = res.data.split(',');
@@ -97,6 +107,11 @@ export default {
 							break;
 					}
 				} else {
+					checkIsHost(this.inputSessionId, this.inputCertifycode).then(res => {
+						if (res.data) {
+							this.setIsHost(true);
+						}
+					});
 					this.setMeetingName(`${stat[1]} (면접관)`);
 					this.setIsSuperUser(true);
 					this.openOrJoin(this.inputCertifycode);

@@ -1,6 +1,6 @@
 export default {
-	meetingOnOff({ commit }) {
-		commit('MEETING_ON_OFF');
+	meetingOnOff({ commit }, value) {
+		commit('MEETING_ON_OFF', value);
 	},
 	setMeetingCode({ commit }, value) {
 		commit('SET_MEETING_CODE', value);
@@ -10,6 +10,9 @@ export default {
 	},
 	setIsSuperUser({ commit }, value) {
 		commit('SET_IS_SUPER_USER', value);
+	},
+	setIsHost({ commit }, value) {
+		commit('SET_IS_HOST', value);
 	},
 	setAuthCode({ commit }, value) {
 		commit('SET_AUTH_CODE', value);

@@ -9,6 +9,7 @@ export default new Vuex.Store({
 	state: {
 		meetingOn: false,
 		isSuperUser: false,
+		isHost: false,
 		sttOn: true,
 		sendSTT: false,
 		showSTT: true,

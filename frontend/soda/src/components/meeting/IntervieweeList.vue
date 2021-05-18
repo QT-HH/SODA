@@ -73,7 +73,7 @@ export default {
 		dltUser(deleteId) {
 			const len = this.intervieweeList.length;
 			for (let i = 0; i < len; i++) {
-				if (this.intervieweeList[i].u_id == deleteId) {
+				if (this.intervieweeList[i].mm_id == deleteId) {
 					this.intervieweeList.splice(i, 1);
 					break;
 				}

@@ -120,7 +120,7 @@ export default {
 		]),
 		setRoom(code) {
 			if (!!code) {
-				this.meetingOnOff();
+				this.meetingOnOff(true);
 				this.meetingStart = !this.meetingStart;
 				this.connection = new RTCMultiConnection();
 				this.connection.username = this.meetingName;
@@ -165,7 +165,7 @@ export default {
 
 						this.connection.closeSocket();
 						this.connection = null;
-						this.meetingOnOff();
+						this.meetingOnOff(false);
 						this.setMeetingCode(String);
 						this.STTshow(false);
 						let el = document.getElementById('apdiv');
@@ -214,8 +214,26 @@ export default {
 			let video = event.mediaElement;
 			video.id = event.streamid;
 			video.controls = false;
+			const user = '탁소다 (면접자)';
+			// console.log(user);
+			let userTag = document.createElement('div');
+			let nameSpace = document.createElement('span');
+			userTag.insertBefore(nameSpace, userTag.firstChild);
+			nameSpace.textContent = `${user}`;
+			// console.log(userTag);
+			userTag.setAttribute('id', 'font3');
+
+			nameSpace.className = 'effectName';
+			video.className = 'effectVideo';
+
+			let videoBox = document.createElement('div');
+			videoBox.setAttribute('id', event.streamid);
+			videoBox.className = 'videoBox';
+
+			videoBox.insertBefore(userTag, videoBox.firstChild);
+			videoBox.insertBefore(video, videoBox.firstChild);
 			this.connection.videosContainer.insertBefore(
-				video,
+				videoBox,
 				this.connection.videosContainer.firstChild,
 			);
 			// this.notify('입장');

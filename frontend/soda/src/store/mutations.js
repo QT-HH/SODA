@@ -1,6 +1,6 @@
 export default {
-	MEETING_ON_OFF(state) {
-		state.meetingOn = !state.meetingOn;
+	MEETING_ON_OFF(state, value) {
+		state.meetingOn = value;
 	},
 	SET_MEETING_CODE(state, value) {
 		state.meetingCode = value;
@@ -10,6 +10,9 @@ export default {
 	},
 	SET_IS_SUPER_USER(state, value) {
 		state.isSuperUser = value;
+	},
+	SET_IS_HOST(state, value) {
+		state.isHost = value;
 	},
 	SET_AUTH_CODE(state, value) {
 		state.auth_code = value;

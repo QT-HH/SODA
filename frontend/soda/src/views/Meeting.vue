@@ -7,6 +7,7 @@
 			id="chat-container"
 			class="chatBox"
 			:connection="connection"
+			@outRoom="outRoom"
 		></Chatting>
 
 		<v-sheet class="overflow-hidden bgcolor" style="position: relative">
@@ -59,18 +60,22 @@ export default {
 			'isSuperUser',
 			'showSTT',
 			'isChat',
+			'isHost',
 		]),
 	},
 	created() {
 		if (this.meetingCode === String) {
-			this.meetingOnOff();
+			this.meetingOnOff(false);
 			this.$router.push({ name: 'Attend' });
 			return;
+		} else {
+			this.setRoom(this.meetingCode);
 		}
-		this.setRoom(this.meetingCode);
 	},
 	mounted() {
-		this.openRoom(this.meetingCode);
+		if (!!this.connection) {
+			this.openRoom(this.meetingCode);
+		}
 	},
 	beforeDestroy() {
 		if (!this.connection) {
@@ -97,10 +102,11 @@ export default {
 			'setMeetingCode',
 			'setIsSuperUser',
 			'STTshow',
+			'setIsHost',
 		]),
 		setRoom(code) {
 			if (!!code) {
-				this.meetingOnOff();
+				this.meetingOnOff(true);
 				this.meetingStart = !this.meetingStart;
 				this.connection = new RTCMultiConnection();
 				this.connection.username = this.meetingName;
@@ -147,9 +153,10 @@ export default {
 
 				this.connection.closeSocket();
 				this.connection = null;
-				this.meetingOnOff();
+				this.meetingOnOff(false);
 				this.setMeetingCode(String);
 				this.STTshow(false);
+				this.setIsHost(false);
 				this.$router.push({ name: 'Attend' });
 				let el = document.getElementById('apdiv');
 				if (!!el) {
@@ -188,14 +195,38 @@ export default {
 			let video = event.mediaElement;
 			video.id = event.streamid;
 			video.controls = false;
-			const user = event.userid.split(',')[1];
+			const user = event.userid;
 			// console.log(user);
 			let userTag = document.createElement('div');
-			userTag.textContent = `${user}`;
+			let nameSpace = document.createElement('span');
+
+			if (this.isHost && user !== this.connection.userid) {
+				let retireButton = document.createElement('button');
+				retireButton.textContent = '퇴실';
+				userTag.insertBefore(retireButton, userTag.firstChild);
+				retireButton.className = 'effectName';
+
+				retireButton.addEventListener('click', () => {
+					const msg = {
+						type: 'retire',
+						sender: '',
+						data: user,
+					};
+					this.connection.send(msg);
+				});
+			}
+
+			userTag.insertBefore(nameSpace, userTag.firstChild);
+			nameSpace.textContent = `${user.split(',')[1]}`;
 			// console.log(userTag);
+			userTag.setAttribute('id', 'font3');
+
+			nameSpace.className = 'effectName';
+			video.className = 'effectVideo';
 
 			let videoBox = document.createElement('div');
 			videoBox.setAttribute('id', event.streamid);
+			videoBox.className = 'videoBox';
 
 			videoBox.insertBefore(userTag, videoBox.firstChild);
 			videoBox.insertBefore(video, videoBox.firstChild);
@@ -223,10 +254,8 @@ export default {
 				});
 			}
 		},
-		test() {
-			window.BeforeUnloadEvent = function () {
-				alert('asdf');
-			};
+		retire(e) {
+			alert(e);
 		},
 	},
 };

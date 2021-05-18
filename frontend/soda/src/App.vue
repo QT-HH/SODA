@@ -71,7 +71,20 @@ export default {
 	background-color: #e0dcdd;
 }
 video {
-	height: 39vh;
-	margin: 5px 5px 0;
+	height: 40vh;
+	margin: 5px;
+}
+.videoBox {
+	height: 40vh;
+	width: 60vh;
+}
+.effectName {
+	position: relative;
+	top: -40px;
+	background-color: rgba(255, 255, 255, 0.8);
+	margin: 0 3px;
+}
+.effectVideo {
+	position: relative;
 }
 </style>

@@ -4,7 +4,7 @@
 			{{ interviewee.u_name }} <br />
 			({{ interviewee.u_email }})
 		</p>
-		<div class="pb-5 interviewItem">
+		<div class="pb-5 interviewItem" v-if="isHost">
 			<button
 				@click="changeStatus(interviewee.mm_id, 'PLAN')"
 				:class="plan"
@@ -27,7 +27,7 @@
 				완료
 			</button>
 			<button
-				@click="dltInterviewee(interviewee.u_id)"
+				@click="dltInterviewee(interviewee.mm_id)"
 				class="dltBtn"
 				id="font3"
 			>
@@ -41,12 +41,14 @@
 <script>
 import { editStatus } from '@/api/member.js';
 import { deleteInterviewee } from '@/api/meeting.js';
+import { mapState } from 'vuex';
 export default {
 	name: 'Interviewee',
 	props: {
 		interviewee: Object,
 	},
 	computed: {
+		...mapState(['isHost']),
 		plan() {
 			return {
 				plan: this.interviewee.status === 'PLAN',
@@ -72,11 +74,12 @@ export default {
 				this.interviewee.status = status;
 			});
 		},
-		async dltInterviewee(u_id) {
-			await deleteInterviewee(u_id).catch(err => {
+		async dltInterviewee(mm_id) {
+			console.log(mm_id);
+			await deleteInterviewee(mm_id).catch(err => {
 				console.log(err.message);
 			});
-			this.$emit('dltUser', u_id);
+			this.$emit('dltUser', mm_id);
 		},
 	},
 };
