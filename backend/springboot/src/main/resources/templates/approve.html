@@ -53,7 +53,7 @@
                                 line-height: 36px;
                                 text-align: center;
                                 letter-spacing: 0.5px;
-                                color: green;
+                                color: #6ACFED;
                                 padding-bottom: 24px;">
                       인증 코드 발급 완료
                     </div>
@@ -80,15 +80,22 @@
 
                     <div style="height:30px"></div>
 
-                    <span style="font-weight:bold;color:indigo;font-size: 20px;">기업 인증 코드</span>
+                    <span style="font-weight:bold;color: rgba(13,190,152,0.7);font-size: 20px;">기업 인증 코드</span>
                     <input type="text" value="기업 인증코드" th:value="${authCode}" disabled id="myInput1" >
 
                     <div style="height:30px"></div>
 
-                    <span style="font-weight:bold;color:indigo;font-size: 20px;">미팅 인증 코드</span>
+                    <span style="font-weight:bold;color: rgba(13,190,152,0.7);font-size: 20px;">미팅 인증 코드</span>
                     <input type="text" value="미팅 인증코드" th:value="${inviteCode}" disabled id="myInput2" >
 
                     <p style="font-size:20px; margin-top: 32px;" th:text="${name}"> - TEAM Tak!</p>
+                  <p style="font-size:40px; font-weight: 300; line-height: 1.6;"> 
+                  <a style="padding-bottom: 1px;
+							text-decoration: none;
+							color: #000;
+							box-shadow: inset 0 -4px 0 rgba(13,190,152,0.7);
+							transition: background-color .25s ease-out;" href="/">SODA</a><span style="font-size: 22px"> <== 사이트로 이동 </span>
+					</p>
                   </div>
                 </div>
                 <!-- card -->
