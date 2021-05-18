@@ -65,18 +65,20 @@ export default {
 	},
 	created() {
 		if (this.meetingCode === String) {
-			this.meetingOnOff();
+			this.meetingOnOff(false);
 			this.$router.push({ name: 'Attend' });
 			return;
+		} else {
+			this.setRoom(this.meetingCode);
 		}
-		this.setRoom(this.meetingCode);
 	},
 	mounted() {
-		this.openRoom(this.meetingCode);
+		if (!!this.connection) {
+			this.openRoom(this.meetingCode);
+		}
 	},
 	beforeDestroy() {
 		if (!this.connection) {
-			// alert('1234');
 			this.outRoom();
 		}
 	},
@@ -104,7 +106,7 @@ export default {
 		]),
 		setRoom(code) {
 			if (!!code) {
-				this.meetingOnOff();
+				this.meetingOnOff(true);
 				this.meetingStart = !this.meetingStart;
 				this.connection = new RTCMultiConnection();
 				this.connection.username = this.meetingName;
@@ -149,7 +151,7 @@ export default {
 
 				this.connection.closeSocket();
 				this.connection = null;
-				this.meetingOnOff();
+				this.meetingOnOff(false);
 				this.setMeetingCode(String);
 				this.STTshow(false);
 				this.setIsHost(false);
