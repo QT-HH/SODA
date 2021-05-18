@@ -200,22 +200,6 @@ export default {
 			let userTag = document.createElement('div');
 			let nameSpace = document.createElement('span');
 
-			if (this.isHost && user !== this.connection.userid) {
-				let retireButton = document.createElement('button');
-				retireButton.textContent = '퇴실';
-				userTag.insertBefore(retireButton, userTag.firstChild);
-				retireButton.className = 'effectName';
-
-				retireButton.addEventListener('click', () => {
-					const msg = {
-						type: 'retire',
-						sender: '',
-						data: user,
-					};
-					this.connection.send(msg);
-				});
-			}
-
 			userTag.insertBefore(nameSpace, userTag.firstChild);
 			nameSpace.textContent = `${user.split(',')[1]}`;
 			// console.log(userTag);
@@ -227,6 +211,23 @@ export default {
 			let videoBox = document.createElement('div');
 			videoBox.setAttribute('id', event.streamid);
 			videoBox.className = 'videoBox';
+
+			if (this.isHost && user !== this.connection.userid) {
+				let retireButton = document.createElement('button');
+				retireButton.textContent = '내보내기';
+				retireButton.className = 'retireBtn';
+				retireButton.setAttribute('id', 'font3');
+
+				retireButton.addEventListener('click', () => {
+					const msg = {
+						type: 'retire',
+						sender: '',
+						data: user,
+					};
+					this.connection.send(msg);
+				});
+				videoBox.insertBefore(retireButton, videoBox.firstChild);
+			}
 
 			videoBox.insertBefore(userTag, videoBox.firstChild);
 			videoBox.insertBefore(video, videoBox.firstChild);
