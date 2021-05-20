@@ -13,14 +13,16 @@
 					<div
 						class="videos-container vContainer d-flex flex-wrap align-center justify-center"
 					>
-						<video
-							autoplay
-							controls
-							controlsList="nodownload"
-							class="videoExample"
-						>
-							<source src="../assets/testMeeting.mp4" type="video/mp4" />
-						</video>
+						<div class="videoBox">
+							<video
+								autoplay
+								controls
+								controlsList="nodownload"
+								class="videoExample"
+							>
+								<source src="../assets/testMeeting.mp4" type="video/mp4" />
+							</video>
+						</div>
 						<!-- src="https://ifh.cc/v/CA0iFG.mp4" -->
 						<!-- src="@/assets/meetingTest.mp4" -->
 					</div>
@@ -170,7 +172,6 @@ export default {
 						this.connection = null;
 						this.meetingOnOff(false);
 						this.setMeetingCode(String);
-						this.STTshow(false);
 						let el = document.getElementById('apdiv');
 						if (!!el) {
 							el.remove();
