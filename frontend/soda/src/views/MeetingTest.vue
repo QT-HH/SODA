@@ -15,7 +15,6 @@
 					>
 						<video
 							autoplay
-							loop
 							controls
 							controlsList="nodownload"
 							class="videoExample"
