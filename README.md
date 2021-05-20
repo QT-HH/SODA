@@ -66,7 +66,6 @@
   - [🏁 실행하기](#-실행하기)
   - [🖥 배포하기](#-배포하기)
   - [👭팀 소개👨‍👨‍👦](#팀-소개)
-  - [🚀 References](#-references)
   - [📜 License](#-license)
 
 ---
@@ -119,7 +118,7 @@
 
 ## 🌏 Browser Support
 
-| <img src="https://user-images.githubusercontent.com/1215767/34348387-a2e64588-ea4d-11e7-8267-a43365103afe.png" alt="Chrome" width="16px" height="16px" /> Chrome | <img src="https://user-images.githubusercontent.com/1215767/34348590-250b3ca2-ea4f-11e7-9efb-da953359321f.png" alt="IE" width="16px" height="16px" /> Internet Explorer | <img src="https://user-images.githubusercontent.com/1215767/34348380-93e77ae8-ea4d-11e7-8696-9a989ddbbbf5.png" alt="Edge" width="16px" height="16px" /> Edge | <img src="https://user-images.githubusercontent.com/1215767/34348394-a981f892-ea4d-11e7-9156-d128d58386b9.png" alt="Safari" width="16px" height="16px" /> Safari | <img src="https://user-images.githubusercontent.com/1215767/34348383-9e7ed492-ea4d-11e7-910c-03b39d52f496.png" alt="Firefox" width="16px" height="16px" /> Firefox |
+| <img src="https://user-images.githubusercontent.com/1215767/34348387-a2e64588-ea4d-11e7-8267-a43365103afe.png" alt="Chrome"  /> Chrome | <img src="https://user-images.githubusercontent.com/1215767/34348590-250b3ca2-ea4f-11e7-9efb-da953359321f.png" alt="IE"  /> Internet Explorer | <img src="https://user-images.githubusercontent.com/1215767/34348380-93e77ae8-ea4d-11e7-8696-9a989ddbbbf5.png" alt="Edge" /> Edge | <img src="https://user-images.githubusercontent.com/1215767/34348394-a981f892-ea4d-11e7-9156-d128d58386b9.png" alt="Safari" /> Safari | <img src="https://user-images.githubusercontent.com/1215767/34348383-9e7ed492-ea4d-11e7-910c-03b39d52f496.png" alt="Firefox" /> Firefox |
 | :---------: | :---------: | :---------: | :---------: | :---------: |
 | Yes | 10+ | Yes | Yes | Yes |
 
@@ -178,7 +177,7 @@ CREATE SCHEMA `soda`;
 
 1. [**Backend**] application.properties 설정
 
-- backend\src\main\resources 폴더 아래 생성하시면 됩니다
+- backend\springboot\src\main\resources 폴더 아래 생성하시면 됩니다
 - mysql 도메인과 아이디/비번 작성
 
 ```
@@ -245,7 +244,7 @@ npm install
 ```
 # backend 폴더로 이동해서
 cd backend/
-mvn -B -DskipTests -f backend
+mvn -B -DskipTests -f springboot
 ```
 
 <br />
@@ -260,7 +259,7 @@ mvn -B -DskipTests -f backend
 java -jar [filename].jar
 ```
 
-- 혹은 war 파일 생성하지 않고 demon으로 로컬에서 실행하고 싶다면 STS와 같은 IDEA에서 Spring boot Run을 실행하거나 아래 명령어를 통해 실행
+- 혹은 jar 파일 생성하지 않고 demon으로 로컬에서 실행하고 싶다면 STS와 같은 IDEA에서 Spring boot Run을 실행하거나 아래 명령어를 통해 실행
 
 ```
 mvn spring-boot:run
@@ -269,7 +268,7 @@ mvn spring-boot:run
 2. 프론트엔드 실행
 
 ```
-yarn serve
+npm run serve
 ```
 
 <br />
@@ -308,11 +307,6 @@ Docker와 Jenkins를 이용해 CI/CD 구축하였습니다:
 **백규태** : Frontend
 
 **조희은** : Frontend
-
-## 🚀 References
-
-- [Markdownify - README.md](https://github.com/amitmerchant1990/electron-markdownify#related)
-- [TOAST UI Editor - README.md](https://github.com/nhn/tui.editor#readme)
 
 
 ## 📜 License
