@@ -18,10 +18,13 @@
 							loop
 							controls
 							muted
-							src="https://ifh.cc/v/CA0iFG.mp4"
 							controlsList="nodownload"
 							class="videoExample"
-						></video>
+						>
+							<source src="../assets/testMeeting.mp4" type="video/mp4" />
+						</video>
+						<!-- src="https://ifh.cc/v/CA0iFG.mp4" -->
+						<!-- src="@/assets/meetingTest.mp4" -->
 					</div>
 				</v-row>
 			</v-container>
@@ -54,6 +57,7 @@ import IntervieweeList from '@/components/meeting/IntervieweeList.vue';
 import STT from '@/components/meeting/STT.vue';
 import { deleteTestMeeting } from '@/api/meeting.js';
 import TestMeetingBottomBar from '@/components/meeting/TestMeetingBottomBar.vue';
+
 export default {
 	components: {
 		MeetingBottomBar,
@@ -74,6 +78,7 @@ export default {
 			},
 			publicRoomIdentifier: 'sodasodaTest',
 			mention: String,
+			meetingTest: '@/assets/meetingTest.mp4',
 		};
 	},
 	computed: {
