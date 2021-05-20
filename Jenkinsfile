@@ -21,7 +21,6 @@ pipeline {
             steps {
                 sh 'docker build -t soda_frontend:latest /var/jenkins_home/workspace/SODA/frontend/soda'
                 sh 'docker build -t server_spring:latest /var/jenkins_home/workspace/SODA/backend/springboot'
-                sh 'docker build -t server_express:latest /var/jenkins_home/workspace/SODA/backend/express'
             }
         }
         stage('Docker run') {
@@ -37,8 +36,6 @@ pipeline {
                 | xargs -r docker container rm'
                 sh 'docker container ls -a -f name=server_spring -q \
                 | xargs -r docker container rm'
-                sh 'docker container ls -a -f name=server_express -q \
-                | xargs -r docker container rm'
                 sh 'docker images -f dangling=true && \
                 docker rmi $(docker images -f dangling=true -q)'
 
@@ -51,9 +48,6 @@ pipeline {
                 sh 'docker run -d \
                 --name server_spring \
                 --network soda_network server_spring:latest'
-                sh 'docker run -d \
-                --name server_express \
-                --network soda_network server_express:latest'
             }
         }
     }
