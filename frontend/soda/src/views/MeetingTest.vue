@@ -17,7 +17,6 @@
 							autoplay
 							loop
 							controls
-							muted
 							controlsList="nodownload"
 							class="videoExample"
 						>
