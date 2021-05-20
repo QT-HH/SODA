@@ -30,17 +30,34 @@
 				>
 					소리를 보여주는 SODA, 지금 만나보세요.
 				</p>
-				<button id="font3" class="mr-3" @click="createMeeting">
+				<button id="font3" class="mr-3 btn" @click="createMeeting">
 					면접 개설
 				</button>
-				<button id="font3" class="mr-3" @click="goMeeting">면접 참가</button>
+				<button id="font3" class="mr-3 btn" @click="goMeeting">
+					면접 참가
+				</button>
 			</div>
 		</section>
 		<section class="bgcolor" style="margin-top: 100px">
-			<div>
-				<h1 style="margin-bottom: 50px" class="content">
-					<span class="highlight">간단 소개</span>
-				</h1>
+			<div style="padding-top: 75px">
+				<p>
+					<span id="font3" class="text1">SODA</span>
+					<span id="font2" class="text2">는 </span>
+					<span id="font3" class="text1">청각장애인</span>
+					<span id="font2" class="text2">을 위한 </span>
+					<span id="font3" class="text1">화상 면접 </span>
+					<span id="font2" class="text2">플랫폼입니다.</span>
+				</p>
+				<p class="mb-0">
+					<span id="font2" class="text3">면접 참여자의 발언을 </span>
+					<span id="font3" class="text4">실시간 자막</span>
+					<span id="font2" class="text3"> 으로 제공함으로써 사용자에게 </span>
+				</p>
+				<p>
+					<span id="font2" class="text3">
+						더 편리한 면접 환경을 제공합니다.
+					</span>
+				</p>
 				<v-lazy
 					v-model="isActive"
 					:options="{
@@ -48,6 +65,7 @@
 					}"
 					transition="scroll-y-reverse-transition"
 					min-height="200"
+					class="pt-7"
 				>
 					<img
 						style="width: 70%; margin-bottom: 30px"
@@ -55,84 +73,101 @@
 						alt=""
 					/>
 				</v-lazy>
-				<p class="content" style="font-size: x-large">
-					<span style="color: navy; font-weight: bold">소다</span>는
-					<span style="font-weight: bold">청각장애인</span>을 위한
-					<span style="font-weight: bold">면접 플랫폼</span>입니다.
-				</p>
-				<p class="content" style="font-size: x-large">
-					면접관의 발언을 <span style="font-weight: bold">실시간 자막</span>으로
-					보여줌으로써 좀 더 편리한 면접 환경을 제공합니다.
-				</p>
 			</div>
 		</section>
 		<section class="bgcolor">
-			<h1 style="margin-bottom: 90px">
-				<span class="highlight">기술</span>
-			</h1>
-			<div style="margin-bottom: 20px">
-				<v-row>
-					<v-col style="margin-left: 70px">
-						<img
-							style="width: 55%; margin-bottom: 40px"
-							src="@/assets/webrtc.png"
-							alt=""
-						/>
-						<p style="margin: 0px 80px">
-							<span style="font-weight: bold; font-size: 150%; color: #0b0072"
-								>WebRTC(Web Real-Time Communication)는</span
-							><span><br /></span>
-							<span style="font-size: 120%; color: black; font-weight: bold"
-								>중간자 없이 브라우저 간에 오디오나 영상 미디어를</span
-							><span><br /></span>
-							<span style="font-size: 120%; color: black; font-weight: bold"
-								>마음대로 스트림 할 뿐 아니라,</span
-							>
-							<span><br /></span
-							><span style="font-size: 120%; color: black; font-weight: bold"
-								>임의의 데이터도 교환할 수 있도록 하는 기술입니다.</span
-							>
-						</p>
+			<v-container class="pt-6">
+				<v-row justify="center">
+					<v-col>
+						<div class="box1 pr-0 pt-7">
+							<p id="font3" class="text5 mb-10">WebRTC</p>
+							<p id="font2" class="text3 mb-0">
+								WebRTC 기술을 활용하여 별도의 플러그인 없이
+							</p>
+							<p class="text3">
+								<span id="font3">자체적</span>
+								<span id="font2">으로 </span>
+								<span id="font3">화상 회의 환경</span>
+								<span id="font2">을 제공합니다.</span>
+							</p>
+							<img
+								style="width: 55%; margin-top: 15px; margin-bottom: 30px"
+								src="@/assets/webrtc.png"
+								alt=""
+							/>
+							<div class="textBox1">
+								<p>
+									<span id="font2">※ </span>
+									<span id="font3" class="deco">WebRTC</span>
+									<span id="font3">(Web Real-Time Communication)</span>
+									<span id="font2"
+										>는 중간자 없이 브라우저 간에 오디오나 영상 미디어를
+										마음대로 스트림 할 뿐 아니라, 임의의 데이터도 교환할 수
+										있도록 하는 기술입니다.</span
+									>
+								</p>
+							</div>
+						</div>
 					</v-col>
-					<v-col style="margin-right: 70px">
-						<img
-							style="width: 55%; margin-bottom: 40px"
-							src="@/assets/stt.png"
-							alt=""
-						/>
-						<p style="margin-left: 70px; margin-right: 70px">
-							<span style="font-weight: bold; font-size: 150%; color: #0b0072"
-								>STT(Sppech-to-Text)는<br
-							/></span>
-							<span style="font-size: 120%; color: black; font-weight: bold"
-								>사람이 말하는 음성 언어를 컴퓨터가 해석하여<br
-							/></span>
-							<span style="font-size: 120%; color: black; font-weight: bold"
-								>그 내용을 문자 데이터로 전환하여 처리하는 것을 말하며<br
-							/></span>
-							<span style="font-size: 120%; color: black; font-weight: bold">
-								음성인식 (Speech Recognition)이라고도 부릅니다.</span
-							>
-						</p>
+					<v-col>
+						<div class="box1 pr-0 pt-7">
+							<p id="font3" class="text5 mb-10">STT</p>
+							<p id="font2" class="text3 mb-0">
+								음성 인식 기술을 활용하여 면접 참여자의 대화를
+							</p>
+							<p class="text3">
+								<span id="font2">텍스트로 </span>
+								<span id="font3">실시간 전환</span>
+								<span id="font2">하여 </span>
+								<span id="font3">자막</span>
+								<span id="font2">으로 제공합니다.</span>
+							</p>
+							<img
+								style="width: 55%; margin-bottom: 40px"
+								src="@/assets/stt.png"
+								alt=""
+							/>
+							<div class="textBox1">
+								<p>
+									<span id="font2">※ </span>
+									<span id="font3" class="deco">STT</span>
+									<span id="font3">(Sppech-to-Text)</span>
+									<span id="font2"
+										>는 사람이 말하는 음성 언어를 컴퓨터가 해석하여 그 내용을
+										문자 데이터로 전환하여 처리하는 것을 말하며
+									</span>
+									<span id="font3">음성인식</span>
+									<span id="font2">(Speech Recognition)이라고도 부릅니다.</span>
+								</p>
+							</div>
+						</div>
 					</v-col>
 				</v-row>
-			</div>
+			</v-container>
 		</section>
 		<section class="bgcolor">
-			<h1 style="margin-bottom: 70px">
-				<span class="highlight">사용 방법</span>
-			</h1>
+			<p class="pt-10 pb-10">
+				<span id="font3" class="text6">소다</span>
+				<span id="font2" class="text7">는 이렇게 사용합니다!</span>
+			</p>
 
-			<img src="@/assets/interviewer.png" alt="" style="width: 65%" />
-			<br />
-			<br />
-			<br />
-			<img src="@/assets/interviewee.png" alt="" style="width: 65%" />
-			<br />
-			<br />
-			<br />
-			<p style="color: black" class="under">
-				※ 자세한 사용 가이드는 상단의 서비스 가이드 탭을 클릭하여 확인하세요.
+			<img
+				src="@/assets/interviewer.png"
+				alt=""
+				style="width: 55%"
+				class="mb-10"
+			/>
+			<img
+				src="@/assets/interviewee.png"
+				alt=""
+				style="width: 55%"
+				class="mb-10"
+			/>
+			<p>
+				<span style="color: black" class="under">
+					※ 더 자세한 사용 가이드를 원하신다면 상단의 서비스 가이드 탭을
+					클릭하여 확인해주세요.
+				</span>
 			</p>
 		</section>
 	</div>
@@ -319,7 +354,7 @@ section {
 .margin0 {
 	margin-bottom: 0px;
 }
-button {
+.btn {
 	background-color: transparent;
 	border: 2px solid #b71c1c;
 	border-radius: 30px;
@@ -329,12 +364,12 @@ button {
 	padding: 12px 30px;
 	transition: all 200ms;
 }
-button:hover {
+.btn:hover {
 	background-color: #b71c1c;
 	color: white;
 	outline: 0;
 }
-button:focus {
+.btn:focus {
 	outline: none;
 }
 .topBtn {
@@ -401,5 +436,61 @@ button:focus {
 		transform: rotate(-45deg) translate(-20px, 20px);
 		opacity: 0;
 	}
+}
+.text1 {
+	color: #2962ff;
+	font-size: 45px;
+}
+.text2 {
+	color: #424242;
+	font-size: 45px;
+	font-weight: 500;
+}
+.text3 {
+	color: #424242;
+	font-size: 20px;
+}
+.text4 {
+	color: #424242;
+	font-size: 20px;
+	text-emphasis-style: dot;
+	text-emphasis-position: over left;
+	text-emphasis-color: #2962ff;
+	-webkit-text-emphasis-style: dot;
+	-webkit-text-emphasis-position: over;
+}
+.text5 {
+	color: #424242;
+	font-size: 45px;
+	font-weight: 500;
+	text-decoration: underline solid #2962ff;
+	text-underline-position: under;
+}
+.text6 {
+	color: #2962ff;
+	font-size: 40px;
+}
+.text7 {
+	color: #424242;
+	font-size: 40px;
+}
+.textBox1 {
+	width: 400px;
+	position: relative;
+	left: 50%;
+	transform: translateX(-50%);
+	text-align: start;
+}
+.deco {
+	text-emphasis-style: dot;
+	text-emphasis-position: over left;
+	text-emphasis-color: #2962ff;
+	-webkit-text-emphasis-style: dot;
+	-webkit-text-emphasis-position: over;
+}
+.box1 {
+	background-color: white;
+	min-width: 550px;
+	min-height: 85vh;
 }
 </style>
