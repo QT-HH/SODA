@@ -97,11 +97,11 @@ video {
 }
 .retireBtn {
 	position: relative;
-	top: -320px;
-	right: -155px;
+	top: -60px;
+	right: -160px;
 	color: black;
 	cursor: pointer;
-	font-size: 13px;
+	font-size: 15px;
 	padding: 2px 10px;
 	transition: all 200ms;
 	text-shadow: 2px 2px 2px gray;
