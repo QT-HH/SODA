@@ -23,8 +23,6 @@
 								<source src="../assets/testMeeting.mp4" type="video/mp4" />
 							</video>
 						</div>
-						<!-- src="https://ifh.cc/v/CA0iFG.mp4" -->
-						<!-- src="@/assets/meetingTest.mp4" -->
 					</div>
 				</v-row>
 			</v-container>
@@ -100,21 +98,12 @@ export default {
 		} else {
 			this.setRoom(this.meetingCode);
 		}
-		// this.$router.push({ name: 'Attend' });
 	},
 	mounted() {
-		// window.addEventListener('beforeunload', this.unLoadEvent);
-		// window.onbeforeunload = this.unLoadEvent;
 		this.openRoom(this.meetingCode);
-		// if (this.meetingCode !== String) {
-		// }
 	},
 	beforeDestroy() {
-		// alert('qwer');
-		// window.removeEventListener('beforeunload', this.unLoadEvent);
 		this.outRoom();
-		// if (this.meetingCode !== String) {
-		// }
 	},
 	methods: {
 		...mapActions([
@@ -219,12 +208,10 @@ export default {
 			video.id = event.streamid;
 			video.controls = false;
 			const user = '탁소다 (면접자)';
-			// console.log(user);
 			let userTag = document.createElement('div');
 			let nameSpace = document.createElement('span');
 			userTag.insertBefore(nameSpace, userTag.firstChild);
 			nameSpace.textContent = `${user}`;
-			// console.log(userTag);
 			userTag.setAttribute('id', 'font3');
 
 			nameSpace.className = 'effectName';
