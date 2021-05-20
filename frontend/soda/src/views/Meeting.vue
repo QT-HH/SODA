@@ -85,7 +85,6 @@ export default {
 	data() {
 		return {
 			isUser: true,
-			// isChat: false,
 			meetingStart: false,
 			connection: null,
 			chatInfo: {
@@ -190,18 +189,15 @@ export default {
 			return event;
 		},
 		onStream(event) {
-			// console.log(event);
 			let video = event.mediaElement;
 			video.id = event.streamid;
 			video.controls = false;
 			const user = event.userid;
-			// console.log(user);
 			let userTag = document.createElement('div');
 			let nameSpace = document.createElement('span');
 
 			userTag.insertBefore(nameSpace, userTag.firstChild);
 			nameSpace.textContent = `${user.split(',')[1]}`;
-			// console.log(userTag);
 			userTag.setAttribute('id', 'font3');
 
 			nameSpace.className = 'effectName';
