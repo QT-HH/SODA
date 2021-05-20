@@ -47,6 +47,7 @@ export default {
 
 class SpeechRecognitionApi {
 	constructor(options) {
+		console.log(1);
 		const connection = options.connection;
 		this.sendSTT = options.sendSTT;
 		const SpeechToText =
@@ -94,10 +95,12 @@ class SpeechRecognitionApi {
 	background-color: black;
 	font-size: 25px;
 	display: inline-block;
+	z-index: 100;
 }
 .subtitleContainer {
 	width: 70%;
 	position: absolute;
 	bottom: 100px;
+	z-index: 100;
 }
 </style>

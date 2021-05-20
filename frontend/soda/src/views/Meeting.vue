@@ -155,7 +155,6 @@ export default {
 				this.connection = null;
 				this.meetingOnOff(false);
 				this.setMeetingCode(String);
-				this.STTshow(false);
 				this.setIsHost(false);
 				this.$router.push({ name: 'Attend' });
 				let el = document.getElementById('apdiv');
